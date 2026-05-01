@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Pricing Plans</title>
+  <meta name="description" content="Simple monthly gardening plans from GreenArch." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-panel">
+    <section class="home-section pricing-scroll-story" id="pricing-scroll-story">
+      <div class="container">
+        <article class="account-card pricing-plans-section pricing-scroll-shell reveal slide-up" data-parallax data-speed="0.06">
+          <div class="pricing-header">
+            <p class="hero-kicker section-kicker-dark pricing-kicker">Transparent pricing</p>
+            <h2>Simple Monthly Plans 🌿</h2>
+            <p class="pricing-intro"></p>
+            <p class="pricing-subcopy">Every plan includes trained maali visits, service logs, and practical care guidance tailored to your space.</p>
+          </div>
+          <div class="pricing-plan-grid stagger-group">
+            <article class="plan-card reveal slide-up plan-card-basic" data-plan-stage="1">
+              <span class="plan-card-tag">For smaller spaces</span>
+              <h3>Basic</h3>
+              <p class="plan-price">₹499/month</p>
+              <p class="plan-description">Ideal for balconies and compact indoor setups that need routine care to stay healthy.</p>
+              <ul class="plan-features">
+                <li>1 visit per week</li>
+                <li>Watering &amp; cleaning</li>
+                <li>Basic trimming</li>
+                <li>Monthly growth notes</li>
+              </ul>
+              <p class="plan-ideal">Best for: up to 12 plants</p>
+              <a class="btn btn-solid plan-cta" href="contact.html">Book Now</a>
+            </article>
+
+            <article class="plan-card reveal slide-up plan-card-popular" data-plan-stage="2">
+              <span class="plan-badge">Most Popular</span>
+              <span class="plan-card-tag">Best value</span>
+              <h3>Standard</h3>
+              <p class="plan-price">₹799/month</p>
+              <p class="plan-description">Balanced maintenance for active homes that need cleaner foliage and stronger plant health.</p>
+              <ul class="plan-features">
+                <li>1 visit per week</li>
+                <li>Watering, trimming, plant check</li>
+                <li>Basic pest control</li>
+                <li>Fertilizer schedule guidance</li>
+              </ul>
+              <p class="plan-ideal">Best for: 12-25 plants</p>
+              <a class="btn btn-solid plan-cta" href="contact.html">Book Now</a>
+            </article>
+
+            <article class="plan-card reveal slide-up plan-card-premium" data-plan-stage="3">
+              <span class="plan-card-tag">Full support</span>
+              <h3>Premium</h3>
+              <p class="plan-price">₹999/month</p>
+              <p class="plan-description">Advanced care for terraces and mixed spaces where plant recovery and look matter equally.</p>
+              <ul class="plan-features">
+                <li>1 visit per week</li>
+                <li>Full maintenance</li>
+                <li>Plant health check</li>
+                <li>Priority support</li>
+                <li>Seasonal treatment planning</li>
+              </ul>
+              <p class="plan-ideal">Best for: 25+ plants and terraces</p>
+              <a class="btn btn-solid plan-cta" href="contact.html">Book Now</a>
+            </article>
+          </div>
+          <p class="pricing-note">One-time visits also available</p>
+          <div class="pricing-meta" aria-label="Plan comparison notes">
+            <p><strong>Visit day:</strong> Fixed weekly slot with rescheduling support.</p>
+            <p><strong>Supplies:</strong> Consumables charged only when used, with approval.</p>
+            <p><strong>Support:</strong> WhatsApp assistance available across all plans.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

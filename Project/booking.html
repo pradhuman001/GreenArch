@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Book Free Inspection</title>
+  <meta name="description" content="Book a gardening inspection in less than 30 seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="booking-pro-page">
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="booking-pro-main">
+    <section class="booking-pro-shell">
+      <header class="booking-pro-head">
+        <h1>Book your gardening service securely in minutes.</h1>
+        <p>Simple details, clear pricing, and instant confirmation support.</p>
+      </header>
+
+      <div class="booking-pro-grid">
+        <section class="booking-pro-left">
+          <article class="booking-pro-card">
+            <div class="booking-pro-card-head">
+              <h2>Who needs support?</h2>
+              <p>Service: Plant Maintenance · 1 visit · Non-smoking space</p>
+            </div>
+
+            <form class="booking-pro-form" novalidate>
+              <label>
+                <span>Select Service</span>
+                <select id="service-select" required>
+                  <option value="">Choose a service</option>
+                  <option value="299">One Time Visit</option>
+                  <option value="799">Plant Maintenance</option>
+                  <option value="999">Garden Health Check</option>
+                  <option value="1299">Landscape Grooming</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Select Pricing Plan</span>
+                <select id="pricing-select" required>
+                  <option value="">Choose a plan</option>
+                  <option value="basic">Basic Visit</option>
+                  <option value="priority">Priority Visit</option>
+                  <option value="premium">Premium Care</option>
+                </select>
+              </label>
+
+              <label>
+                <span>First Name</span>
+                <input type="text" placeholder="Enter first name" required />
+              </label>
+
+              <label>
+                <span>Last Name</span>
+                <input type="text" placeholder="Enter last name" required />
+              </label>
+
+              <label>
+                <span>Mobile Number</span>
+                <input type="tel" placeholder="+91 98765 43210" required />
+              </label>
+
+              <label>
+                <span>Address</span>
+                <input type="text" placeholder="House no, street, area" required />
+              </label>
+
+              <label class="booking-pro-scheduler-field">
+                <span>Preferred Date & Time</span>
+                <div class="booking-pro-picker">
+                  <input id="preferred-datetime" type="text" placeholder="Select date and time" readonly required />
+                  <button type="button" class="booking-pro-picker-btn" id="open-scheduler" aria-label="Open calendar scheduler">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v11a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1zm13 8H4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2-4H6a1 1 0 0 0-1 1v1h14V7a1 1 0 0 0-1-1z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
+              </label>
+
+              <label class="booking-pro-check">
+                <input type="checkbox" />
+                <span>Receive WhatsApp updates about this booking.</span>
+              </label>
+            </form>
+          </article>
+
+          <article class="booking-pro-card" id="payment-card">
+            <div class="booking-pro-card-head">
+              <h2>Payment Method</h2>
+              <p>Your details stay encrypted and protected.</p>
+            </div>
+
+            <div class="booking-pro-security-indicators">
+              <div class="security-badge">🔒 Secure Payment</div>
+              <div class="security-badge">🔐 Encrypted Details</div>
+            </div>
+
+            <div class="booking-pro-pay-grid-premium">
+              <button type="button" class="booking-pro-pay-card is-active" data-method="upi">
+                <div class="pay-card-icon">💳</div>
+                <div class="pay-card-name">UPI</div>
+                <div class="pay-card-desc">Google Pay, PhonePe, BHIM</div>
+                <div class="pay-card-check">✓</div>
+              </button>
+              <button type="button" class="booking-pro-pay-card" data-method="cash">
+                <div class="pay-card-icon">💵</div>
+                <div class="pay-card-name">Cash on Delivery</div>
+                <div class="pay-card-desc">Pay when gardener arrives</div>
+                <div class="pay-card-check">✓</div>
+              </button>
+            </div>
+
+            <div class="booking-pro-actions">
+              <button type="button" class="booking-pro-btn-secondary">Back</button>
+              <button type="button" class="booking-pro-btn-primary">Continue to Confirm</button>
+            </div>
+            <p class="booking-pro-form-note" aria-live="polite"></p>
+          </article>
+        </section>
+
+        <aside class="booking-pro-right">
+          <article class="booking-pro-side-card">
+            <div class="booking-pro-media" aria-hidden="true"></div>
+            <h3>GreenArch Home Visit</h3>
+            <p>Verified experts with tools and tailored plan for your space.</p>
+            <ul>
+              <li id="booking-checkin-summary">Check in: Not selected</li>
+              <li>Duration: 1 hour</li>
+              <li>Support: WhatsApp + call</li>
+            </ul>
+          </article>
+
+          <article class="booking-pro-side-card booking-pro-side-price">
+            <h3>Price details</h3>
+            <p class="booking-pro-price-hint">Select service and pricing to view totals.</p>
+            <div class="booking-pro-row"><span id="price-service-name">Selected Service</span><strong id="price-service-amount">--</strong></div>
+            <div class="booking-pro-row"><span>Convenience fee</span><strong id="price-fee-amount">--</strong></div>
+            <div class="booking-pro-row"><span>Tax</span><strong id="price-tax-amount">--</strong></div>
+            <div class="booking-pro-row total"><span>Total payable</span><strong id="price-total-amount">--</strong></div>
+          </article>
+        </aside>
+      </div>
+
+      <!-- STEP 1: CONFIRMATION REVIEW SCREEN -->
+      <div class="booking-flow-screen" id="confirmation-review-screen" style="display: none;">
+        <div class="confirmation-progress">
+          <div class="progress-step is-active">
+            <span class="progress-number">1</span>
+            <span class="progress-label">Review</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step">
+            <span class="progress-number">2</span>
+            <span class="progress-label">Success</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step">
+            <span class="progress-number">3</span>
+            <span class="progress-label">Track</span>
+          </div>
+        </div>
+
+        <section class="confirmation-container">
+          <header class="confirmation-header">
+            <h1>Confirm Your Booking</h1>
+            <p>Review all details before finalizing your service booking</p>
+          </header>
+
+          <div class="confirmation-grid">
+            <!-- Service Details -->
+            <section class="confirmation-section">
+              <div class="section-header">
+                <h3>Service Details</h3>
+                <button type="button" class="edit-btn" data-section="service">Edit</button>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Service:</span>
+                <span class="item-value" id="confirm-service">Plant Maintenance</span>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Plan:</span>
+                <span class="item-value" id="confirm-plan">--</span>
+              </div>
+            </section>
+
+            <!-- Customer Details -->
+            <section class="confirmation-section">
+              <div class="section-header">
+                <h3>Customer Details</h3>
+                <button type="button" class="edit-btn" data-section="customer">Edit</button>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Name:</span>
+                <span class="item-value" id="confirm-name">--</span>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Phone:</span>
+                <span class="item-value" id="confirm-phone">--</span>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Address:</span>
+                <span class="item-value" id="confirm-address">--</span>
+              </div>
+            </section>
+
+            <!-- Date & Time -->
+            <section class="confirmation-section">
+              <div class="section-header">
+                <h3>Scheduled Visit</h3>
+                <button type="button" class="edit-btn" data-section="datetime">Edit</button>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Date:</span>
+                <span class="item-value" id="confirm-date">--</span>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Time:</span>
+                <span class="item-value" id="confirm-time">--</span>
+              </div>
+            </section>
+
+            <!-- Payment Method -->
+            <section class="confirmation-section">
+              <div class="section-header">
+                <h3>Payment Method</h3>
+                <button type="button" class="edit-btn" data-section="payment">Edit</button>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Method:</span>
+                <span class="item-value pay-method-badge" id="confirm-payment">UPI</span>
+              </div>
+              <div class="confirmation-item">
+                <span class="item-label">Amount:</span>
+                <span class="item-value" id="confirm-total">₹--</span>
+              </div>
+            </section>
+          </div>
+
+          <!-- Price Breakdown -->
+          <section class="confirmation-price-breakdown">
+            <h3>Price Breakdown</h3>
+            <div class="breakdown-row">
+              <span>Service Charge:</span>
+              <strong id="breakdown-service">₹--</strong>
+            </div>
+            <div class="breakdown-row">
+              <span>Convenience Fee:</span>
+              <strong id="breakdown-fee">₹--</strong>
+            </div>
+            <div class="breakdown-row">
+              <span>Tax (5%):</span>
+              <strong id="breakdown-tax">₹--</strong>
+            </div>
+            <div class="breakdown-row breakdown-total">
+              <span>Total Amount:</span>
+              <strong id="breakdown-total">₹--</strong>
+            </div>
+          </section>
+
+          <div class="confirmation-actions">
+            <button type="button" class="booking-pro-btn-secondary" id="back-to-payment">Back to Payment</button>
+            <button type="button" class="booking-pro-btn-primary" id="confirm-booking">Confirm Booking</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- STEP 2: SUCCESS SCREEN -->
+      <div class="booking-flow-screen" id="success-screen" style="display: none;">
+        <section class="success-container">
+          <div class="success-icon">✓</div>
+          <h1>Booking Confirmed!</h1>
+          <p class="success-subtitle">Your gardening service has been confirmed</p>
+
+          <div class="booking-confirmation-card">
+            <div class="confirmation-id">
+              <span class="label">Booking ID</span>
+              <span class="id-value" id="success-booking-id">#BK-2024-00001</span>
+            </div>
+
+            <div class="confirmation-divider"></div>
+
+            <div class="confirmation-details">
+              <div class="detail-row">
+                <span class="detail-icon">📅</span>
+                <div class="detail-content">
+                  <span class="detail-label">Scheduled Visit</span>
+                  <span class="detail-value" id="success-datetime">--</span>
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <span class="detail-icon">💳</span>
+                <div class="detail-content">
+                  <span class="detail-label">Payment Amount</span>
+                  <span class="detail-value" id="success-amount">₹--</span>
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <span class="detail-icon">👨‍🌾</span>
+                <div class="detail-content">
+                  <span class="detail-label">Gardener Status</span>
+                  <span class="detail-value" id="success-gardener-status">Gardener will be assigned shortly</span>
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <span class="detail-icon">📱</span>
+                <div class="detail-content">
+                  <span class="detail-label">Communication</span>
+                  <span class="detail-value">You'll receive updates on WhatsApp</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="success-actions">
+            <button type="button" class="booking-pro-btn-primary" onclick="location.href='my-bookings.html'">Track Booking</button>
+            <button type="button" class="booking-pro-btn-secondary" onclick="location.href='index.html'">Back to Home</button>
+            <button type="button" class="booking-pro-btn-outline">Book Another Service</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- STEP 3: TRACKING STATE (OPTIONAL) -->
+      <div class="booking-flow-screen" id="tracking-screen" style="display: none;">
+        <section class="tracking-container">
+          <header class="tracking-header">
+            <h1>Booking Status</h1>
+            <p id="tracking-booking-id">#BK-2024-00001</p>
+          </header>
+
+          <div class="tracking-timeline">
+            <div class="timeline-item is-completed">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>Booking Received</h4>
+                <p>Your booking has been confirmed with GreenArch</p>
+                <span class="timeline-time">Today, 2:30 PM</span>
+              </div>
+            </div>
+
+            <div class="timeline-item is-active">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>Gardener Assigned</h4>
+                <p>A verified gardener has been assigned to your service</p>
+                <span class="timeline-time">In progress...</span>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>On the Way</h4>
+                <p>Your gardener is traveling to your location</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>Service Complete</h4>
+                <p>Your gardening service has been completed</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tracking-actions">
+            <button type="button" class="booking-pro-btn-primary">Call Gardener</button>
+            <button type="button" class="booking-pro-btn-secondary">More Details</button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div class="booking-scheduler-modal" id="booking-scheduler" aria-hidden="true">
+    <div class="booking-scheduler-backdrop" data-scheduler-close></div>
+    <section class="booking-scheduler-panel" role="dialog" aria-modal="true" aria-labelledby="scheduler-title">
+      <header class="booking-scheduler-top">
+        <div>
+          <p class="booking-scheduler-step">Select date and time</p>
+          <h2 id="scheduler-title">Schedule your service visit</h2>
+        </div>
+        <button type="button" class="booking-scheduler-close" data-scheduler-close aria-label="Close scheduler">X</button>
+      </header>
+
+      <div class="booking-scheduler-progress" aria-hidden="true">
+        <span class="is-done"></span>
+        <span class="is-done"></span>
+        <span class="is-done"></span>
+        <span class="is-active"></span>
+        <span></span>
+      </div>
+
+      <div class="booking-scheduler-grid">
+        <aside class="booking-scheduler-side">
+          <h3>GreenArch Home Visit</h3>
+          <p>Choose a slot that works for your space inspection.</p>
+          <div class="booking-scheduler-meta">
+            <div><strong>Visit Type</strong><span>Planned</span></div>
+            <div><strong>Duration</strong><span>60 min</span></div>
+            <div><strong>Support</strong><span>Phone + WhatsApp</span></div>
+          </div>
+          <div class="booking-scheduler-map" aria-hidden="true"></div>
+        </aside>
+
+        <section class="booking-scheduler-calendar-wrap">
+          <header class="booking-scheduler-monthbar">
+            <h3 id="scheduler-month-label">Month Year</h3>
+            <div class="booking-scheduler-nav">
+              <button type="button" id="scheduler-prev-month" aria-label="Previous month">&lt;</button>
+              <button type="button" id="scheduler-next-month" aria-label="Next month">&gt;</button>
+            </div>
+          </header>
+          <div class="booking-scheduler-weekdays" aria-hidden="true">
+            <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+          </div>
+          <div class="booking-scheduler-days" id="scheduler-days"></div>
+        </section>
+
+        <section class="booking-scheduler-slots">
+          <h3 id="scheduler-date-label">Select a date first</h3>
+
+          <div class="booking-slot-group">
+            <h4>Morning</h4>
+            <p>9:00 AM to 12:00 PM</p>
+            <div class="booking-slot-grid">
+              <button type="button" class="booking-slot" data-slot="9:15 AM">9:15 AM</button>
+              <button type="button" class="booking-slot" data-slot="9:45 AM">9:45 AM</button>
+              <button type="button" class="booking-slot" data-slot="10:15 AM">10:15 AM</button>
+              <button type="button" class="booking-slot" data-slot="10:30 AM">10:30 AM</button>
+              <button type="button" class="booking-slot" data-slot="11:00 AM">11:00 AM</button>
+              <button type="button" class="booking-slot" data-slot="11:30 AM">11:30 AM</button>
+            </div>
+          </div>
+
+          <div class="booking-slot-group">
+            <h4>Afternoon</h4>
+            <p>1:00 PM to 5:00 PM</p>
+            <div class="booking-slot-grid">
+              <button type="button" class="booking-slot" data-slot="1:00 PM">1:00 PM</button>
+              <button type="button" class="booking-slot" data-slot="1:30 PM">1:30 PM</button>
+              <button type="button" class="booking-slot" data-slot="2:30 PM">2:30 PM</button>
+              <button type="button" class="booking-slot" data-slot="4:00 PM">4:00 PM</button>
+              <button type="button" class="booking-slot" data-slot="4:15 PM">4:15 PM</button>
+              <button type="button" class="booking-slot" data-slot="4:45 PM">4:45 PM</button>
+            </div>
+          </div>
+
+          <div class="booking-slot-group">
+            <h4>Evening</h4>
+            <p>5:00 PM to 8:00 PM</p>
+            <div class="booking-slot-grid">
+              <button type="button" class="booking-slot" data-slot="5:00 PM">5:00 PM</button>
+              <button type="button" class="booking-slot" data-slot="5:30 PM">5:30 PM</button>
+              <button type="button" class="booking-slot" data-slot="7:00 PM">7:00 PM</button>
+              <button type="button" class="booking-slot" data-slot="7:30 PM">7:30 PM</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="booking-scheduler-footer">
+        <p id="scheduler-selection-pill">No date/time selected</p>
+        <div class="booking-scheduler-actions">
+          <button type="button" class="booking-pro-btn-secondary" data-scheduler-close>Back</button>
+          <button type="button" class="booking-pro-btn-primary" id="scheduler-save" disabled>Save and Continue</button>
+        </div>
+      </footer>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      const navbar = document.querySelector('.navbar-main');
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      const bookingForm = document.querySelector('.booking-pro-form');
+      const continueButton = document.querySelector('.booking-pro-btn-primary');
+      const formNote = document.querySelector('.booking-pro-form-note');
+      const paymentButtons = document.querySelectorAll('.booking-pro-pay');
+      const serviceSelect = document.querySelector('#service-select');
+      const pricingSelect = document.querySelector('#pricing-select');
+      const preferredDateTimeInput = document.querySelector('#preferred-datetime');
+      const checkinSummary = document.querySelector('#booking-checkin-summary');
+      const priceHint = document.querySelector('.booking-pro-price-hint');
+      const priceServiceName = document.querySelector('#price-service-name');
+      const priceServiceAmount = document.querySelector('#price-service-amount');
+      const priceFeeAmount = document.querySelector('#price-fee-amount');
+      const priceTaxAmount = document.querySelector('#price-tax-amount');
+      const priceTotalAmount = document.querySelector('#price-total-amount');
+      const schedulerModal = document.querySelector('#booking-scheduler');
+      const schedulerOpenButton = document.querySelector('#open-scheduler');
+      const schedulerDays = document.querySelector('#scheduler-days');
+      const schedulerMonthLabel = document.querySelector('#scheduler-month-label');
+      const schedulerDateLabel = document.querySelector('#scheduler-date-label');
+      const schedulerSelectionPill = document.querySelector('#scheduler-selection-pill');
+      const schedulerPrevMonth = document.querySelector('#scheduler-prev-month');
+      const schedulerNextMonth = document.querySelector('#scheduler-next-month');
+      const schedulerSaveButton = document.querySelector('#scheduler-save');
+      const schedulerCloseButtons = document.querySelectorAll('[data-scheduler-close]');
+      const schedulerSlotButtons = document.querySelectorAll('.booking-slot');
+
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+      const hideDelta = 10;
+      const revealTop = 60;
+
+      function updateNavbarOnScroll() {
+        const currentY = window.scrollY;
+        const delta = currentY - lastScrollY;
+
+        navbar.classList.toggle('navbar-scrolled', currentY > 12);
+
+        if (currentY <= revealTop) {
+          navbar.classList.remove('navbar-hidden');
+        } else if (delta > hideDelta) {
+          navbar.classList.add('navbar-hidden');
+          if (navMenu.classList.contains('open')) {
+            navMenu.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+        } else if (delta < -hideDelta) {
+          navbar.classList.remove('navbar-hidden');
+        }
+
+        lastScrollY = currentY;
+        ticking = false;
+      }
+
+      if (navbar && menuToggle && navMenu) {
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(updateNavbarOnScroll);
+            ticking = true;
+          }
+        }, { passive: true });
+
+        menuToggle.addEventListener('click', function () {
+          const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', String(!expanded));
+          navMenu.classList.toggle('open');
+        });
+
+        updateNavbarOnScroll();
+      }
+
+      if (!bookingForm || !continueButton || !formNote || !serviceSelect || !pricingSelect || !preferredDateTimeInput || !checkinSummary || !priceHint || !priceServiceName || !priceServiceAmount || !priceFeeAmount || !priceTaxAmount || !priceTotalAmount || !schedulerModal || !schedulerOpenButton || !schedulerDays || !schedulerMonthLabel || !schedulerDateLabel || !schedulerSelectionPill || !schedulerPrevMonth || !schedulerNextMonth || !schedulerSaveButton || schedulerCloseButtons.length === 0 || schedulerSlotButtons.length === 0) {
+        return;
+      }
+
+      const requiredFields = bookingForm.querySelectorAll('[required]');
+      const pricingPlans = {
+        basic: { multiplier: 1, fee: 49 },
+        priority: { multiplier: 1.15, fee: 69 },
+        premium: { multiplier: 1.3, fee: 99 }
+      };
+      const weekdayLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const monthLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const today = new Date();
+      const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      let viewMonth = new Date(todayDate.getFullYear(), todayDate.getMonth(), 1);
+      let selectedDate = null;
+      let selectedSlot = '';
+      let selectedPaymentMethod = 'UPI';
+
+      if (paymentButtons.length > 0) {
+        const activePaymentButton = Array.from(paymentButtons).find(function (button) {
+          return button.classList.contains('is-active');
+        });
+        if (activePaymentButton) {
+          selectedPaymentMethod = activePaymentButton.textContent.trim();
+        }
+
+        paymentButtons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            paymentButtons.forEach(function (item) {
+              item.classList.remove('is-active');
+            });
+            button.classList.add('is-active');
+            selectedPaymentMethod = button.textContent.trim();
+            setFormNote('Payment method selected: ' + selectedPaymentMethod + '.', 'is-success');
+          });
+        });
+      }
+
+      function setFormNote(message, kind) {
+        formNote.textContent = message;
+        formNote.classList.remove('is-error', 'is-success');
+        if (kind) {
+          formNote.classList.add(kind);
+        }
+      }
+
+      function isFieldComplete(field) {
+        if (field.tagName === 'SELECT') {
+          return field.value !== '';
+        }
+        return field.value.trim().length > 0;
+      }
+
+      function formatDisplayDate(dateValue) {
+        return weekdayLabels[dateValue.getDay()] + ', ' + monthLabels[dateValue.getMonth()] + ' ' + dateValue.getDate();
+      }
+
+      function formatChipDate(dateValue) {
+        return dateValue.getDate() + ' ' + monthLabels[dateValue.getMonth()] + ' ' + dateValue.getFullYear();
+      }
+
+      function datesMatch(a, b) {
+        if (!a || !b) {
+          return false;
+        }
+        return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+      }
+
+      function updateSchedulerSaveState() {
+        schedulerSaveButton.disabled = !(selectedDate && selectedSlot);
+        if (selectedDate && selectedSlot) {
+          schedulerSelectionPill.textContent = selectedSlot + ', ' + formatChipDate(selectedDate);
+        } else if (selectedDate) {
+          schedulerSelectionPill.textContent = formatDisplayDate(selectedDate) + ' selected';
+        } else {
+          schedulerSelectionPill.textContent = 'No date/time selected';
+        }
+      }
+
+      function setSelectedDate(dateValue) {
+        selectedDate = dateValue;
+        schedulerDateLabel.textContent = formatDisplayDate(dateValue);
+        renderCalendar();
+        updateSchedulerSaveState();
+      }
+
+      function renderCalendar() {
+        const year = viewMonth.getFullYear();
+        const month = viewMonth.getMonth();
+        const firstOfMonth = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const startOffset = (firstOfMonth.getDay() + 6) % 7;
+
+        schedulerMonthLabel.textContent = monthLabels[month] + ' ' + year;
+        schedulerDays.innerHTML = '';
+
+        for (let i = 0; i < startOffset; i += 1) {
+          const pad = document.createElement('span');
+          pad.className = 'booking-calendar-pad';
+          schedulerDays.appendChild(pad);
+        }
+
+        for (let day = 1; day <= daysInMonth; day += 1) {
+          const dayDate = new Date(year, month, day);
+          const dayButton = document.createElement('button');
+          dayButton.type = 'button';
+          dayButton.textContent = String(day);
+          dayButton.className = 'booking-calendar-day';
+
+          if (datesMatch(dayDate, todayDate)) {
+            dayButton.classList.add('is-today');
+          }
+
+          if (dayDate < todayDate) {
+            dayButton.classList.add('is-disabled');
+            dayButton.disabled = true;
+          } else {
+            dayButton.addEventListener('click', function () {
+              setSelectedDate(dayDate);
+            });
+          }
+
+          if (datesMatch(dayDate, selectedDate)) {
+            dayButton.classList.add('is-selected');
+          }
+
+          schedulerDays.appendChild(dayButton);
+        }
+      }
+
+      function openScheduler() {
+        schedulerModal.classList.add('is-open');
+        schedulerModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('scheduler-open');
+      }
+
+      function closeScheduler() {
+        schedulerModal.classList.remove('is-open');
+        schedulerModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('scheduler-open');
+      }
+
+      function validateForm() {
+        let allComplete = true;
+        requiredFields.forEach(function (field) {
+          const complete = isFieldComplete(field);
+          field.classList.toggle('is-invalid', !complete);
+          if (!complete) {
+            allComplete = false;
+          }
+        });
+        return allComplete;
+      }
+
+      function formatRupee(amount) {
+        return new Intl.NumberFormat('en-IN', {
+          style: 'currency',
+          currency: 'INR',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }).format(amount);
+      }
+
+      function updatePriceDetails() {
+        const selectedPlan = pricingPlans[pricingSelect.value];
+        const selectedService = serviceSelect.options[serviceSelect.selectedIndex];
+
+        if (!serviceSelect.value || !selectedPlan) {
+          priceHint.textContent = 'Select service and pricing to view totals.';
+          priceServiceName.textContent = 'Selected Service';
+          priceServiceAmount.textContent = '--';
+          priceFeeAmount.textContent = '--';
+          priceTaxAmount.textContent = '--';
+          priceTotalAmount.textContent = '--';
+          return;
+        }
+
+        const serviceCost = Math.round(Number(serviceSelect.value) * selectedPlan.multiplier);
+        const convenienceFee = selectedPlan.fee;
+        const tax = Math.round((serviceCost + convenienceFee) * 0.09);
+        const total = serviceCost + convenienceFee + tax;
+
+        priceHint.textContent = 'Pricing updated based on your selection.';
+        priceServiceName.textContent = selectedService.text;
+        priceServiceAmount.textContent = formatRupee(serviceCost);
+        priceFeeAmount.textContent = formatRupee(convenienceFee);
+        priceTaxAmount.textContent = formatRupee(tax);
+        priceTotalAmount.textContent = formatRupee(total);
+      }
+
+      schedulerOpenButton.addEventListener('click', function () {
+        openScheduler();
+      });
+
+      schedulerPrevMonth.addEventListener('click', function () {
+        viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1);
+        renderCalendar();
+      });
+
+      schedulerNextMonth.addEventListener('click', function () {
+        viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1);
+        renderCalendar();
+      });
+
+      schedulerCloseButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          closeScheduler();
+        });
+      });
+
+      schedulerSlotButtons.forEach(function (slotButton) {
+        slotButton.addEventListener('click', function () {
+          selectedSlot = slotButton.getAttribute('data-slot') || '';
+          schedulerSlotButtons.forEach(function (otherButton) {
+            otherButton.classList.remove('is-selected');
+          });
+          slotButton.classList.add('is-selected');
+          updateSchedulerSaveState();
+        });
+      });
+
+      schedulerSaveButton.addEventListener('click', function () {
+        if (!selectedDate || !selectedSlot) {
+          return;
+        }
+        preferredDateTimeInput.value = formatDisplayDate(selectedDate) + ', ' + selectedSlot;
+        checkinSummary.textContent = 'Check in: ' + preferredDateTimeInput.value;
+        preferredDateTimeInput.classList.remove('is-invalid');
+        setFormNote('Schedule selected successfully.', 'is-success');
+        closeScheduler();
+      });
+
+      requiredFields.forEach(function (field) {
+        ['input', 'change'].forEach(function (eventName) {
+          field.addEventListener(eventName, function () {
+            if (field.classList.contains('is-invalid') && isFieldComplete(field)) {
+              field.classList.remove('is-invalid');
+            }
+          });
+        });
+      });
+
+      serviceSelect.addEventListener('change', updatePriceDetails);
+      pricingSelect.addEventListener('change', updatePriceDetails);
+
+      continueButton.addEventListener('click', function () {
+        continueButton.blur();
+        if (!validateForm()) {
+          setFormNote('Please complete all required fields before confirming.', 'is-error');
+          const firstInvalid = bookingForm.querySelector('input.is-invalid, select.is-invalid');
+          if (firstInvalid) {
+            firstInvalid.focus();
+          }
+          return;
+        }
+
+        if (!serviceSelect.value || !pricingSelect.value) {
+          setFormNote('Please select service and pricing plan to continue.', 'is-error');
+          return;
+        }
+
+        setFormNote('Booking details look good. Payment via ' + selectedPaymentMethod + ' selected.', 'is-success');
+      });
+
+      if (!selectedDate) {
+        setSelectedDate(todayDate);
+      }
+      renderCalendar();
+      updateSchedulerSaveState();
+      updatePriceDetails();
+
+      /* ===================================
+         PREMIUM PAYMENT & MULTI-STEP FLOW
+         =================================== */
+
+      let selectedPaymentMethod = 'upi';
+      let bookingData = {};
+
+      // Premium Payment Card Selection
+      const paymentCards = document.querySelectorAll('.booking-pro-pay-card');
+      paymentCards.forEach(function (card) {
+        card.addEventListener('click', function () {
+          paymentCards.forEach(c => c.classList.remove('is-active'));
+          card.classList.add('is-active');
+          selectedPaymentMethod = card.getAttribute('data-method') || 'upi';
+        });
+      });
+
+      // Screen Navigation
+      const mainBookingGrid = document.querySelector('.booking-pro-grid');
+      const confirmationReviewScreen = document.getElementById('confirmation-review-screen');
+      const successScreen = document.getElementById('success-screen');
+      const trackingScreen = document.getElementById('tracking-screen');
+      const bookingShell = document.querySelector('.booking-pro-shell');
+
+      function captureBookingData() {
+        const firstNameInput = bookingForm.querySelector('input[placeholder*="first name"]');
+        const lastNameInput = bookingForm.querySelector('input[placeholder*="last name"]');
+        const phoneInput = bookingForm.querySelector('input[placeholder*="98765"]');
+        const addressInput = bookingForm.querySelector('input[placeholder*="House no"]');
+
+        bookingData = {
+          service: serviceSelect.options[serviceSelect.selectedIndex].text,
+          plan: pricingSelect.options[pricingSelect.selectedIndex].text,
+          firstName: firstNameInput.value,
+          lastName: lastNameInput.value,
+          phone: phoneInput.value,
+          address: addressInput.value,
+          dateTime: preferredDateTimeInput.value,
+          paymentMethod: selectedPaymentMethod,
+          serviceCost: Number(serviceSelect.value),
+          planMultiplier: pricingPlans[pricingSelect.value].multiplier,
+          convenienceFee: pricingPlans[pricingSelect.value].fee
+        };
+
+        // Calculate totals
+        const finalServiceCost = Math.round(bookingData.serviceCost * bookingData.planMultiplier);
+        const tax = Math.round((finalServiceCost + bookingData.convenienceFee) * 0.09);
+        const total = finalServiceCost + bookingData.convenienceFee + tax;
+
+        bookingData.finalServiceCost = finalServiceCost;
+        bookingData.tax = tax;
+        bookingData.total = total;
+
+        return bookingData;
+      }
+
+      function showConfirmationReview() {
+        captureBookingData();
+
+        // Populate confirmation screen
+        document.getElementById('confirm-service').textContent = bookingData.service;
+        document.getElementById('confirm-plan').textContent = bookingData.plan;
+        document.getElementById('confirm-name').textContent = bookingData.firstName + ' ' + bookingData.lastName;
+        document.getElementById('confirm-phone').textContent = bookingData.phone;
+        document.getElementById('confirm-address').textContent = bookingData.address;
+
+        // Parse date and time
+        const dateTimeParts = bookingData.dateTime.split(', ');
+        document.getElementById('confirm-date').textContent = dateTimeParts[0] || '--';
+        document.getElementById('confirm-time').textContent = dateTimeParts[1] || '--';
+
+        // Payment info
+        const paymentLabel = selectedPaymentMethod === 'upi' ? 'UPI' : 'Cash on Delivery';
+        document.getElementById('confirm-payment').textContent = paymentLabel;
+        document.getElementById('confirm-total').textContent = formatRupee(bookingData.total);
+
+        // Price breakdown
+        document.getElementById('breakdown-service').textContent = formatRupee(bookingData.finalServiceCost);
+        document.getElementById('breakdown-fee').textContent = formatRupee(bookingData.convenienceFee);
+        document.getElementById('breakdown-tax').textContent = formatRupee(bookingData.tax);
+        document.getElementById('breakdown-total').textContent = formatRupee(bookingData.total);
+
+        // Hide main booking screen, show confirmation
+        mainBookingGrid.style.display = 'none';
+        bookingShell.style.display = 'none';
+        confirmationReviewScreen.style.display = 'block';
+        successScreen.style.display = 'none';
+        trackingScreen.style.display = 'none';
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function showSuccessScreen() {
+        // Generate booking ID
+        const bookingId = '#BK-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 100000)).padStart(5, '0');
+
+        // Populate success screen
+        document.getElementById('success-booking-id').textContent = bookingId;
+        
+        const dateTimeParts = bookingData.dateTime.split(', ');
+        const scheduledDate = dateTimeParts[0] || 'TBD';
+        const scheduledTime = dateTimeParts[1] || 'TBD';
+        document.getElementById('success-datetime').textContent = scheduledDate + ' at ' + scheduledTime;
+        document.getElementById('success-amount').textContent = formatRupee(bookingData.total);
+
+        // Hide other screens
+        mainBookingGrid.style.display = 'none';
+        bookingShell.style.display = 'none';
+        confirmationReviewScreen.style.display = 'none';
+        successScreen.style.display = 'block';
+        trackingScreen.style.display = 'none';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function showTrackingScreen() {
+        const dateTimeParts = bookingData.dateTime.split(', ');
+        document.getElementById('tracking-booking-id').textContent = '#BK-' + new Date().getFullYear() + '-TRK';
+
+        mainBookingGrid.style.display = 'none';
+        bookingShell.style.display = 'none';
+        confirmationReviewScreen.style.display = 'none';
+        successScreen.style.display = 'none';
+        trackingScreen.style.display = 'block';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function goBackToPayment() {
+        mainBookingGrid.style.display = 'grid';
+        bookingShell.style.display = 'block';
+        confirmationReviewScreen.style.display = 'none';
+        successScreen.style.display = 'none';
+        trackingScreen.style.display = 'none';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Continue to Confirmation Button
+      const originalContinueClick = continueButton.onclick;
+      continueButton.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        continueButton.blur();
+
+        if (!validateForm()) {
+          setFormNote('Please complete all required fields before confirming.', 'is-error');
+          const firstInvalid = bookingForm.querySelector('input.is-invalid, select.is-invalid');
+          if (firstInvalid) {
+            firstInvalid.focus();
+          }
+          return;
+        }
+
+        if (!serviceSelect.value || !pricingSelect.value) {
+          setFormNote('Please select service and pricing plan to continue.', 'is-error');
+          return;
+        }
+
+        showConfirmationReview();
+      };
+
+      // Confirmation Review - Back Button
+      const backToPaymentBtn = document.getElementById('back-to-payment');
+      if (backToPaymentBtn) {
+        backToPaymentBtn.addEventListener('click', goBackToPayment);
+      }
+
+      // Confirmation Review - Edit Buttons
+      const editButtons = document.querySelectorAll('.edit-btn');
+      editButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          goBackToPayment();
+          const section = btn.getAttribute('data-section');
+          // Optionally scroll to specific field
+          if (section === 'service') {
+            serviceSelect.focus();
+          } else if (section === 'customer') {
+            bookingForm.querySelector('input[placeholder*="first name"]').focus();
+          } else if (section === 'datetime') {
+            schedulerOpenButton.click();
+          } else if (section === 'payment') {
+            paymentCards[0].focus();
+          }
+        });
+      });
+
+      // Confirmation Review - Confirm Booking Button
+      const confirmBookingBtn = document.getElementById('confirm-booking');
+      if (confirmBookingBtn) {
+        confirmBookingBtn.addEventListener('click', function () {
+          // Here you would typically make an API call to save the booking
+          // For now, we'll just proceed to the success screen
+          console.log('Booking confirmed:', bookingData);
+          showSuccessScreen();
+        });
+      }
+
+      // Success Screen - Book Another Service Button
+      const bookAnotherBtn = document.querySelector('.booking-pro-btn-outline');
+      if (bookAnotherBtn) {
+        bookAnotherBtn.addEventListener('click', function () {
+          // Reset form and go back to payment
+          bookingForm.reset();
+          mainBookingGrid.style.display = 'grid';
+          bookingShell.style.display = 'block';
+          confirmationReviewScreen.style.display = 'none';
+          successScreen.style.display = 'none';
+          trackingScreen.style.display = 'none';
+          updatePriceDetails();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

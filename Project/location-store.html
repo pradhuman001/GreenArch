@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch Location Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-green: #1f6e43;
+      --light-green: #2f9d5f;
+      --soft-bg: #f7faf7;
+      --border-gray: #dfe7e0;
+      --text-dark: #173d2b;
+      --text-light: #6b7e77;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: "Open Sans", system-ui, -apple-system, sans-serif;
+      background: var(--soft-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .location-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border-gray);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .header-brand {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-green);
+      font-family: "Cormorant Garamond", serif;
+      letter-spacing: -0.5px;
+    }
+
+    .location-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    .location-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--light-green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 12px;
+    }
+
+    .location-badge {
+      background: #e8f3ed;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: var(--primary-green);
+      font-weight: 600;
+    }
+
+    /* Permission Section */
+    .permission-section {
+      background: var(--white);
+      border: 2px solid var(--border-gray);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .permission-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .permission-section h2 {
+      font-size: 28px;
+      font-family: "Cormorant Garamond", serif;
+      margin-bottom: 12px;
+      color: var(--text-dark);
+    }
+
+    .permission-section p {
+      color: var(--text-light);
+      margin-bottom: 28px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-allow-location {
+      background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+      color: var(--white);
+      border: none;
+      padding: 14px 40px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-allow-location:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(31, 110, 67, 0.3);
+    }
+
+    .btn-skip {
+      background: var(--soft-bg);
+      color: var(--text-dark);
+      border: 1px solid var(--border-gray);
+      padding: 12px 32px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 12px;
+      transition: 0.3s ease;
+    }
+
+    .btn-skip:hover {
+      background: var(--border-gray);
+    }
+
+    /* Main Content */
+    .location-content {
+      display: none;
+    }
+
+    .location-content.visible {
+      display: block;
+    }
+
+    .map-section {
+      margin-bottom: 40px;
+    }
+
+    .map-shell {
+      background: var(--white);
+      border: 1px solid var(--border-gray);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 26px rgba(23, 61, 43, 0.08);
+    }
+
+    .map-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border-gray);
+      background: linear-gradient(120deg, #f2faf4 0%, #ffffff 100%);
+    }
+
+    .map-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: "Cormorant Garamond", serif;
+    }
+
+    .map-subtitle {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .map-status {
+      font-size: 12px;
+      color: var(--text-light);
+      background: #f0fdf4;
+      border: 1px solid #d3f2dd;
+      border-radius: 999px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+
+    .nursery-map {
+      width: 100%;
+      height: 360px;
+      background: #eef6ef;
+    }
+
+    /* Nearby Nurseries Section */
+    .nurseries-section {
+      margin-bottom: 60px;
+    }
+
+    .section-header {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-family: "Cormorant Garamond", serif;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-subtitle {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .nurseries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .nursery-card {
+      background: var(--white);
+      border: 1px solid var(--border-gray);
+      border-radius: 16px;
+      padding: 20px;
+      transition: 0.28s ease;
+      cursor: pointer;
+    }
+
+    .nursery-card:hover {
+      border-color: var(--light-green);
+      box-shadow: 0 12px 32px rgba(31, 110, 67, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .nursery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .nursery-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .nursery-rating {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: fit-content;
+    }
+
+    .nursery-info {
+      font-size: 13px;
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--border-gray);
+      border-bottom: 1px solid var(--border-gray);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-icon {
+      width: 16px;
+      height: 16px;
+      background: var(--light-green);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+
+    .delivery-badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .nursery-action {
+      width: 100%;
+      padding: 10px 16px;
+      background: var(--light-green);
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.28s ease;
+      margin-top: 12px;
+    }
+
+    .nursery-action:hover {
+      background: var(--primary-green);
+      transform: scale(1.02);
+    }
+
+    /* Products Section */
+    .products-section {
+      margin-bottom: 60px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      border: 1px solid var(--border-gray);
+      background: var(--white);
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.28s ease;
+    }
+
+    .filter-tab.active {
+      background: var(--primary-green);
+      color: var(--white);
+      border-color: var(--primary-green);
+    }
+
+    .filter-tab:hover {
+      border-color: var(--light-green);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--border-gray);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .product-card:hover {
+      border-color: var(--light-green);
+      box-shadow: 0 12px 32px rgba(31, 110, 67, 0.12);
+      transform: translateY(-6px);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background: var(--soft-bg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.45s ease;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.08);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .product-info {
+      padding: 14px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-nursery {
+      font-size: 11px;
+      color: var(--light-green);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .product-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      line-height: 1.4;
+      min-height: 2.1em;
+    }
+
+    .product-description {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      line-height: 1.4;
+      flex-grow: 1;
+      min-height: 2.4em;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-gray);
+      margin-top: auto;
+    }
+
+    .product-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary-green);
+    }
+
+    .product-eta {
+      font-size: 11px;
+      color: var(--text-light);
+      background: #f0fdf4;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .product-action {
+      padding: 8px 14px;
+      background: var(--light-green);
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.28s ease;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .product-action:hover {
+      background: var(--primary-green);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: 16px;
+      border: 2px dashed var(--border-gray);
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .empty-text {
+      font-size: 18px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .empty-subtext {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border-gray);
+      border-top-color: var(--light-green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Error Message */
+    .error-message {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .error-message.visible {
+      display: block;
+    }
+
+    /* Footer */
+    .location-footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+      font-size: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .map-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nursery-map {
+        height: 300px;
+      }
+
+      .permission-section {
+        padding: 30px 20px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .nurseries-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .filter-tabs {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 12px;
+      }
+
+      .nursery-map {
+        height: 260px;
+      }
+
+      .permission-section {
+        padding: 24px 16px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+
+      .permission-icon {
+        font-size: 44px;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="location-header">
+    <div class="header-content">
+      <div class="header-brand">🌿 GreenArch</div>
+      <div class="location-info" id="headerLocation" style="display: none;">
+        <div class="location-icon">📍</div>
+        <div id="headerLocationText">Detecting location...</div>
+        <div class="location-badge">Live</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Permission Section -->
+    <div id="permissionSection" class="permission-section">
+      <div class="permission-icon">📍</div>
+      <h2>Find Nearby Nurseries</h2>
+      <p>
+        Allow access to your location to discover nearby plant nurseries, view available products,
+        and get instant delivery times—all from sellers in your area.
+      </p>
+      <button class="btn-allow-location" onclick="requestLocation()">Allow Location Access</button>
+      <button class="btn-skip" onclick="skipLocation()">Browse Nearby</button>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="error-message"></div>
+
+    <!-- Main Content -->
+    <div id="locationContent" class="location-content">
+      <section class="map-section" aria-label="Nearby nursery map">
+        <div class="map-shell">
+          <div class="map-head">
+            <div>
+              <h2 class="map-title">Nurseries Around You</h2>
+              <p class="map-subtitle">Tap a marker to view distance and open directions</p>
+            </div>
+            <span id="mapStatus" class="map-status">Waiting for location...</span>
+          </div>
+          <div id="nurseryMap" class="nursery-map" role="img" aria-label="Map showing nearby nurseries"></div>
+        </div>
+      </section>
+
+      <!-- Nearby Nurseries Section -->
+      <section class="nurseries-section">
+        <div class="section-header">
+          <h2 class="section-title">Nearby Nurseries</h2>
+          <p class="section-subtitle">Select a nursery to see their products and delivery options</p>
+        </div>
+        <div id="nurseriesContainer" class="nurseries-grid"></div>
+      </section>
+
+      <!-- Products Section -->
+      <section class="products-section">
+        <div class="section-header">
+          <h2 class="section-title">Available Products</h2>
+          <p class="section-subtitle">From nearby sellers • Same-day delivery available</p>
+        </div>
+
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterProducts('all')">All Products</button>
+          <button class="filter-tab" onclick="filterProducts('Plants')">Plants</button>
+          <button class="filter-tab" onclick="filterProducts('Pots')">Pots</button>
+          <button class="filter-tab" onclick="filterProducts('Fertilizers')">Fertilizers</button>
+        </div>
+
+        <div id="productsContainer" class="products-grid">
+          <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading nearby products...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="location-footer">
+    <p>&copy; 2026 GreenArch. Connecting you to local plant nurseries. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let userLocation = null;
+    let nearbyNurseries = [];
+    let allProducts = [];
+    let currentFilter = 'all';
+    let nurseryMap = null;
+    let mapInfoWindow = null;
+    let mapMarkers = [];
+    let isMapsApiReady = false;
+
+    const API_BASE = 'http://localhost:3000/api/location';
+    const DEFAULT_LAT = 22.7196; // Indore center
+    const DEFAULT_LNG = 75.8577;
+    const SEARCH_RADIUS = 5; // km
+
+    function updateMapStatus(message) {
+      const mapStatus = document.getElementById('mapStatus');
+      if (mapStatus) {
+        mapStatus.textContent = message;
+      }
+    }
+
+    function getDirectionsUrl(nursery) {
+      const destination = nursery && nursery.coordinates
+        ? `${nursery.coordinates.lat},${nursery.coordinates.lng}`
+        : String((nursery && nursery.location) || '');
+      const origin = userLocation ? `${userLocation.lat},${userLocation.lng}` : '';
+      return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+    }
+
+    function initNearbyNurseryMap() {
+      isMapsApiReady = !!(window.google && window.google.maps);
+      if (!isMapsApiReady) {
+        updateMapStatus('Map unavailable. Showing list view.');
+        return;
+      }
+
+      if (userLocation) {
+        ensureMap();
+        renderNurseryMarkers();
+      }
+    }
+
+    window.initNearbyNurseryMap = initNearbyNurseryMap;
+
+    function ensureMap() {
+      if (!isMapsApiReady || !userLocation) {
+        return false;
+      }
+
+      if (nurseryMap) {
+        return true;
+      }
+
+      const mapEl = document.getElementById('nurseryMap');
+      if (!mapEl) {
+        return false;
+      }
+
+      nurseryMap = new google.maps.Map(mapEl, {
+        center: { lat: userLocation.lat, lng: userLocation.lng },
+        zoom: 13,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: true
+      });
+
+      mapInfoWindow = new google.maps.InfoWindow();
+
+      new google.maps.Marker({
+        position: { lat: userLocation.lat, lng: userLocation.lng },
+        map: nurseryMap,
+        title: 'Your location',
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 8,
+          fillColor: '#1f6e43',
+          fillOpacity: 1,
+          strokeColor: '#ffffff',
+          strokeWeight: 2
+        }
+      });
+
+      return true;
+    }
+
+    function clearMapMarkers() {
+      mapMarkers.forEach((marker) => marker.setMap(null));
+      mapMarkers = [];
+    }
+
+    function renderNurseryMarkers() {
+      if (!ensureMap()) {
+        return;
+      }
+
+      clearMapMarkers();
+
+      if (!nearbyNurseries.length) {
+        updateMapStatus('No nurseries found in this area.');
+        return;
+      }
+
+      const bounds = new google.maps.LatLngBounds();
+      bounds.extend({ lat: userLocation.lat, lng: userLocation.lng });
+
+      nearbyNurseries.forEach((nursery) => {
+        if (!nursery.coordinates || typeof nursery.coordinates.lat !== 'number' || typeof nursery.coordinates.lng !== 'number') {
+          return;
+        }
+
+        const marker = new google.maps.Marker({
+          map: nurseryMap,
+          position: {
+            lat: nursery.coordinates.lat,
+            lng: nursery.coordinates.lng
+          },
+          title: nursery.name
+        });
+
+        marker.addListener('click', () => {
+          const safeName = String(nursery.name || 'Nursery');
+          const safeDistance = typeof nursery.distance === 'number' ? `${nursery.distance.toFixed(1)} km away` : 'Nearby';
+          mapInfoWindow.setContent(`
+            <div style="max-width:220px;font-family:Open Sans,sans-serif;line-height:1.4;">
+              <strong>${safeName}</strong><br />
+              <span>${safeDistance}</span><br />
+              <a href="${getDirectionsUrl(nursery)}" target="_blank" rel="noopener noreferrer">Open directions</a>
+            </div>
+          `);
+          mapInfoWindow.open(nurseryMap, marker);
+        });
+
+        mapMarkers.push(marker);
+        bounds.extend(marker.getPosition());
+      });
+
+      nurseryMap.fitBounds(bounds);
+      updateMapStatus(`${nearbyNurseries.length} nearby ${nearbyNurseries.length === 1 ? 'nursery' : 'nurseries'} found`);
+    }
+
+    function focusNurseryOnMap(nurseryId) {
+      const nursery = nearbyNurseries.find((item) => item.id === nurseryId);
+      if (!nursery || !ensureMap() || !nursery.coordinates) {
+        return;
+      }
+
+      nurseryMap.panTo({ lat: nursery.coordinates.lat, lng: nursery.coordinates.lng });
+      nurseryMap.setZoom(15);
+    }
+
+    // Request location permission
+    function requestLocation() {
+      if (!navigator.geolocation) {
+        showError('Geolocation is not supported by your browser');
+        return;
+      }
+
+      const permissionSection = document.getElementById('permissionSection');
+      permissionSection.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Getting your location...</p>
+        </div>
+      `;
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          loadNearbyNurseries();
+          showLocationContent();
+        },
+        (error) => {
+          console.error('Geolocation error:', error);
+          showError('Unable to access your location. Using default area.');
+          userLocation = { lat: DEFAULT_LAT, lng: DEFAULT_LNG };
+          loadNearbyNurseries();
+          showLocationContent();
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    }
+
+    // Skip location and use default
+    function skipLocation() {
+      userLocation = { lat: DEFAULT_LAT, lng: DEFAULT_LNG };
+      loadNearbyNurseries();
+      showLocationContent();
+    }
+
+    // Show location-based content
+    function showLocationContent() {
+      const permissionSection = document.getElementById('permissionSection');
+      const locationContent = document.getElementById('locationContent');
+      const headerLocation = document.getElementById('headerLocation');
+      
+      permissionSection.style.display = 'none';
+      locationContent.classList.add('visible');
+      headerLocation.style.display = 'flex';
+
+      if (userLocation) {
+        document.getElementById('headerLocationText').textContent = 
+          `${userLocation.lat.toFixed(2)}°, ${userLocation.lng.toFixed(2)}°`;
+      }
+
+      ensureMap();
+      renderNurseryMarkers();
+    }
+
+    // Fetch nearby nurseries
+    async function loadNearbyNurseries() {
+      try {
+        const params = new URLSearchParams({
+          lat: userLocation.lat,
+          lng: userLocation.lng,
+          radius: SEARCH_RADIUS
+        });
+
+        const response = await fetch(`${API_BASE}/nearby?${params}`);
+        const data = await response.json();
+
+        if (data.nurseries) {
+          nearbyNurseries = data.nurseries;
+          renderNurseries();
+          renderNurseryMarkers();
+          
+          // Load products from nearby nurseries
+          const nurseryIds = nearbyNurseries.map(n => n.id).join(',');
+          loadProducts(nurseryIds);
+        }
+      } catch (error) {
+        console.error('Error loading nurseries:', error);
+        showError('Failed to load nearby nurseries. Please try again.');
+      }
+    }
+
+    // Render nurseries
+    function renderNurseries() {
+      const container = document.getElementById('nurseriesContainer');
+
+      if (!nearbyNurseries.length) {
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-icon">🏪</div>
+            <div class="empty-text">No nurseries nearby</div>
+            <div class="empty-subtext">Try expanding your search radius</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = nearbyNurseries
+        .map(nursery => `
+          <div class="nursery-card">
+            <div class="nursery-header">
+              <div>
+                <div class="nursery-name">${nursery.name}</div>
+                <div class="nursery-rating">⭐ ${nursery.rating}</div>
+              </div>
+            </div>
+
+            <div class="nursery-info">
+              <div class="info-item">
+                <div class="info-icon">📍</div>
+                <span>${nursery.location}</span>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">⏱</div>
+                <span>${nursery.deliveryTime}</span>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">📞</div>
+                <span>${nursery.phone}</span>
+              </div>
+            </div>
+
+            <div class="delivery-badge">
+              ✓ ${nursery.deliveryType === 'same-day' ? 'Same-Day Delivery' : 'Express Delivery'}
+            </div>
+
+            <a class="nursery-action" href="${getDirectionsUrl(nursery)}" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none;margin-top:12px;">
+              Open in Google Maps
+            </a>
+
+            <button class="nursery-action" onclick="scrollToNurseryProducts('${nursery.id}')" style="margin-top:10px;">
+              View Products
+            </button>
+            <button class="nursery-action" onclick="focusNurseryOnMap('${nursery.id}')" style="margin-top:10px;background:#1f6e43;">
+              Show on Map
+            </button>
+          </div>
+        `)
+        .join('');
+    }
+
+    // Fetch products
+    async function loadProducts(nurseryIds) {
+      try {
+        const params = new URLSearchParams({ nurseryIds });
+        const response = await fetch(`${API_BASE}/products?${params}`);
+        const data = await response.json();
+
+        if (data.products) {
+          allProducts = data.products;
+          renderProducts(allProducts);
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+        showError('Failed to load products. Please try again.');
+      }
+    }
+
+    // Render products
+    function renderProducts(products) {
+      const container = document.getElementById('productsContainer');
+
+      if (!products.length) {
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-icon">📦</div>
+            <div class="empty-text">No products available</div>
+            <div class="empty-subtext">Check back soon for new items</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = products
+        .map(product => {
+          const nursery = nearbyNurseries.find(n => n.id === product.nurseryId);
+          const eta = nursery ? nursery.deliveryTime : '30 min';
+
+          return `
+            <div class="product-card">
+              <div class="product-image">
+                <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/300?text=Plant'" />
+                ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+              </div>
+
+              <div class="product-info">
+                <div class="product-nursery">${nursery ? nursery.name : 'Local Seller'}</div>
+                <h3 class="product-title">${product.title}</h3>
+                <p class="product-description">${product.description}</p>
+
+                <div class="product-footer">
+                  <span class="product-price">₹${product.price}</span>
+                  <span class="product-eta">${eta}</span>
+                </div>
+              </div>
+
+              <button class="product-action" onclick="addToCart('${product.id}', '${product.title}', ${product.price})">
+                Add to Cart
+              </button>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    // Filter products
+    function filterProducts(category) {
+      currentFilter = category;
+
+      // Update active tab
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      // Filter and render
+      const filtered = category === 'all' 
+        ? allProducts 
+        : allProducts.filter(p => p.category === category);
+
+      renderProducts(filtered);
+    }
+
+    // Scroll to nursery products
+    function scrollToNurseryProducts(nurseryId) {
+      const productsSection = document.querySelector('.products-section');
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+
+      // Highlight products from this nursery
+      const filtered = allProducts.filter(p => p.nurseryId === nurseryId);
+      if (filtered.length > 0) {
+        renderProducts(filtered);
+      }
+    }
+
+    // Add to cart
+    function addToCart(productId, title, price) {
+      // Get cart from localStorage
+      let cart = JSON.parse(localStorage.getItem('greenarch_cart') || '[]');
+
+      // Find existing item
+      const existingItem = cart.find(item => item.productId === productId);
+
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({
+          productId,
+          title,
+          price,
+          quantity: 1
+        });
+      }
+
+      localStorage.setItem('greenarch_cart', JSON.stringify(cart));
+
+      // Show feedback
+      alert(`✓ ${title} added to cart!`);
+    }
+
+    // Show error
+    function showError(message) {
+      const errorEl = document.getElementById('errorMessage');
+      errorEl.textContent = message;
+      errorEl.classList.add('visible');
+
+      setTimeout(() => {
+        errorEl.classList.remove('visible');
+      }, 5000);
+    }
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      if (!window.google || !window.google.maps) {
+        updateMapStatus('Loading map...');
+      }
+
+      // Auto-request location if browser supports it
+      if (navigator.geolocation) {
+        // Small delay for better UX
+        setTimeout(requestLocation, 500);
+      }
+    });
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiKQ7TZqa1Zr9F3K7J0A4b82iffWzCwPo&callback=initNearbyNurseryMap"></script>
+</body>
+</html>

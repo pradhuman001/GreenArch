@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Settings</title>
+  <meta name="description" content="Manage account settings, notifications, and privacy options." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <section class="account-shell">
+      <aside class="account-sidebar reveal slide-up">
+        <h1>Settings</h1>
+        <p>Personalize how GreenArch supports your sustainability journey.</p>
+        <nav class="account-nav-links">
+          <a href="profile.html">Profile</a>
+          <a href="my-bookings.html">My Bookings</a>
+          <a href="saved-services.html">Saved Services</a>
+          <a href="support.html">Support</a>
+          <a class="is-active" href="settings.html">Settings</a>
+        </nav>
+      </aside>
+
+      <section class="account-content reveal slide-up">
+        <article class="account-card settings-hero-card">
+          <p class="settings-kicker">GreenArch Control Center</p>
+          <h2>Account Settings</h2>
+          <p class="account-subtitle">Adjust alerts, service preferences, and privacy options from one clean dashboard.</p>
+        </article>
+
+        <section id="settingsSaasPanel" class="settings-saas-grid" aria-label="GreenArch settings">
+          <article class="account-card settings-card">
+            <h3>Notifications</h3>
+            <div class="settings-toggle-list">
+              <label class="settings-switch-row" for="settingsNotifWhatsapp">
+                <span>
+                  <strong>WhatsApp notifications</strong>
+                  <small>Booking confirmations, reminders, and project updates.</small>
+                </span>
+                <span class="settings-switch">
+                  <input id="settingsNotifWhatsapp" type="checkbox" checked />
+                  <span class="settings-slider"></span>
+                </span>
+              </label>
+
+              <label class="settings-switch-row" for="settingsNotifEmail">
+                <span>
+                  <strong>Email updates</strong>
+                  <small>Seasonal offers, sustainability tips, and invoices.</small>
+                </span>
+                <span class="settings-switch">
+                  <input id="settingsNotifEmail" type="checkbox" checked />
+                  <span class="settings-slider"></span>
+                </span>
+              </label>
+            </div>
+          </article>
+
+          <article class="account-card settings-card">
+            <h3>Saved Address</h3>
+            <label class="settings-field-label" for="settingsAddress">Primary service address</label>
+            <textarea id="settingsAddress" rows="4" placeholder="Enter your address here"></textarea>
+            <button id="settingsAddAddress" class="btn btn-ghost settings-add-address" type="button">Add New Address</button>
+          </article>
+
+          <article class="account-card settings-card" id="billing">
+            <h3>Service Preferences</h3>
+            <p class="account-subtitle">Select the solutions you want GreenArch to prioritize for your home.</p>
+            <div class="settings-radio-grid">
+              <label class="settings-radio-card" for="prefGardening">
+                <input id="prefGardening" name="servicePreference" type="radio" checked />
+                <span>Gardening</span>
+              </label>
+              <label class="settings-radio-card" for="prefSolar">
+                <input id="prefSolar" name="servicePreference" type="radio" />
+                <span>Solar</span>
+              </label>
+              <label class="settings-radio-card" for="prefBoth">
+                <input id="prefBoth" name="servicePreference" type="radio" />
+                <span>Both</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="account-card settings-card settings-security-card">
+            <h3>Privacy & Security</h3>
+            <p class="account-subtitle">Control device sessions and sensitive account actions.</p>
+            <div class="settings-actions">
+              <button id="settingsLogoutAll" class="btn btn-solid" type="button">Logout From All Devices</button>
+              <button class="btn btn-ghost settings-danger-btn" type="button" data-delete-account>Delete Account</button>
+            </div>
+          </article>
+
+          <article class="account-card settings-card settings-policy-card">
+            <h3>Terms & Policies</h3>
+            <div class="settings-policy-links">
+              <a href="support.html">Privacy Policy</a>
+              <a href="about.html">Terms & Conditions</a>
+            </div>
+          </article>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

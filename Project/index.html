@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Make Your Home Greener</title>
+  <meta
+    name="description"
+    content="Book gardening, solar, and eco services in minutes. Connect with trusted green service providers."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-live" id="home">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content reveal slide-up">
+        <p class="hero-kicker">Trusted Home Service Partner</p>
+        <div class="hero-live-badge">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>Live today: free inspections and quick setup windows</span>
+        </div>
+        <h1>
+          <span>Professional</span>
+          <span>Gardeners at</span>
+          <span>Your Doorstep</span>
+        </h1>
+        <p class="hero-subtext">Get expert gardening setup and maintenance at your home.</p>
+        <div class="hero-mini-metrics" aria-label="Service highlights">
+          <div>
+            <strong>24h</strong>
+            <span>response</span>
+          </div>
+          <div>
+            <strong>1200+</strong>
+            <span>homes served</span>
+          </div>
+          <div>
+            <strong>4.9/5</strong>
+            <span>rating</span>
+          </div>
+        </div>
+        <div class="hero-sheen" aria-hidden="true"></div>
+        <div class="hero-cta-row">
+          <div class="hero-highlight">
+            <p>Professional gardeners at your doorstep</p>
+            <p>Healthy, beautiful gardens made easy</p>
+          </div>
+          <a class="btn btn-solid btn-lg hero-cta" href="booking.html">Book Free Inspection</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section" id="greenarch-marketplace-entry">
+      <div class="container reveal">
+        <div class="section-head" style="margin-bottom: 24px;">
+          <p class="hero-kicker section-kicker-dark">GreenArch Marketplace</p>
+          <h2>One platform for plants, tools, and on-demand gardening help.</h2>
+          <p>Buy plants and garden supplies from nursery partners, then book gardeners or setup services from the same GreenArch experience.</p>
+        </div>
+
+        <div class="mini-blog-grid">
+          <article class="mini-blog-card">
+            <div class="mini-blog-media" aria-hidden="true" style="background: linear-gradient(135deg, rgba(31,138,77,0.92), rgba(113, 191, 122, 0.84)), url('https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;"></div>
+            <div class="mini-blog-copy">
+              <div class="card-header">
+                <span class="mini-blog-tag">Plant Store</span>
+                <span class="card-time">Buy now</span>
+              </div>
+              <h3>Plants, pots, fertilizers, and tools from nursery partners</h3>
+              <p>Browse live stock, add products to cart, and place orders with local nursery fulfillment.</p>
+              <a href="plant-store.html" class="read-more-link">Explore Plant Store <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="mini-blog-card">
+            <div class="mini-blog-media" aria-hidden="true" style="background: linear-gradient(135deg, rgba(26, 98, 59, 0.92), rgba(60, 167, 110, 0.84)), url('https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;"></div>
+            <div class="mini-blog-copy">
+              <div class="card-header">
+                <span class="mini-blog-tag">Services</span>
+                <span class="card-difficulty">Book help</span>
+              </div>
+              <h3>Book gardeners and setup services without switching apps</h3>
+              <p>Get inspection, installation, maintenance, and full garden setup in one streamlined flow.</p>
+              <a href="booking.html" class="read-more-link">Book Gardening Help <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="mini-blog-card">
+            <div class="mini-blog-media" aria-hidden="true" style="background: linear-gradient(135deg, rgba(17, 78, 47, 0.92), rgba(53, 153, 92, 0.84)), url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;"></div>
+            <div class="mini-blog-copy">
+              <div class="card-header">
+                <span class="mini-blog-tag">Nursery Partners</span>
+                <span class="card-impact">Grow with GreenArch</span>
+              </div>
+              <h3>Create a seller profile, manage inventory, and receive orders</h3>
+              <p>Nurseries can onboard themselves, manage products, track earnings, and reach new customers through GreenArch.</p>
+              <a href="nursery-login.html" class="read-more-link">Nursery Partner Login <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section mini-hero-section" id="mini-hero">
+      <div class="container reveal">
+        <article class="mini-hero-top">
+          <div class="mini-hero-copy">
+            <p class="hero-kicker section-kicker-dark">Smart Garden Care</p>
+            <h2>Care plans for clean, healthy home greens</h2>
+            <p>Get expert support, clear routines, and faster problem resolution without the usual follow-up stress. We design each plan around your space usage, sunlight pattern, and maintenance comfort.</p>
+            
+            <div class="hero-features-list" aria-label="Care plan features">
+              <span class="feature-badge">✓ Expert Gardening team</span>
+              <span class="feature-badge">✓ 24h support</span>
+              <span class="feature-badge">✓ Custom plans</span>
+              <span class="feature-badge">✓ 100% satisfaction</span>
+            </div>
+            
+            <div class="mini-hero-actions">
+              <a class="btn btn-solid" href="booking.html">Book Free Inspection <span aria-hidden="true">→</span></a>
+              <a class="btn btn-ghost mini-hero-ghost" href="services.html">Explore Care Plans</a>
+            </div>
+          </div>
+
+          <div class="mini-hero-media" aria-hidden="true"></div>
+        </article>
+
+        <div class="mini-blog-grid" aria-label="Garden care insights">
+          <article class="mini-blog-card">
+            <div class="mini-blog-media mini-blog-media-1" aria-hidden="true"></div>
+            <div class="mini-blog-copy">
+              <div class="card-header">
+                <span class="mini-blog-tag">Maintenance</span>
+                <span class="card-time"></span>
+              </div>
+              <h3>Small weekly checks that prevent major plant stress</h3>
+              <p>A 15-minute routine can catch watering and drainage issues before they become expensive fixes.</p>
+              <a href="blog.html" class="read-more-link">Read More <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="mini-blog-card">
+            <div class="mini-blog-media mini-blog-media-2" aria-hidden="true"></div>
+            <div class="mini-blog-copy">
+              <div class="card-header">
+                <span class="mini-blog-tag">Planning</span>
+                <span class="card-difficulty"></span>
+              </div>
+              <h3>How to layer plants for cooler and more usable terraces</h3>
+              <p>Use canopy, mid-height shrubs, and edge plants to reduce heat while keeping space open.</p>
+              <a href="blog.html" class="read-more-link">Read More <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="mini-blog-card">
+            <div class="mini-blog-media mini-blog-media-3" aria-hidden="true"></div>
+            <div class="mini-blog-copy">
+              <div class="card-header">
+                <span class="mini-blog-tag">Design</span>
+                <span class="card-impact"></span>
+              </div>
+              <h3>Simple layout upgrades that make gardens feel premium</h3>
+              <p>Better zoning, cleaner pathways, and light accents can elevate comfort without major rebuilds.</p>
+              <a href="blog.html" class="read-more-link">Read More <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        </div>
+        
+        <div class="mini-hero-footer" aria-label="Trust indicators">
+          <div class="trust-item">
+            <strong>1200+</strong>
+            <span>Happy Homeowners</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-item">
+            <strong>4.9/5</strong>
+            <span>Expert Rated</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-item">
+            <strong>100%</strong>
+            <span>Satisfaction Guaranteed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section rooftop-atlas-section" id="rooftop-atlas">
+      <div class="container">
+        <div class="rooftop-atlas-shell reveal">
+          <div class="rooftop-atlas-head atlas-seq atlas-seq-1">
+            <p class="hero-kicker section-kicker-dark">Rooftop inspiration</p>
+            <h2>Turn the roof into a cooler room above the house.</h2>
+            <p>Think in layers: shade, movement, and planting height. The right arrangement makes a roof feel usable, not crowded.</p>
+          </div>
+
+          <div class="rooftop-atlas-grid">
+            <article class="rooftop-atlas-story atlas-seq atlas-seq-2">
+              <div class="rooftop-atlas-story-copy">
+                <p class="atlas-caption">Garden recipe</p>
+                <h3>Three ingredients: structure, softness, and light.</h3>
+                <ul class="atlas-points">
+                  <li>Use a simple seating line so the roof still breathes.</li>
+                  <li>Mix tall planters with low ground cover for visual rhythm.</li>
+                  <li>Keep one open lane for breeze and watering access.</li>
+                </ul>
+                <div class="atlas-tags">
+                  <span>Rooftop cooling</span>
+                  <span>Plant layering</span>
+                  <span>Space planning</span>
+                </div>
+              </div>
+
+              <div class="rooftop-atlas-sunpath atlas-seq atlas-seq-3" aria-hidden="true">
+                <div class="sunpath-ring"></div>
+                <div class="sunpath-sun"></div>
+                <div class="sunpath-base"></div>
+              </div>
+            </article>
+
+            <div class="rooftop-atlas-collage">
+              <figure class="atlas-image-card atlas-image-1 atlas-seq atlas-seq-4">
+                <div class="atlas-overlay">
+                  <p class="atlas-caption">Rooftop view</p>
+                  <h3>Open seating with planter edges</h3>
+                </div>
+              </figure>
+
+              <article class="atlas-note-card atlas-seq atlas-seq-5">
+                <p class="atlas-caption">Design note</p>
+                <h3>Keep the center open. Put the work at the edges.</h3>
+                <p>That single decision makes a roof feel bigger, cooler, and easier to maintain.</p>
+              </article>
+
+              <figure class="atlas-image-card atlas-image-2 atlas-seq atlas-seq-6">
+                <div class="atlas-overlay">
+                  <p class="atlas-caption">Plant palette</p>
+                  <h3>Dense greenery without visual clutter</h3>
+                </div>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section service-showcase-section" id="service-showcase">
+      <div class="container">
+        <div class="showcase-slider-window reveal" aria-label="Service showcase slider">
+          <div class="showcase-row">
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-1">
+                <div class="showcase-overlay">
+                  <h3>Balcony Green Setup</h3>
+                  <p>Compact layouts for daily freshness and easy care.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-2">
+                <div class="showcase-overlay">
+                  <h3>Terrace Cooling Zone</h3>
+                  <p>Shade-first planning to reduce heat and glare.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-3">
+                <div class="showcase-overlay">
+                  <h3>Indoor Plant Styling</h3>
+                  <p>Balanced greens that elevate corners without clutter.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-4">
+                <div class="showcase-overlay">
+                  <h3>Seasonal Maintenance</h3>
+                  <p>Routine health checks and seasonal refresh plans.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-5">
+                <div class="showcase-overlay">
+                  <h3>Rooftop Kitchen Garden</h3>
+                  <p>Grow herbs and essentials in a practical rooftop layout.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-6">
+                <div class="showcase-overlay">
+                  <h3>Drip Irrigation Setup</h3>
+                  <p>Efficient watering systems that cut waste and save time.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-7">
+                <div class="showcase-overlay">
+                  <h3>Lawn Recovery Plan</h3>
+                  <p>Restore patchy lawns with targeted soil and feed routines.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-8">
+                <div class="showcase-overlay">
+                  <h3>Pet-Safe Plant Curation</h3>
+                  <p>Choose greens that stay beautiful and family-friendly.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-9">
+                <div class="showcase-overlay">
+                  <h3>Monsoon Plant Protection</h3>
+                  <p>Prevent root stress and fungal damage in heavy rain months.</p>
+                </div>
+              </div>
+            </figure>
+            <figure class="showcase-item">
+              <div class="showcase-media showcase-10">
+                <div class="showcase-overlay">
+                  <h3>Weekend Garden Makeover</h3>
+                  <p>Fast aesthetic upgrades completed in short service windows.</p>
+                </div>
+              </div>
+            </figure>
+          </div>
+        </div>
+        <div class="showcase-slider-controls" aria-label="Showcase controls">
+          <button class="showcase-nav showcase-nav-prev" type="button" aria-label="Previous showcase item">
+            <span aria-hidden="true">&#8592;</span>
+          </button>
+          <div class="showcase-dots" aria-label="Showcase pagination"></div>
+          <button class="showcase-nav showcase-nav-next" type="button" aria-label="Next showcase item">
+            <span aria-hidden="true">&#8594;</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-visual reveal" id="story-visual">
+      <div class="story-visual-media" aria-hidden="true" data-parallax data-speed="0.16"></div>
+      <div class="story-visual-overlay">
+        <p class="hero-kicker">A calmer home begins with one decision</p>
+        <h2>Bring nature back into everyday life.</h2>
+        <p class="story-visual-lead">From heat-heavy terraces to green daily spaces, we design upgrades that look beautiful and feel practical.</p>
+        <div class="story-visual-points" aria-label="Key outcomes">
+          <span>Cooler spaces</span>
+          <span>Cleaner air</span>
+          <span>Higher home value</span>
+        </div>
+      </div>
+    </section>
+
+        <section class="home-section transform-section" id="transformation">
+      <div class="container">
+        <article class="app-promo-shell reveal">
+          <h2 class="app-hero-title">Professional care<br>for your home garden</h2>
+          <p class="app-hero-subtitle">Expert maali care for healthy, thriving plants - stress-free!</p>
+
+          <div class="app-promo-actions" aria-label="Primary actions">
+            <a class="app-action app-action-primary" href="booking.html">Book Free Inspection</a>
+            <a class="app-action app-action-secondary" href="support.html">Chat on WhatsApp</a>
+          </div>
+
+          <h2 class="app-promo-title">Download the App Now!</h2>
+
+          <div class="app-promo-grid">
+            <div class="app-person-column">
+              <img class="app-role-image" src="image18-transparent.png" alt="Trained Maali" />
+            </div>
+
+            <div class="app-phone-column">
+              <div class="app-phone-frame" aria-hidden="true"></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-section process-section" id="journey-flow">
+      <div class="container">
+        <article class="process-creative-shell reveal">
+          <header class="process-creative-head">
+            <p class="hero-kicker section-kicker-dark">Simple flow</p>
+            <h2>Book → Inspect → Transform</h2>
+            <p>No complexity, no back-and-forth confusion. Just one clear journey from first request to final handover.</p>
+          </header>
+
+          <div class="process-creative-grid">
+            <article class="process-story-card">
+              <div class="process-story-media" aria-hidden="true"></div>
+              <div class="process-story-copy">
+                <span class="hero-kicker section-kicker-dark">What happens next</span>
+                <h3>A guided, design-first process that keeps your home clear and calm.</h3>
+                <p>We inspect the space, confirm the best approach, and handle the work with a finish that feels intentional rather than rushed.</p>
+                <div class="process-story-pills" aria-label="Process highlights">
+                  <span>One timeline</span>
+                  <span>Verified experts</span>
+                  <span>Clear handover</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="process-timeline" aria-label="Three-step process">
+              <article class="process-node">
+                <span class="process-node-id">01</span>
+                <h3>Book</h3>
+                <p>Choose your service and preferred date in minutes.</p>
+              </article>
+              <article class="process-node">
+                <span class="process-node-id">02</span>
+                <h3>Inspect</h3>
+                <p>Our expert maps your space and recommends the right setup.</p>
+              </article>
+              <article class="process-node">
+                <span class="process-node-id">03</span>
+                <h3>Transform</h3>
+                <p>Installation, finishing, and guidance for long-term upkeep.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="home-section home-journal" id="home-journal">
+      <div class="container">
+        <div class="section-head reveal process-head">
+          <p class="hero-kicker section-kicker-dark">From the GreenArch Journal</p>
+          <h2>Short reads for better home decisions</h2>
+          <p>Practical insights from real projects, written as quick blogs you can read before planning your own upgrade.</p>
+        </div>
+        <div class="home-journal-grid reveal">
+          <article class="journal-card journal-card-featured">
+            <div class="journal-card-copy">
+              <div class="journal-card-head">
+                <p class="journal-card-tag">Planning Guide</p>
+                <span class="journal-read-time">Feature · 5 min</span>
+              </div>
+              <h3>How to cool a rooftop without major construction</h3>
+              <p>Use this quick framework before any redesign: map sun path, reserve one wind corridor, then layer canopy and edge plants for a measurable drop in roof heat.</p>
+              <ul class="journal-highlights" aria-label="Planning article highlights">
+                <li>Best layout sequence for small and medium terraces</li>
+                <li>Common mistakes that trap heat in concrete corners</li>
+                <li>Starter plant mix that survives long summer weeks</li>
+              </ul>
+              <div class="journal-card-foot">
+                <a href="blog.html">Read full blog →</a>
+                <span class="journal-foot-chip">Practical series</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="journal-card journal-card-compact">
+            <div class="journal-card-copy">
+              <div class="journal-card-head">
+                <p class="journal-card-tag">Maintenance Routine</p>
+                <span class="journal-read-time">4 min read</span>
+              </div>
+              <h3>The 15-minute weekly routine that keeps plants healthy</h3>
+              <p>A practical checklist used by our field team to reduce emergency fixes: moisture checks, leaf scan, drainage test, and one low-effort nutrition step.</p>
+              <p class="journal-quick-note">Includes weekly checklist by balcony, terrace, and indoor zones.</p>
+              <a href="blog.html">Read full blog →</a>
+            </div>
+          </article>
+
+          <article class="journal-card journal-card-compact">
+            <div class="journal-card-copy">
+              <div class="journal-card-head">
+                <p class="journal-card-tag">Upgrade Strategy</p>
+                <span class="journal-read-time">6 min read</span>
+              </div>
+              <h3>Pairing greenery and solar for smarter roof performance</h3>
+              <p>Design both systems as one plan, not two separate installs. Right zoning improves efficiency and keeps the terrace usable year-round.</p>
+              <p class="journal-quick-note">Learn where to place planters to avoid panel shadow loss.</p>
+              <a href="blog.html">Read full blog →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section social-proof" id="proof">
+      <div class="container">
+        <article class="proof-feature reveal">
+          <div class="proof-feature-copy">
+            <p class="hero-kicker section-kicker-dark">Trusted by homeowners</p>
+            <strong>1,200+ homes transformed</strong>
+            <p>"From first call to final setup, it felt effortless. The team made the whole process feel clear, polished, and surprisingly fast."</p>
+            <div class="proof-stats" aria-label="Customer outcomes">
+              <span><b>4.9/5</b> client rating</span>
+              <span><b>24h</b> first response</span>
+              <span><b>92%</b> referral rate</span>
+            </div>
+          </div>
+          <div class="proof-feature-media" aria-hidden="true"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-section final-focus-section" id="final-cta">
+      <div class="container">
+        <article class="final-cta-block reveal" data-parallax data-speed="0.07">
+          <div class="final-cta-media" aria-hidden="true"></div>
+          <div class="final-cta-copy">
+            <h3>Start your home transformation today.</h3>
+            <p>Book a free inspection and get a personalized plan for your home within one visit.</p>
+            <a class="btn btn-solid btn-lg" href="booking.html">Book Free Inspection</a>
+            <div class="final-cta-trust" aria-label="Trust highlights">
+              <span>Verified experts</span>
+              <span>Transparent pricing</span>
+              <span>End-to-end support</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <h4>GreenArch</h4>
+        <p>Professional home gardening services with verified experts, simple plans, and reliable maintenance.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>support@greenarch.com<br />+1 (555) 123-4567<br />Mon-Sat 9 AM - 7 PM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GreenArch. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiKQ7TZqa1Zr9F3K7J0A4b82iffWzCwPo&libraries=places"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+

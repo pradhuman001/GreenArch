@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Nursery Dashboard</title>
+  <meta name="description" content="Nursery partner dashboard for GreenArch sellers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --dash-bg: #f4fbf5;
+      --dash-panel: #ffffff;
+      --dash-border: #d7ebdb;
+      --dash-text: #123220;
+      --dash-muted: #5d7868;
+      --dash-green: #1d8b4e;
+      --dash-green-deep: #135d34;
+      --dash-shadow: 0 22px 52px rgba(16, 64, 35, 0.12);
+      --dash-radius: 24px;
+    }
+
+    body { background: linear-gradient(180deg, #f6fcf7 0%, #edf7ef 100%); color: var(--dash-text); }
+    main.dashboard-page { padding-top: var(--navbar-offset); }
+
+    .dashboard-shell {
+      width: min(1440px, 96%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      position: relative;
+    }
+
+    .dashboard-sidebar, .dashboard-panel {
+      border: 1px solid var(--dash-border);
+      border-radius: var(--dash-radius);
+      background: var(--dash-panel);
+      box-shadow: var(--dash-shadow);
+      overflow: hidden;
+    }
+
+    .dashboard-sidebar {
+      position: fixed;
+      top: calc(var(--navbar-offset) + 6px);
+      left: 0;
+      width: min(320px, 86vw);
+      height: calc(100dvh - var(--navbar-offset) - 12px);
+      padding: 22px;
+      background: linear-gradient(180deg, #173b25 0%, #12402a 100%);
+      color: #effff1;
+      border-radius: 0 18px 18px 0;
+      z-index: 90;
+      transform: translateX(-104%);
+      transition: transform 0.22s ease;
+      overflow-y: auto;
+    }
+
+    .dashboard-shell.is-sidebar-open .dashboard-sidebar {
+      transform: translateX(0);
+    }
+
+    .dashboard-sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 28, 18, 0.4);
+      backdrop-filter: blur(1px);
+      z-index: 80;
+    }
+
+    .navbar-main .menu-toggle {
+      display: none !important;
+    }
+
+    .dashboard-brand { display: flex; align-items: center; gap: 10px; font-family: "Sora", sans-serif; font-size: 1.08rem; }
+    .dashboard-brand-dot { width: 12px; height: 12px; border-radius: 999px; background: linear-gradient(135deg, #9ef1b2, #43b25f); }
+    .dashboard-badge { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,0.08); margin-top: 14px; font-size: 0.82rem; }
+    .dashboard-menu { display: grid; gap: 10px; margin-top: 18px; }
+    .dashboard-menu button {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #f2fff4;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+    }
+    .dashboard-menu button.is-active { background: linear-gradient(135deg, rgba(30, 139, 78, 0.94), rgba(90, 196, 110, 0.92)); border-color: transparent; }
+    .dashboard-sidebar-note { margin-top: 18px; font-size: 0.92rem; color: rgba(240,255,242,0.88); line-height: 1.6; }
+
+    .dashboard-main { display: grid; gap: 16px; }
+    .dashboard-topbar {
+      position: sticky; top: 8px; z-index: 20;
+      border: 1px solid var(--dash-border);
+      border-radius: 26px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--dash-shadow);
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .dashboard-topbar h1 { font-family: "Sora", sans-serif; font-size: clamp(1.4rem, 2vw, 2rem); margin: 0; }
+    .dashboard-topbar p { margin: 4px 0 0; color: var(--dash-muted); }
+    .dashboard-top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .dashboard-title-row { display: inline-flex; align-items: center; gap: 10px; }
+    .dashboard-sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--dash-border);
+      background: #ffffff;
+      color: var(--dash-green-deep);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-grid;
+      place-items: center;
+    }
+    .dashboard-sidebar-toggle:hover { background: #f5fbf6; }
+
+    .dashboard-section { border: 1px solid var(--dash-border); border-radius: var(--dash-radius); background: rgba(255,255,255,0.9); box-shadow: var(--dash-shadow); padding: 20px; }
+    .dashboard-section h2 { margin: 0 0 12px; font-family: "Sora", sans-serif; font-size: 1.24rem; }
+    .dashboard-section-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; flex-wrap: wrap; margin-bottom: 14px; }
+    .dashboard-muted { color: var(--dash-muted); }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .metric-card { border: 1px solid var(--dash-border); border-radius: 18px; background: linear-gradient(180deg, #fff, #f7fbf7); padding: 16px; }
+    .metric-card strong { display: block; font-size: 1.6rem; color: var(--dash-green-deep); margin-bottom: 4px; }
+    .metric-card span { color: var(--dash-muted); font-size: 0.92rem; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .field { display: grid; gap: 8px; }
+    .field label { font-weight: 800; color: #22593c; }
+    .field input, .field textarea, .field select {
+      width: 100%; border: 1px solid var(--dash-border); border-radius: 14px; padding: 12px 14px; background: #fff; font: inherit;
+    }
+    .field textarea { min-height: 92px; resize: vertical; }
+
+    .product-toolbar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .field-help { margin: 0; font-size: 0.82rem; color: var(--dash-muted); }
+    .unit-field { gap: 12px; }
+    .image-field { grid-column: span 3; }
+    .image-source-row { display: flex; gap: 8px; align-items: center; }
+    .image-source-row input[type="file"] {
+      flex: 1;
+      min-width: 0;
+      border: 1px dashed #b9d7c4;
+      border-radius: 12px;
+      background: #f7fcf8;
+      padding: 8px 10px;
+    }
+    .inventory-image-preview {
+      width: 100%;
+      max-width: 150px;
+      max-height: 110px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--dash-border);
+      margin-top: 6px;
+      background: #f5faf6;
+    }
+    .table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid var(--dash-border); }
+    table { width: 100%; border-collapse: collapse; min-width: 880px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid #e7f1e9; text-align: left; vertical-align: top; }
+    th { background: #f5fbf6; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; color: #49715b; }
+    tbody tr:hover { background: #fcfffc; }
+    .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .row-actions button { border: 1px solid var(--dash-border); background: #fff; border-radius: 999px; padding: 8px 12px; cursor: pointer; font: inherit; font-weight: 800; }
+
+    .dashboard-aux { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; }
+    .notification-list { display: grid; gap: 10px; }
+    .notification-item { border: 1px solid var(--dash-border); border-radius: 16px; padding: 12px 14px; background: #fbfefb; }
+    .notification-item strong { display: block; margin-bottom: 4px; }
+    .chart-list { display: grid; gap: 10px; }
+    .chart-row { border: 1px solid var(--dash-border); border-radius: 16px; padding: 12px 14px; background: #fbfefb; }
+    .chart-row .bar { margin-top: 8px; height: 10px; border-radius: 999px; background: #e6f2e8; overflow: hidden; }
+    .chart-row .bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #1d8b4e, #63c57b); }
+
+  .analytics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .chart-container { border: 1px solid var(--dash-border); border-radius: var(--dash-radius); background: rgba(255,255,255,0.9); box-shadow: var(--dash-shadow); padding: 20px; }
+  .chart-container h3 { margin: 0 0 16px; font-family: "Sora", sans-serif; font-size: 1.1rem; color: var(--dash-text); }
+  .chart-canvas { position: relative; height: 300px; }
+  .chart-canvas-small { height: 250px; }
+
+    .status-chip { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+    .status-chip.pending { background: #fdf3dc; color: #ab7204; }
+    .status-chip.completed { background: #e5f8ea; color: #16663a; }
+    .status-chip.cancelled { background: #fbe6eb; color: #a93d60; }
+    .status-chip.confirmed { background: #e5efff; color: #2756a3; }
+
+    @media (max-width: 1100px) {
+      .metrics-grid, .dashboard-aux, .form-grid, .product-toolbar { grid-template-columns: 1fr 1fr; }
+      .image-field { grid-column: span 1; }
+    }
+
+    @media (max-width: 760px) {
+      .metrics-grid, .dashboard-aux, .form-grid, .product-toolbar { grid-template-columns: 1fr; }
+      .image-field { grid-column: auto; }
+
+        @media (max-width: 1100px) {
+          .analytics-grid { grid-template-columns: 1fr; }
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="dashboard-page">
+    <section class="dashboard-shell">
+      <aside class="dashboard-sidebar reveal slide-up">
+        <div class="dashboard-brand"><span class="dashboard-brand-dot" aria-hidden="true"></span><span>Nursery Partner</span></div>
+        <div class="dashboard-badge" id="partnerShopBadge">GreenArch Partner</div>
+        <nav class="dashboard-menu" aria-label="Dashboard navigation">
+          <button class="is-active" type="button" data-section-target="overviewSection">Overview</button>
+          <button type="button" data-section-target="profileSection">Seller Profile</button>
+          <button type="button" data-section-target="inventorySection">Inventory</button>
+          <button type="button" data-section-target="ordersSection">Orders</button>
+          <button type="button" data-section-target="analyticsSection">Analytics</button>
+        </nav>
+        <p class="dashboard-sidebar-note">Customers discover your nursery through the GreenArch store. Keep products current, respond to orders quickly, and the platform will route local gardening demand to you.</p>
+      </aside>
+      <div id="dashboardSidebarBackdrop" class="dashboard-sidebar-backdrop" hidden></div>
+
+      <div class="dashboard-main">
+        <section class="dashboard-topbar reveal slide-up">
+          <div>
+            <div class="dashboard-title-row">
+              <button id="dashboardSidebarToggle" class="dashboard-sidebar-toggle" type="button" aria-label="Open dashboard menu" aria-expanded="false">☰</button>
+              <h1>Nursery Dashboard</h1>
+            </div>
+            <p id="dashboardSubtitle">Manage products, orders, and earnings for your GreenArch nursery presence.</p>
+          </div>
+          <div class="dashboard-top-actions">
+            <button class="btn btn-ghost" type="button" id="refreshDashboardBtn">Refresh</button>
+            <button class="btn btn-solid" type="button" id="logoutPartnerBtn">Logout</button>
+          </div>
+        </section>
+
+        <section class="metrics-grid reveal slide-up" id="overviewSection">
+          <article class="metric-card"><strong id="metricOrders">--</strong><span>Total orders</span></article>
+          <article class="metric-card"><strong id="metricRevenue">--</strong><span>Earnings</span></article>
+          <article class="metric-card"><strong id="metricProducts">--</strong><span>Active products</span></article>
+          <article class="metric-card"><strong id="metricLowStock">--</strong><span>Low stock alerts</span></article>
+        </section>
+
+        <section class="dashboard-section reveal slide-up" id="profileSection">
+          <div class="dashboard-section-head">
+            <div>
+              <h2>Seller Profile</h2>
+              <p class="dashboard-muted">Create and update your nursery identity, delivery radius, and payout details.</p>
+            </div>
+            <span class="status-chip confirmed">Partner only</span>
+          </div>
+
+          <form id="profileForm" class="form-grid">
+            <div class="field"><label for="profileShopName">Shop name</label><input id="profileShopName" type="text" required /></div>
+            <div class="field"><label for="profileOwnerName">Owner name</label><input id="profileOwnerName" type="text" required /></div>
+            <div class="field"><label for="profilePhone">Phone</label><input id="profilePhone" type="tel" required /></div>
+            <div class="field"><label for="profileCity">City</label><input id="profileCity" type="text" required /></div>
+            <div class="field" style="grid-column: 1 / -1;"><label for="profileAddress">Address</label><textarea id="profileAddress" required></textarea></div>
+            <div class="field" style="grid-column: 1 / -1;"><label for="profileBio">Bio</label><textarea id="profileBio" required></textarea></div>
+            <div class="field"><label for="profileLogoUrl">Logo URL</label><input id="profileLogoUrl" type="url" placeholder="https://..." /></div>
+            <div class="field"><label for="profileCoverUrl">Cover URL</label><input id="profileCoverUrl" type="url" placeholder="https://..." /></div>
+            <div class="field"><label for="profileRadius">Delivery radius</label><input id="profileRadius" type="text" placeholder="8 km" /></div>
+            <div class="field"><label for="profileUpi">Payout UPI</label><input id="profileUpi" type="text" placeholder="nursery@upi" /></div>
+            <div class="field" style="grid-column: 1 / -1; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+              <button class="btn btn-solid" type="submit">Save Profile</button>
+              <span id="profileStatus" class="dashboard-muted"></span>
+            </div>
+          </form>
+        </section>
+
+        <section class="dashboard-section reveal slide-up" id="inventorySection">
+          <div class="dashboard-section-head">
+            <div>
+              <h2>Inventory</h2>
+              <p class="dashboard-muted">Add, edit, or delete plants and nursery products. Updates reflect in the store immediately.</p>
+            </div>
+            <span class="status-chip pending">Manage stock</span>
+          </div>
+
+          <form id="productForm" class="product-toolbar">
+            <div class="field">
+              <label for="productTitle">Product title</label>
+              <input id="productTitle" type="text" placeholder="Example: Snake Plant" required />
+              <p class="field-help">Customer-facing product name.</p>
+            </div>
+
+            <div class="field">
+              <label for="productCategory">Category</label>
+              <input id="productCategory" type="text" placeholder="Example: Plants" required />
+              <p class="field-help">Use simple categories like Plants, Pots, Fertilizers.</p>
+            </div>
+
+            <div class="field">
+              <label for="productPrice">Price (INR)</label>
+              <input id="productPrice" type="number" min="0" placeholder="Example: 299" required />
+              <p class="field-help">Enter only number, no currency symbol.</p>
+            </div>
+
+            <div class="field">
+              <label for="productStock">Stock quantity</label>
+              <input id="productStock" type="number" min="0" placeholder="Example: 24" required />
+              <p class="field-help">How many units are currently available.</p>
+            </div>
+
+            <div class="field unit-field">
+              <label for="productUnit">Unit</label>
+              <input id="productUnit" type="text" placeholder="Example: piece" required />
+              <p class="field-help">Examples: piece, pot, bag, kg.</p>
+            </div>
+
+            <div class="field image-field">
+              <label for="productImageFile">Product image</label>
+              <div class="image-source-row">
+                <input id="productImageFile" type="file" accept="image/*" />
+                <button class="btn btn-ghost" type="button" id="productPasteImageBtn">Paste Image</button>
+              </div>
+              <input id="productImageUrl" type="hidden" />
+              <p class="field-help">Upload from gallery or paste copied image.</p>
+              <img id="productImagePreview" class="inventory-image-preview" alt="Selected product preview" hidden />
+            </div>
+
+            <div class="field" style="grid-column: 1 / -1;">
+              <label for="productDescription">Short description</label>
+              <textarea id="productDescription" style="min-height: 88px;" placeholder="Example: Easy-care indoor plant for low-light homes."></textarea>
+              <p class="field-help">One short line that helps buyers understand the product quickly.</p>
+            </div>
+
+            <div class="field">
+              <label for="productActive">Visibility</label>
+              <select id="productActive"><option value="true">Active</option><option value="false">Inactive</option></select>
+            </div>
+            <div class="field">
+              <label for="productFeatured">Featured</label>
+              <select id="productFeatured"><option value="false">No</option><option value="true">Yes</option></select>
+            </div>
+            <div class="field" style="grid-column: 1 / -1; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+              <button class="btn btn-solid" type="submit" id="productSubmitBtn">Add Product</button>
+              <button class="btn btn-ghost" type="button" id="productCancelBtn" hidden>Cancel Edit</button>
+              <span id="productStatus" class="dashboard-muted"></span>
+            </div>
+          </form>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="dashboard-section reveal slide-up" id="ordersSection">
+          <div class="dashboard-section-head">
+            <div>
+              <h2>Orders</h2>
+              <p class="dashboard-muted">Track pending and completed orders, and update statuses as items ship.</p>
+            </div>
+            <span class="status-chip completed">Notifications on</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Product</th>
+                  <th>Qty</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="orderTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="dashboard-section reveal slide-up" id="analyticsSection">
+          <div class="dashboard-section-head">
+            <div>
+              <h2>Analytics</h2>
+              <p class="dashboard-muted">Basic operational analytics for orders, stock, and earnings.</p>
+            </div>
+            <span class="status-chip confirmed" id="analyticsLabel">Live</span>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="chart-container">
+              <h3>Revenue Trend</h3>
+              <div class="chart-canvas">
+                <canvas id="revenueChart" role="img" aria-label="Revenue over time"></canvas>
+              </div>
+            </div>
+            <div class="chart-container">
+              <h3>Top Products</h3>
+              <div class="chart-canvas">
+                <canvas id="topProductsChart" role="img" aria-label="Top selling products"></canvas>
+              </div>
+            </div>
+            <div class="chart-container">
+              <h3>Order Status Breakdown</h3>
+              <div class="chart-canvas chart-canvas-small">
+                <canvas id="orderStatusChart" role="img" aria-label="Order status distribution"></canvas>
+              </div>
+            </div>
+            <div class="chart-container">
+              <h3>Daily Orders</h3>
+              <div class="chart-canvas">
+                <canvas id="dailyOrdersChart" role="img" aria-label="Orders per day"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-aux" style="margin-top: 20px;">
+            <div class="notification-list">
+              <div class="notification-item">
+                <strong>Notifications</strong>
+                <div id="notificationList" class="dashboard-muted">No notifications yet.</div>
+              </div>
+            </div>
+            <div class="notification-list">
+              <div class="notification-item">
+                <strong>Low stock alerts</strong>
+                <div id="lowStockList" class="dashboard-muted">No low-stock products.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const state = { profile: null, products: [], orders: [], analytics: null, editingProductId: null };
+          const charts = { revenue: null, topProducts: null, orderStatus: null, dailyOrders: null };
+
+          function initCharts() {
+            const ctx = document.getElementById('revenueChart')?.getContext('2d');
+            if (ctx) {
+              if (charts.revenue) charts.revenue.destroy();
+              charts.revenue = new Chart(ctx, {
+                type: 'line',
+                data: { labels: [], datasets: [{ label: 'Revenue (INR)', data: [], borderColor: '#1d8b4e', backgroundColor: 'rgba(29, 139, 78, 0.1)', tension: 0.4, fill: true }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+              });
+            }
+
+            const ctx2 = document.getElementById('topProductsChart')?.getContext('2d');
+            if (ctx2) {
+              if (charts.topProducts) charts.topProducts.destroy();
+              charts.topProducts = new Chart(ctx2, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ label: 'Sales', data: [], backgroundColor: '#1d8b4e' }] },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } }
+              });
+            }
+
+            const ctx3 = document.getElementById('orderStatusChart')?.getContext('2d');
+            if (ctx3) {
+              if (charts.orderStatus) charts.orderStatus.destroy();
+              charts.orderStatus = new Chart(ctx3, {
+                type: 'doughnut',
+                data: { labels: ['Pending', 'Completed', 'Cancelled'], datasets: [{ data: [0, 0, 0], backgroundColor: ['#ffc107', '#28a745', '#dc3545'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+              });
+            }
+
+            const ctx4 = document.getElementById('dailyOrdersChart')?.getContext('2d');
+            if (ctx4) {
+              if (charts.dailyOrders) charts.dailyOrders.destroy();
+              charts.dailyOrders = new Chart(ctx4, {
+                type: 'area',
+                data: { labels: [], datasets: [{ label: 'Orders', data: [], borderColor: '#1d8b4e', backgroundColor: 'rgba(29, 139, 78, 0.15)', tension: 0.4, fill: true }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+              });
+            }
+          }
+
+          function updateCharts() {
+            const analytics = state.analytics || {};
+            
+            // Revenue trend data
+            if (charts.revenue && Array.isArray(analytics.daily)) {
+              charts.revenue.data.labels = analytics.daily.map(d => d.date || '');
+              charts.revenue.data.datasets[0].data = analytics.daily.map(d => Number(d.revenue || 0));
+              charts.revenue.update();
+            }
+
+            // Top products data
+            const topProducts = Array.isArray(analytics.topProducts) ? analytics.topProducts.slice(0, 5) : [];
+            if (charts.topProducts) {
+              charts.topProducts.data.labels = topProducts.map(p => p.title || 'Product');
+              charts.topProducts.data.datasets[0].data = topProducts.map(p => Number(p.quantity || 0));
+              charts.topProducts.update();
+            }
+
+            // Order status breakdown
+            if (charts.orderStatus) {
+              const pending = state.orders.filter(o => o.status === 'pending').length;
+              const completed = state.orders.filter(o => o.status === 'completed').length;
+              const cancelled = state.orders.filter(o => o.status === 'cancelled').length;
+              charts.orderStatus.data.datasets[0].data = [pending, completed, cancelled];
+              charts.orderStatus.update();
+            }
+
+            // Daily orders
+            if (charts.dailyOrders && Array.isArray(analytics.daily)) {
+              charts.dailyOrders.data.labels = analytics.daily.map(d => d.date || '');
+              charts.dailyOrders.data.datasets[0].data = analytics.daily.map(d => Number(d.bookings || 0));
+              charts.dailyOrders.update();
+            }
+          }
+
+      function normalizeApiBase(value) {
+        const base = String(value || "").trim().replace(/\/+$/, "");
+        return base && base !== "null" ? base : "";
+      }
+
+      function buildApiBaseCandidates() {
+        const candidates = [];
+        const seen = new Set();
+        [window.GREENARCH_API_BASE_URL, localStorage.getItem("greenarch_api_base_url"), window.location.origin, "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3001", "http://127.0.0.1:3001", "http://localhost:4000", "http://127.0.0.1:4000", "http://localhost:5000", "http://127.0.0.1:5000"].forEach((value) => {
+          const base = normalizeApiBase(value);
+          if (!base || seen.has(base)) return;
+          seen.add(base);
+          candidates.push(base);
+        });
+        return candidates;
+      }
+
+      const API_BASE_CANDIDATES = buildApiBaseCandidates();
+
+      function getAuthToken() {
+        return String(localStorage.getItem("greenarch_auth_token") || "").trim();
+      }
+
+      function authHeaders() {
+        const token = getAuthToken();
+        const headers = { Accept: "application/json" };
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+          headers["x-greenarch-token"] = token;
+        }
+        return headers;
+      }
+
+      async function requestJson(path, options = {}) {
+        const cleanedPath = path.startsWith("/") ? path : `/${path}`;
+        const headers = new Headers(options.headers || {});
+        Object.entries(authHeaders()).forEach(([key, value]) => headers.set(key, value));
+        if (!headers.has("Content-Type") && options.body) {
+          headers.set("Content-Type", "application/json");
+        }
+
+        let lastError = null;
+        for (const base of API_BASE_CANDIDATES) {
+          try {
+            const response = await fetch(`${base}${cleanedPath}`, { ...options, headers, body: options.body ? JSON.stringify(options.body) : undefined });
+            const text = await response.text();
+            const payload = text ? JSON.parse(text) : {};
+            if (!response.ok) {
+              lastError = new Error(payload.error || `Request failed (${response.status})`);
+              continue;
+            }
+            return payload;
+          } catch (error) {
+            lastError = error;
+          }
+        }
+        throw lastError || new Error("Unable to reach GreenArch API");
+      }
+
+      function inr(value) {
+        return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(Number(value || 0));
+      }
+
+      function fmtDate(value) {
+        const parsed = new Date(value);
+        if (Number.isNaN(parsed.getTime())) return "--";
+        return parsed.toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+      }
+
+      function initials(name) {
+        const parts = String(name || "").trim().split(/\s+/).filter(Boolean).slice(0, 2);
+        return parts.length ? parts.map((part) => part[0].toUpperCase()).join("") : "GA";
+      }
+
+      function getProfileField(id) { return document.getElementById(id); }
+
+      function setupDashboardSidebarToggle() {
+        const shell = document.querySelector(".dashboard-shell");
+        const sidebar = document.querySelector(".dashboard-sidebar");
+        const backdrop = document.getElementById("dashboardSidebarBackdrop");
+        const toggle = document.getElementById("dashboardSidebarToggle") || document.querySelector(".menu-toggle");
+        const navMenu = document.querySelector(".nav-menu");
+
+        if (!shell || !sidebar || !toggle || !backdrop) {
+          return;
+        }
+
+        const setSidebarOpen = (isOpen) => {
+          shell.classList.toggle("is-sidebar-open", isOpen);
+          backdrop.hidden = !isOpen;
+        };
+
+        setSidebarOpen(false);
+
+        toggle.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (typeof event.stopImmediatePropagation === "function") {
+            event.stopImmediatePropagation();
+          }
+
+          if (navMenu) {
+            navMenu.classList.remove("open");
+          }
+          toggle.setAttribute("aria-expanded", String(!shell.classList.contains("is-sidebar-open")));
+          setSidebarOpen(!shell.classList.contains("is-sidebar-open"));
+        }, true);
+
+        backdrop.addEventListener("click", () => setSidebarOpen(false));
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            setSidebarOpen(false);
+          }
+        });
+
+        shell.querySelectorAll(".dashboard-menu button").forEach((button) => {
+          button.addEventListener("click", () => {
+            if (window.innerWidth <= 1100) {
+              setSidebarOpen(false);
+            }
+          });
+        });
+
+        window.addEventListener("resize", () => setSidebarOpen(false));
+      }
+
+      function updateProductImagePreview(source) {
+        const preview = document.getElementById("productImagePreview");
+        if (!preview) {
+          return;
+        }
+
+        const value = String(source || "").trim();
+        if (!value) {
+          preview.hidden = true;
+          preview.removeAttribute("src");
+          return;
+        }
+
+        preview.src = value;
+        preview.hidden = false;
+      }
+
+      function syncProfileForm() {
+        const profile = state.profile || {};
+        getProfileField("profileShopName").value = profile.shopName || "";
+        getProfileField("profileOwnerName").value = profile.ownerName || "";
+        getProfileField("profilePhone").value = profile.phone || "";
+        getProfileField("profileCity").value = profile.city || "";
+        getProfileField("profileAddress").value = profile.address || "";
+        getProfileField("profileBio").value = profile.bio || "";
+        getProfileField("profileLogoUrl").value = profile.logoUrl || "";
+        getProfileField("profileCoverUrl").value = profile.coverUrl || "";
+        getProfileField("profileRadius").value = profile.deliveryRadius || "";
+        getProfileField("profileUpi").value = profile.payoutUpi || "";
+        document.getElementById("partnerShopBadge").textContent = profile.shopName || "GreenArch Partner";
+        document.getElementById("dashboardSubtitle").textContent = profile.bio || "Manage products, orders, and earnings for your GreenArch nursery presence.";
+      }
+
+      function syncMetrics() {
+        const analytics = state.analytics || {};
+        document.getElementById("metricOrders").textContent = analytics.totalOrders != null ? String(analytics.totalOrders) : "0";
+        document.getElementById("metricRevenue").textContent = analytics.revenue != null ? inr(analytics.revenue) : inr(0);
+        document.getElementById("metricProducts").textContent = analytics.activeProducts != null ? String(analytics.activeProducts) : String(state.products.length);
+        document.getElementById("metricLowStock").textContent = analytics.lowStockCount != null ? String(analytics.lowStockCount) : "0";
+      }
+
+      function renderProducts() {
+        const body = document.getElementById("productTableBody");
+        const products = state.products.slice().sort((left, right) => String(right.createdAt || "").localeCompare(String(left.createdAt || "")));
+        if (!products.length) {
+          body.innerHTML = '<tr><td colspan="7">No products yet. Add your first nursery item above.</td></tr>';
+          return;
+        }
+
+        body.innerHTML = products.map((product) => `
+          <tr>
+            <td><strong>${product.title}</strong><br /><small>${product.description || ""}</small></td>
+            <td>${product.category || "Plants"}</td>
+            <td>${inr(product.price)}</td>
+            <td>${Number(product.stock || 0)}</td>
+            <td><span class="status-chip ${product.active === false ? "cancelled" : "completed"}">${product.active === false ? "Inactive" : "Active"}</span></td>
+            <td><span class="status-chip ${product.featured ? "confirmed" : "pending"}">${product.featured ? "Featured" : "Standard"}</span></td>
+            <td>
+              <div class="row-actions">
+                <button type="button" data-product-action="edit" data-product-id="${product.id}">Edit</button>
+                <button type="button" data-product-action="toggle" data-product-id="${product.id}">${product.active === false ? "Enable" : "Disable"}</button>
+                <button type="button" data-product-action="delete" data-product-id="${product.id}">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join("");
+      }
+
+      function renderOrders() {
+        const body = document.getElementById("orderTableBody");
+        const orders = state.orders.slice();
+        if (!orders.length) {
+          body.innerHTML = '<tr><td colspan="7">No orders yet.</td></tr>';
+          return;
+        }
+
+        body.innerHTML = orders.map((order) => `
+          <tr>
+            <td><strong>${order.customerName || "Customer"}</strong><br /><small>${order.phone || ""}<br/>${order.address || ""}</small></td>
+            <td>${order.productTitle || "Product"}</td>
+            <td>${Number(order.quantity || 0)}</td>
+            <td><span class="status-chip ${String(order.status || "pending").toLowerCase()}">${String(order.status || "pending").toUpperCase()}</span></td>
+            <td>${inr(order.amount)}</td>
+            <td>${fmtDate(order.createdAt)}</td>
+            <td>
+              <div class="row-actions">
+                <button type="button" data-order-action="pending" data-order-id="${order.id}">Pending</button>
+                <button type="button" data-order-action="completed" data-order-id="${order.id}">Completed</button>
+                <button type="button" data-order-action="cancelled" data-order-id="${order.id}">Cancelled</button>
+              </div>
+            </td>
+          </tr>
+        `).join("");
+      }
+
+      function renderAnalytics() {
+        const analytics = state.analytics || {};
+
+        const notifications = Array.isArray(analytics.notifications) ? analytics.notifications : [];
+        document.getElementById("notificationList").innerHTML = notifications.length ? notifications.map((note) => `<div class="notification-item"><strong>${note.type === "stock" ? "Stock" : "Order"}</strong>${note.message}</div>`).join("") : "No notifications yet.";
+
+        const lowStock = Array.isArray(analytics.lowStockProducts) ? analytics.lowStockProducts : [];
+        document.getElementById("lowStockList").innerHTML = lowStock.length ? lowStock.map((item) => `<div class="notification-item"><strong>${item.title}</strong>${item.stock} left • ${inr(item.price)}</div>`).join("") : "No low-stock products.";
+            
+                  initCharts();
+                  updateCharts();
+      }
+
+      function fillProductForm(product) {
+        state.editingProductId = product ? product.id : null;
+        document.getElementById("productTitle").value = product ? product.title || "" : "";
+        document.getElementById("productCategory").value = product ? product.category || "Plants" : "Plants";
+        document.getElementById("productPrice").value = product ? Number(product.price || 0) : "";
+        document.getElementById("productStock").value = product ? Number(product.stock || 0) : "";
+        document.getElementById("productUnit").value = product ? product.unit || "piece" : "piece";
+        document.getElementById("productImageUrl").value = product ? product.imageUrl || "" : "";
+        document.getElementById("productDescription").value = product ? product.description || "" : "";
+        document.getElementById("productActive").value = product && product.active === false ? "false" : "true";
+        document.getElementById("productFeatured").value = product && product.featured ? "true" : "false";
+        document.getElementById("productSubmitBtn").textContent = product ? "Update Product" : "Add Product";
+        document.getElementById("productCancelBtn").hidden = !product;
+        document.getElementById("productStatus").textContent = product ? `Editing ${product.title}` : "";
+        const imageFileInput = document.getElementById("productImageFile");
+        if (imageFileInput) {
+          imageFileInput.value = "";
+        }
+        updateProductImagePreview(product ? product.imageUrl || "" : "");
+      }
+
+      async function loadDashboard() {
+        const payload = await requestJson("/api/partner/dashboard", { method: "GET" });
+        state.profile = payload.profile || null;
+        state.products = Array.isArray(payload.products) ? payload.products : [];
+        state.orders = Array.isArray(payload.orders) ? payload.orders : [];
+        state.analytics = payload.analytics || null;
+        syncProfileForm();
+        syncMetrics();
+        renderProducts();
+        renderOrders();
+        renderAnalytics();
+      }
+
+      document.querySelectorAll(".dashboard-menu button").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".dashboard-menu button").forEach((item) => item.classList.remove("is-active"));
+          button.classList.add("is-active");
+          const target = document.getElementById(button.getAttribute("data-section-target"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      document.getElementById("profileForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const status = document.getElementById("profileStatus");
+        status.textContent = "Saving profile...";
+
+        try {
+          const payload = {
+            shopName: getProfileField("profileShopName").value.trim(),
+            ownerName: getProfileField("profileOwnerName").value.trim(),
+            phone: getProfileField("profilePhone").value.trim(),
+            city: getProfileField("profileCity").value.trim(),
+            address: getProfileField("profileAddress").value.trim(),
+            bio: getProfileField("profileBio").value.trim(),
+            logoUrl: getProfileField("profileLogoUrl").value.trim(),
+            coverUrl: getProfileField("profileCoverUrl").value.trim(),
+            deliveryRadius: getProfileField("profileRadius").value.trim(),
+            payoutUpi: getProfileField("profileUpi").value.trim()
+          };
+          const response = await requestJson("/api/partner/profile", { method: "PUT", body: payload });
+          state.profile = response.profile || null;
+          syncProfileForm();
+          status.textContent = "Profile saved.";
+          await loadDashboard();
+        } catch (error) {
+          status.textContent = error.message || "Could not save profile.";
+        }
+      });
+
+      document.getElementById("productForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const payload = {
+          title: document.getElementById("productTitle").value.trim(),
+          category: document.getElementById("productCategory").value.trim(),
+          price: Number(document.getElementById("productPrice").value || 0),
+          stock: Number(document.getElementById("productStock").value || 0),
+          unit: document.getElementById("productUnit").value.trim(),
+          imageUrl: document.getElementById("productImageUrl").value.trim(),
+          description: document.getElementById("productDescription").value.trim(),
+          active: document.getElementById("productActive").value === "true",
+          featured: document.getElementById("productFeatured").value === "true"
+        };
+
+        const status = document.getElementById("productStatus");
+        status.textContent = state.editingProductId ? "Updating product..." : "Adding product...";
+
+        try {
+          const endpoint = state.editingProductId ? `/api/partner/products/${encodeURIComponent(state.editingProductId)}` : "/api/partner/products";
+          const method = state.editingProductId ? "PUT" : "POST";
+          await requestJson(endpoint, { method, body: payload });
+          status.textContent = "Product saved.";
+          fillProductForm(null);
+          await loadDashboard();
+        } catch (error) {
+          status.textContent = error.message || "Could not save product.";
+        }
+      });
+
+      document.getElementById("productCancelBtn").addEventListener("click", () => fillProductForm(null));
+
+      document.getElementById("productImageFile").addEventListener("change", (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) {
+          return;
+        }
+
+        const status = document.getElementById("productStatus");
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = String(reader.result || "");
+          document.getElementById("productImageUrl").value = dataUrl;
+          updateProductImagePreview(dataUrl);
+          status.textContent = "Image selected from gallery.";
+        };
+        reader.onerror = () => {
+          status.textContent = "Could not read selected image.";
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById("productImageUrl").addEventListener("input", (event) => {
+        updateProductImagePreview(event.target.value);
+      });
+
+      document.getElementById("productPasteImageBtn").addEventListener("click", async () => {
+        const status = document.getElementById("productStatus");
+
+        if (!navigator.clipboard || typeof navigator.clipboard.read !== "function") {
+          status.textContent = "Clipboard image paste is not supported in this browser.";
+          return;
+        }
+
+        status.textContent = "Reading image from clipboard...";
+        try {
+          const clipboardItems = await navigator.clipboard.read();
+          const imageItem = clipboardItems.find((item) => item.types.some((type) => type.startsWith("image/")));
+          if (!imageItem) {
+            status.textContent = "No image found in clipboard. Copy an image and try again.";
+            return;
+          }
+
+          const imageType = imageItem.types.find((type) => type.startsWith("image/"));
+          const blob = await imageItem.getType(imageType);
+          const reader = new FileReader();
+          reader.onload = () => {
+            const dataUrl = String(reader.result || "");
+            document.getElementById("productImageUrl").value = dataUrl;
+            updateProductImagePreview(dataUrl);
+            status.textContent = "Image pasted from clipboard.";
+          };
+          reader.onerror = () => {
+            status.textContent = "Could not read clipboard image.";
+          };
+          reader.readAsDataURL(blob);
+        } catch (_error) {
+          status.textContent = "Clipboard access denied. Allow permission and try again.";
+        }
+      });
+
+      document.getElementById("productTableBody").addEventListener("click", async (event) => {
+        const button = event.target.closest("button[data-product-action][data-product-id]");
+        if (!button) return;
+        const action = button.getAttribute("data-product-action");
+        const id = button.getAttribute("data-product-id");
+        const product = state.products.find((item) => item.id === id);
+        if (!product) return;
+
+        if (action === "edit") {
+          fillProductForm(product);
+          return;
+        }
+
+        if (action === "delete") {
+          await requestJson(`/api/partner/products/${encodeURIComponent(id)}`, { method: "DELETE" });
+        }
+
+        if (action === "toggle") {
+          await requestJson(`/api/partner/products/${encodeURIComponent(id)}`, { method: "PUT", body: { ...product, active: !product.active } });
+        }
+
+        await loadDashboard();
+      });
+
+      document.getElementById("orderTableBody").addEventListener("click", async (event) => {
+        const button = event.target.closest("button[data-order-action][data-order-id]");
+        if (!button) return;
+        await requestJson(`/api/partner/orders/${encodeURIComponent(button.getAttribute("data-order-id"))}/status`, {
+          method: "PATCH",
+          body: { status: button.getAttribute("data-order-action") }
+        });
+        await loadDashboard();
+      });
+
+      document.getElementById("refreshDashboardBtn").addEventListener("click", loadDashboard);
+
+      document.getElementById("logoutPartnerBtn").addEventListener("click", async () => {
+        const token = getAuthToken();
+        if (token) {
+          await requestJson("/api/auth/logout", { method: "POST", body: { token } }).catch(() => {});
+        }
+        localStorage.removeItem("greenarch_auth_token");
+        localStorage.removeItem("greenarch_user");
+        localStorage.removeItem("user");
+        window.location.href = "nursery-login.html?tab=login";
+      });
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        setupDashboardSidebarToggle();
+        fillProductForm(null);
+        try {
+          await loadDashboard();
+        } catch (error) {
+          document.getElementById("dashboardSubtitle").textContent = error.message || "Unable to load partner dashboard.";
+          document.getElementById("partnerShopBadge").textContent = "Access required";
+        }
+      });
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
