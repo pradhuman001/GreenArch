@@ -12,6 +12,7 @@ const DATA_DIR = path.join(__dirname, "data");
 const DB_FILE = path.join(DATA_DIR, "db.json");
 const PORT = Number(process.env.PORT || 3000);
 const PORT_FALLBACKS = Array.from(new Set([PORT, 4000, 5000, 3001, 5500].filter((value) => Number.isFinite(value) && value > 0)));
+const IS_SERVERLESS_RUNTIME = Boolean(process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME);
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "admin@greenarch.local").toLowerCase();
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@12345";
 const TOKEN_TTL_DAYS = Number(process.env.TOKEN_TTL_DAYS || 30);
@@ -2142,11 +2143,13 @@ app.get("/api/location/nursery/:id", async (req, res) => {
   }
 });
 
-app.use(express.static(FRONTEND_DIR, { extensions: ["html"] }));
+if (!IS_SERVERLESS_RUNTIME) {
+  app.use(express.static(FRONTEND_DIR, { extensions: ["html"] }));
 
-app.get("*", (_req, res) => {
-  res.sendFile(path.join(FRONTEND_DIR, "index.html"));
-});
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(FRONTEND_DIR, "index.html"));
+  });
+}
 
 async function bootstrap() {
   await ensureDataFile();
@@ -2175,7 +2178,13 @@ async function bootstrap() {
   throw new Error('No available port found for GreenArch backend');
 }
 
-bootstrap().catch((error) => {
-  console.error("Failed to start backend:", error);
-  process.exit(1);
-});
+if (require.main === module && !IS_SERVERLESS_RUNTIME) {
+  bootstrap().catch((error) => {
+    console.error("Failed to start backend:", error);
+    process.exit(1);
+  });
+}
+
+module.exports = app;
+module.exports.bootstrap = bootstrap;
+module.exports.IS_SERVERLESS_RUNTIME = IS_SERVERLESS_RUNTIME;

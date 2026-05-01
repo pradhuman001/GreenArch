@@ -1,0 +1,12 @@
+{
+  "name": "greenarch-netlify",
+  "private": true,
+  "description": "Netlify deployment scaffold for GreenArch",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "serverless-http": "^4.0.0"
+  }
+}
