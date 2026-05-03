@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "greenarch-a4677"
+  },
+  "targets": {
+    "greenarch-a4677": {
+      "hosting": {
+        "greenarch": ["greenarch-a4677"]
+      }
+    }
+  }
+}

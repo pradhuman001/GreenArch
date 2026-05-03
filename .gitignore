@@ -12,3 +12,5 @@ pnpm-debug.log*
 Thumbs.db
 *.lnk
 *.tmp
+firebase-config.js
+Project/firebase-config.js
