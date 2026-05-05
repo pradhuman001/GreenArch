@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Services</title>
+  <meta name="description" content="Explore GreenArch services for gardening, solar installations, and green vendors." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .svc-modern {
+      --svc-ink: #17251f;
+      --svc-muted: #5c6f64;
+      --svc-line: #d5e5d9;
+      --svc-soft: #f2f9f4;
+      --svc-soft-2: #f7fcf8;
+      --svc-accent: #1f8a4d;
+      --svc-accent-dark: #17673b;
+      --svc-shadow: 0 14px 30px rgba(16, 61, 35, 0.08);
+      font-family: "Manrope", sans-serif;
+      color: var(--svc-ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(31, 138, 77, 0.08), transparent 22%),
+        radial-gradient(circle at 88% 14%, rgba(89, 168, 114, 0.07), transparent 24%),
+        linear-gradient(180deg, #f9fdf9 0%, #f2f8f4 100%);
+    }
+
+    .svc-modern section {
+      padding: clamp(62px, 8vw, 110px) 0;
+    }
+
+    .svc-head {
+      text-align: center;
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .svc-head h1,
+    .svc-block-copy h2 {
+      font-family: "Sora", sans-serif;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .svc-head h1 {
+      font-size: clamp(2.1rem, 4.4vw, 3.5rem);
+    }
+
+    .svc-head p {
+      color: var(--svc-muted);
+      font-size: clamp(1rem, 1.6vw, 1.14rem);
+      line-height: 1.72;
+      max-width: 66ch;
+      margin: 0 auto;
+    }
+
+    .svc-header {
+      padding-top: clamp(90px, 12vw, 140px) !important;
+      padding-bottom: clamp(76px, 10vw, 120px) !important;
+      background:
+        linear-gradient(180deg, rgba(9, 34, 21, 0.52), rgba(9, 34, 21, 0.52)),
+        url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1800&q=80") center/cover no-repeat;
+    }
+
+    .svc-head h1,
+    .svc-head p {
+      color: #f7fff9;
+    }
+
+    .svc-services-main {
+      background: #f5f8f6;
+      padding-top: clamp(54px, 8vw, 90px) !important;
+      padding-bottom: clamp(54px, 8vw, 90px) !important;
+    }
+
+    .svc-feature-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 26px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .svc-feature-kicker {
+      margin: 0;
+      color: #2b8150;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+    }
+
+    .svc-feature-head h2 {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #13291d;
+    }
+
+    .svc-services-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .svc-service-card {
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid #d9e6dd;
+      background: #ffffff;
+      box-shadow: 0 14px 28px rgba(13, 61, 35, 0.08);
+      padding: 34px 18px 16px;
+      text-align: center;
+      display: grid;
+      gap: 10px;
+      min-height: 198px;
+    }
+
+    .svc-service-badge {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: inline-grid;
+      place-items: center;
+      background: #ffffff;
+      border: 1px solid #d2e5d9;
+      box-shadow: 0 10px 20px rgba(17, 72, 43, 0.12);
+      color: #1f7a47;
+      font-size: 1.1rem;
+    }
+
+    .svc-service-card h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      color: #183725;
+    }
+
+    .svc-service-card p {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #5a7466;
+    }
+
+    .svc-service-link {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid #d2e4d8;
+      color: #2a6f47;
+      display: inline-grid;
+      place-items: center;
+      margin: 2px auto 0;
+      font-weight: 700;
+      background: #f7fcf9;
+    }
+
+    .svc-scroll-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .svc-scroll-head h2 {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .svc-scroll-head p {
+      margin: 0;
+      color: var(--svc-muted);
+    }
+
+    .svc-scroll-wrap {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+    }
+
+    .svc-scroll-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(260px, 1fr);
+      gap: 14px;
+    }
+
+    .svc-scroll-card {
+      scroll-snap-align: start;
+      border-radius: 18px;
+      border: 1px solid #d4e6da;
+      background: linear-gradient(160deg, #ffffff, #f4faf6);
+      box-shadow: 0 14px 28px rgba(14, 61, 35, 0.08);
+      padding: 18px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .svc-scroll-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-grid;
+      place-items: center;
+      background: #e8f5ed;
+      border: 1px solid #cfe3d8;
+      color: #1d7143;
+      font-size: 1.05rem;
+    }
+
+    .svc-scroll-card h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.2;
+    }
+
+    .svc-scroll-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #3d5a4b;
+      display: grid;
+      gap: 4px;
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .svc-scroll-card .svc-btn {
+      width: 100%;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+    }
+
+    .svc-scroll-wrap::-webkit-scrollbar {
+      height: 9px;
+    }
+
+    .svc-scroll-wrap::-webkit-scrollbar-thumb {
+      background: #bddac9;
+      border-radius: 999px;
+    }
+
+    .svc-scroll-wrap::-webkit-scrollbar-track {
+      background: #edf6f1;
+      border-radius: 999px;
+    }
+
+    .svc-story {
+      display: grid;
+      gap: clamp(28px, 4vw, 42px);
+    }
+
+    .svc-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(22px, 3.5vw, 42px);
+      align-items: center;
+    }
+
+    .svc-block.reverse .svc-block-media {
+      order: 2;
+    }
+
+    .svc-block.reverse .svc-block-copy {
+      order: 1;
+    }
+
+    .svc-block-media {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #d8e6db;
+      box-shadow: var(--svc-shadow);
+      min-height: clamp(280px, 31vw, 420px);
+      background-color: #eaf3ed;
+    }
+
+    .svc-block-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .svc-block-copy {
+      display: grid;
+      gap: 12px;
+      max-width: 56ch;
+    }
+
+    .svc-label {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #2e7a4d;
+    }
+
+    .svc-block-copy h2 {
+      font-size: clamp(1.7rem, 3.1vw, 2.6rem);
+      margin: 0;
+    }
+
+    .svc-block-copy ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 9px;
+    }
+
+    .svc-block-copy li {
+      color: #365246;
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.65;
+    }
+
+    .svc-block-copy li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.66em;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--svc-accent);
+      box-shadow: 0 0 0 4px rgba(31, 138, 77, 0.13);
+    }
+
+    .svc-learn {
+      width: fit-content;
+      margin-top: 6px;
+      color: var(--svc-accent-dark);
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 1020px) {
+      .svc-block,
+      .svc-block.reverse {
+        grid-template-columns: 1fr;
+      }
+
+      .svc-block.reverse .svc-block-media,
+      .svc-block.reverse .svc-block-copy {
+        order: unset;
+      }
+
+      .svc-services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .svc-services-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 1021px) {
+      .svc-services-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="services-page svc-modern">
+    <section class="svc-header">
+      <div class="container svc-head reveal slide-up">
+        <h1>Green solutions for modern homes</h1>
+        <p>We transform balconies, terraces, and indoor spaces into functional, low-maintenance green environments.</p>
+      </div>
+    </section>
+
+    <section class="svc-services-main">
+      <div class="container reveal slide-up">
+        <div class="svc-feature-head">
+          <p class="svc-feature-kicker">Featured Services</p>
+          <h2>A wide range of gardening services</h2>
+        </div>
+
+        <div class="svc-services-grid" aria-label="Service cards">
+          <article class="svc-service-card" id="service-gardening">
+            <span class="svc-service-badge" aria-hidden="true">🪴</span>
+            <h3>Plant Maintenance</h3>
+            <p>Watering, cleaning, trimming, and weekly upkeep for healthy growth.</p>
+            <a class="svc-service-link" href="booking.html" aria-label="Book Plant Maintenance">→</a>
+          </article>
+
+          <article class="svc-service-card" id="service-terrace">
+            <span class="svc-service-badge" aria-hidden="true">🛡️</span>
+            <h3>Pest Control</h3>
+            <p>Basic treatment and preventive protection for home garden plants.</p>
+            <a class="svc-service-link" href="booking.html" aria-label="Book Pest Control">→</a>
+          </article>
+
+          <article class="svc-service-card" id="service-indoor">
+            <span class="svc-service-badge" aria-hidden="true">🏡</span>
+            <h3>Garden Setup</h3>
+            <p>Balcony and terrace setup with practical plant arrangement.</p>
+            <a class="svc-service-link" href="booking.html" aria-label="Book Garden Setup">→</a>
+          </article>
+
+          <article class="svc-service-card">
+            <span class="svc-service-badge" aria-hidden="true">🔎</span>
+            <h3>Plant Health Check</h3>
+            <p>Issue diagnosis, recovery tips, and personalized care suggestions.</p>
+            <a class="svc-service-link" href="booking.html" aria-label="Book Plant Health Check">→</a>
+          </article>
+
+          <article class="svc-service-card">
+            <span class="svc-service-badge" aria-hidden="true">💧</span>
+            <h3>Irrigation Support</h3>
+            <p>Drip setup guidance and water-saving care routines for daily ease.</p>
+            <a class="svc-service-link" href="booking.html" aria-label="Book Irrigation Support">→</a>
+          </article>
+
+          <article class="svc-service-card">
+            <span class="svc-service-badge" aria-hidden="true">🌱</span>
+            <h3>Soil Nutrition</h3>
+            <p>Compost and nutrient balancing to improve plant strength and bloom.</p>
+            <a class="svc-service-link" href="booking.html" aria-label="Book Soil Nutrition">→</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <h4>GreenArch</h4>
+        <p>Professional home gardening services with verified experts, simple plans, and reliable maintenance.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>support@greenarch.com<br />+1 (555) 123-4567<br />Mon-Sat 9 AM - 7 PM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GreenArch. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

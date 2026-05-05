@@ -1,0 +1,2796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Premium Plant Store</title>
+  <meta
+    name="description"
+    content="Discover premium plants, pots, and garden products from verified GreenArch nursery partners."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --store-bg: #eff5ef;
+      --store-bg-deep: #dceadd;
+      --store-surface: #fdfefd;
+      --store-panel: #ffffff;
+      --store-border: #d4e2d5;
+      --store-text: #173629;
+      --store-muted: #5a7566;
+      --store-green: #1c7e46;
+      --store-green-deep: #145432;
+      --store-green-soft: #edf6ef;
+      --store-shadow-soft: 0 20px 48px rgba(14, 52, 31, 0.08);
+      --store-shadow-card: 0 18px 36px rgba(14, 52, 31, 0.12);
+      --store-radius-xl: 28px;
+      --store-radius-lg: 20px;
+      --store-radius-md: 14px;
+      --store-max-width: 1240px;
+    }
+
+    body.store-body {
+      background:
+        radial-gradient(circle at 8% 12%, rgba(60, 142, 93, 0.14), transparent 26%),
+        radial-gradient(circle at 92% 18%, rgba(32, 122, 77, 0.12), transparent 28%),
+        linear-gradient(180deg, var(--store-bg) 0%, var(--store-bg-deep) 100%);
+      color: var(--store-text);
+    }
+
+    main.store-page {
+      padding-top: var(--navbar-offset);
+    }
+
+    .store-shell {
+      width: min(1360px, 94%);
+      margin: 0 auto;
+    }
+
+    .store-hero {
+      margin-top: 14px;
+      border-radius: var(--store-radius-xl);
+      overflow: hidden;
+      border: 1px solid #cfdecf;
+      box-shadow: var(--store-shadow-soft);
+      position: relative;
+      min-height: 570px;
+      background:
+        linear-gradient(135deg, rgba(16, 42, 30, 0.42), rgba(17, 84, 52, 0.22)),
+        url("../image23.jpg") center/cover no-repeat;
+    }
+
+    .store-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 72% 22%, rgba(255, 255, 255, 0.18), transparent 16%),
+        radial-gradient(circle at 86% 66%, rgba(255, 255, 255, 0.12), transparent 20%),
+        linear-gradient(90deg, rgba(10, 28, 18, 0.28) 0%, rgba(10, 28, 18, 0.14) 38%, rgba(10, 28, 18, 0.02) 70%);
+      pointer-events: none;
+    }
+
+    .store-hero-inner {
+      position: relative;
+      z-index: 1;
+      min-height: inherit;
+      padding: 14px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      color: #f4fbf6;
+    }
+
+    .store-hero-topbar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: rgba(239, 243, 236, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 28px rgba(13, 44, 25, 0.12);
+      backdrop-filter: blur(10px);
+      color: #244a38;
+    }
+
+    .store-hero-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #1f4f34;
+    }
+
+    .store-hero-brand img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .store-hero-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #375f48;
+    }
+
+    .store-hero-nav a {
+      position: relative;
+      padding-bottom: 6px;
+    }
+
+    .store-hero-nav a.is-active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: #1f5136;
+    }
+
+    .store-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      justify-self: end;
+    }
+
+    .store-hero-actions .hero-action-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid #d6e3d7;
+      display: grid;
+      place-items: center;
+      background: #ffffff;
+      color: #284f39;
+      font-size: 0.92rem;
+    }
+
+    .store-hero-actions .store-btn {
+      padding: 10px 18px;
+      min-height: 38px;
+    }
+
+    .store-hero-main {
+      position: relative;
+      padding: 8px 12px 0 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.84fr);
+      align-items: end;
+      gap: 18px;
+    }
+
+    .store-hero-main > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .store-hero-content {
+      max-width: 700px;
+      padding: 0 0 28px 0;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.12);
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-title {
+      margin: 14px 0 12px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.35rem, 4vw, 4rem);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      max-width: 15ch;
+    }
+
+    .hero-title span {
+      display: block;
+    }
+
+    .hero-subtext {
+      max-width: 38ch;
+      color: rgba(244, 251, 246, 0.82);
+      font-size: 0.9rem;
+    }
+
+    .hero-cta-row {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-cta-row .store-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.34);
+    }
+
+    .store-btn {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .store-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .store-btn-primary {
+      background: linear-gradient(135deg, #f2fff5, #d8f4df);
+      color: #164f31;
+      box-shadow: 0 14px 26px rgba(14, 52, 31, 0.25);
+    }
+
+    .store-hero-plant-rail {
+      position: absolute;
+      right: 18px;
+      top: 84px;
+      width: min(40%, 480px);
+      height: calc(100% - 114px);
+      pointer-events: none;
+      opacity: 0.96;
+      background: url("../image23.jpg") center/cover no-repeat;
+      filter: drop-shadow(0 16px 24px rgba(11, 31, 17, 0.16));
+    }
+
+    .store-hero-plant-rail::before,
+    .store-hero-plant-rail::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-size: cover;
+      opacity: 0.55;
+    }
+
+    .store-hero-plant-rail::before {
+      display: none;
+    }
+
+    .store-hero-plant-rail::after {
+      display: none;
+    }
+
+    .store-hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 940px;
+      margin: 0 auto;
+      width: 100%;
+      grid-column: 1 / -1;
+      align-self: end;
+      padding: 0 12px 12px;
+    }
+
+    .store-stat-card {
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      padding: 14px 12px 13px;
+      box-shadow: 0 14px 28px rgba(11, 33, 19, 0.15);
+      color: #223f31;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .store-stat-card strong {
+      display: block;
+      font-size: 1.55rem;
+      line-height: 1;
+      color: #173c29;
+      margin-bottom: 4px;
+    }
+
+    .store-stat-card span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--store-muted);
+    }
+
+    .hero-mini-card {
+      display: none;
+    }
+
+    .section-block {
+      margin-top: 18px;
+      border-radius: var(--store-radius-lg);
+      border: 1px solid var(--store-border);
+      background: var(--store-surface);
+      box-shadow: var(--store-shadow-soft);
+      padding: clamp(18px, 2.6vw, 30px);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .section-head p {
+      color: var(--store-muted);
+      max-width: 64ch;
+      font-size: 0.94rem;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: #1a402d;
+      letter-spacing: -0.02em;
+    }
+
+    .why-shop-section {
+      margin-top: 20px;
+      border-radius: var(--store-radius-lg);
+      border: 1px solid #e5ece6;
+      background: #ffffff;
+      box-shadow: 0 14px 30px rgba(20, 54, 34, 0.05);
+      padding: clamp(26px, 3.4vw, 42px);
+    }
+
+    .why-shop-head {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .why-shop-head h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.06;
+      color: #173d2b;
+      letter-spacing: -0.02em;
+    }
+
+    .why-shop-head p {
+      margin: 8px auto 0;
+      max-width: 50ch;
+      color: #647c6d;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .why-shop-layout {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 360px) minmax(0, 1fr);
+      gap: clamp(20px, 3vw, 44px);
+      align-items: start;
+    }
+
+    .why-shop-column {
+      display: grid;
+      gap: clamp(22px, 2.7vw, 40px);
+      align-content: start;
+    }
+
+    .why-shop-item {
+      display: grid;
+      gap: 6px;
+      max-width: 286px;
+    }
+
+    .why-shop-item.right {
+      margin-left: auto;
+      text-align: left;
+    }
+
+    .why-shop-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      color: #2d664a;
+      font-size: 1.06rem;
+      background: transparent;
+      font-weight: 700;
+    }
+
+    .why-shop-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .why-shop-item h3 {
+      margin: 0;
+      font-size: clamp(1.38rem, 2.3vw, 1.86rem);
+      line-height: 1.14;
+      letter-spacing: -0.01em;
+      font-family: "Cormorant Garamond", serif;
+      color: #1a3f2d;
+    }
+
+    .why-shop-item p {
+      margin: 0;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #607968;
+      max-width: 30ch;
+    }
+
+    .why-shop-plant {
+      display: grid;
+      place-items: center;
+    }
+
+    .why-shop-plant img {
+      width: min(100%, 330px);
+      height: auto;
+      object-fit: contain;
+      filter: none;
+    }
+
+    .favorite-plants-section {
+      margin-top: 18px;
+      border-radius: var(--store-radius-lg);
+      border: 1px solid #e4eae4;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdfb 100%);
+      box-shadow: 0 18px 34px rgba(20, 54, 34, 0.08);
+      padding: clamp(28px, 3.5vw, 42px);
+      text-align: center;
+    }
+
+    .favorite-plants-head {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      margin-bottom: 24px;
+    }
+
+    .favorite-plants-head h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.04;
+      color: #173d2b;
+      letter-spacing: -0.02em;
+    }
+
+    .favorite-plants-head p {
+      margin: 0;
+      max-width: 34ch;
+      color: #6b7f72;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .favorite-plants-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .favorite-tab {
+      border: 1px solid #d6e2d8;
+      background: #ffffff;
+      color: #4f6558;
+      font: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 999px;
+      min-height: 44px;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .favorite-tab.is-active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #1f864c, #2f9d5f);
+      border-color: transparent;
+      box-shadow: 0 10px 18px rgba(31, 134, 76, 0.18);
+    }
+
+    .favorite-tab:hover {
+      border-color: #bdd3c3;
+      color: #1d4d35;
+    }
+
+    .favorite-plants-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .favorite-plant-card {
+      border-radius: 18px;
+      border: 1px solid #dfe7e0;
+      background: linear-gradient(180deg, #ffffff 0%, #f7faf7 100%);
+      box-shadow: 0 12px 28px rgba(16, 42, 30, 0.08);
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      min-height: 428px;
+      height: 100%;
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+      overflow: hidden;
+    }
+
+    .favorite-plant-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 42px rgba(16, 42, 30, 0.15);
+      border-color: #c4d7c8;
+    }
+
+    .favorite-plant-media {
+      position: relative;
+      display: grid;
+      place-items: center;
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #f4f8f5 0%, #edf4ef 100%);
+    }
+
+    .favorite-plant-media::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(245, 248, 245, 0.9) 0%, rgba(233, 241, 235, 0.92) 100%);
+      z-index: 0;
+    }
+
+    .favorite-plant-media img {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 190px);
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 12px rgba(20, 45, 29, 0.14));
+      transition: transform 0.45s ease, filter 0.45s ease;
+    }
+
+    .favorite-plant-card:hover .favorite-plant-media img {
+      transform: scale(1.08);
+      filter: drop-shadow(0 18px 14px rgba(20, 45, 29, 0.16));
+    }
+
+    .favorite-plant-copy {
+      display: grid;
+      gap: 8px;
+      justify-items: start;
+      text-align: left;
+    }
+
+    .favorite-plant-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .favorite-plant-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .favorite-plant-badge {
+      border-radius: 999px;
+      padding: 4px 9px;
+      border: 1px solid transparent;
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .favorite-plant-badge.is-bestseller {
+      background: #fff3e7;
+      color: #a65e12;
+      border-color: #f3d2af;
+    }
+
+    .favorite-plant-badge.is-easy {
+      background: #edf8f1;
+      color: #1c7b47;
+      border-color: #cfe8d8;
+    }
+
+    .favorite-plant-badge.is-indoor {
+      background: #eaf2ff;
+      color: #2352a2;
+      border-color: #cddcf7;
+    }
+
+    .favorite-plant-badge.is-air {
+      background: #eef8f4;
+      color: #1f6b4b;
+      border-color: #d3e6dc;
+    }
+
+    .favorite-plant-badge.is-flower {
+      background: #fff0f4;
+      color: #b63e6c;
+      border-color: #f3c9d8;
+    }
+
+    .favorite-plant-badge.is-succulent {
+      background: #f2f8ef;
+      color: #4b7d35;
+      border-color: #dbe9d0;
+    }
+
+    .favorite-plant-badge.is-pot {
+      background: #f6f2ec;
+      color: #7f5d3c;
+      border-color: #eadfcf;
+    }
+
+    .favorite-plant-badge.is-seed {
+      background: #eef8f7;
+      color: #157168;
+      border-color: #cce7e3;
+    }
+
+    .favorite-plant-badge.is-fertilizer {
+      background: #f4f7ec;
+      color: #667c2f;
+      border-color: #dfe9c3;
+    }
+
+    .favorite-plant-copy h3 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.2rem;
+      color: #24382c;
+      letter-spacing: -0.01em;
+      line-height: 1.08;
+      min-height: 2.2em;
+    }
+
+    .favorite-plant-copy p {
+      margin: 0;
+      color: #65756b;
+      font-size: 0.84rem;
+      line-height: 1.45;
+      min-height: 3.1em;
+    }
+
+    .favorite-plant-price {
+      color: #5b695f;
+      font-size: 0.86rem;
+    }
+
+    .favorite-plant-price strong {
+      color: #173d2b;
+      font-size: 1.2rem;
+    }
+
+    .favorite-plant-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .favorite-plant-actions .store-btn,
+    .favorite-plant-actions .product-cta,
+    .favorite-plant-actions .quick-view-btn {
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .favorite-plant-actions .store-btn:hover,
+    .favorite-plant-actions .product-cta:hover,
+    .favorite-plant-actions .quick-view-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .favorite-plant-cta-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .product-cta,
+    .quick-view-btn {
+      border: 1px solid #d7e4db;
+      background: #fff;
+      color: #28503a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .product-cta.is-primary {
+      border-color: transparent;
+      background: linear-gradient(135deg, #1f864c, #2f9d5f);
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(31, 134, 76, 0.18);
+    }
+
+    .product-cta.is-secondary {
+      background: #fff;
+    }
+
+    .product-cta.is-ghost {
+      background: #f5faf6;
+      border-color: #d8e6db;
+    }
+
+    .favorite-plant-actions .quick-view-btn {
+      width: 100%;
+    }
+
+    .favorite-plant-card:hover .product-cta.is-primary {
+      box-shadow: 0 14px 22px rgba(31, 134, 76, 0.22);
+    }
+
+    .favorite-plant-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #e2e8e3;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      color: #9ca9a1;
+      font-size: 0.92rem;
+      flex: 0 0 auto;
+    }
+
+    /* Screenshot-style product cards for store grid */
+    .favorite-plants-grid {
+      gap: 10px;
+    }
+
+    .favorite-plant-card {
+      border-radius: 6px;
+      border: 1px solid #d8e3da;
+      background: #ffffff;
+      box-shadow: 0 6px 14px rgba(16, 42, 30, 0.07);
+      padding: 0;
+      gap: 0;
+      min-height: 100%;
+    }
+
+    .favorite-plant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 22px rgba(16, 42, 30, 0.1);
+      border-color: #cdddcf;
+    }
+
+    .favorite-plant-media {
+      aspect-ratio: 1.12 / 1;
+      border-radius: 6px 6px 0 0;
+      background: #f2f5f2;
+    }
+
+    .favorite-plant-media::before {
+      display: none;
+    }
+
+    .favorite-plant-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: none;
+    }
+
+    .favorite-plant-copy {
+      padding: 8px 10px 0;
+      gap: 6px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .favorite-plant-copy h3 {
+      font-family: "Manrope", sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.22;
+      min-height: auto;
+      color: #111a13;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .favorite-plant-copy p {
+      display: none;
+    }
+
+    .favorite-plant-badge-row {
+      justify-content: center;
+      gap: 6px;
+      min-height: 22px;
+    }
+
+    .favorite-plant-badge {
+      font-size: 0.6rem;
+      letter-spacing: 0.01em;
+      text-transform: none;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-weight: 700;
+    }
+
+    .favorite-plant-badge.is-vastu {
+      background: #edf8ef;
+      color: #1f6f46;
+      border-color: #cce4d5;
+    }
+
+    .favorite-plant-badge.is-pet {
+      background: #fff4e8;
+      color: #9a6224;
+      border-color: #f3dbc0;
+    }
+
+    .favorite-plant-badge.is-tropical {
+      background: #f7efff;
+      color: #6a4ba1;
+      border-color: #dfd0f4;
+    }
+
+    .favorite-plant-badge.is-modern {
+      background: #fff4e8;
+      color: #9a6224;
+      border-color: #f3dbc0;
+    }
+
+    .favorite-plant-meta {
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .favorite-plant-icon {
+      display: none;
+    }
+
+    .favorite-plant-price {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: #4f6c5a;
+      font-weight: 700;
+    }
+
+    .favorite-plant-price strong {
+      font-size: 0.9rem;
+      color: #1d7145;
+      font-weight: 800;
+    }
+
+    .favorite-plant-price .old-price {
+      color: #8fa496;
+      text-decoration: line-through;
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+
+    .favorite-plant-actions {
+      padding: 8px 10px 9px;
+      margin-top: 0;
+    }
+
+    .favorite-plant-cta-group {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .favorite-plant-actions .product-cta {
+      border-radius: 10px;
+      min-height: 34px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .product-cta.is-secondary {
+      background: linear-gradient(135deg, #14a85e, #0f9f57);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 8px 14px rgba(17, 130, 70, 0.16);
+    }
+
+    .deal-ribbon {
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      z-index: 2;
+      border-radius: 3px;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      line-height: 1;
+      padding: 5px 9px;
+      letter-spacing: 0.02em;
+    }
+
+    .deal-ribbon.is-green {
+      background: #4d9d12;
+    }
+
+    .deal-ribbon.is-orange {
+      background: #d85a34;
+    }
+
+    .rating-pill {
+      position: absolute;
+      left: 8px;
+      bottom: 8px;
+      z-index: 2;
+      background: rgba(246, 248, 246, 0.9);
+      border: 1px solid rgba(214, 224, 216, 0.95);
+      border-radius: 3px;
+      color: #3a5143;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 5px;
+      line-height: 1;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .collection-card {
+      border-radius: var(--store-radius-md);
+      overflow: hidden;
+      border: 1px solid var(--store-border);
+      background: #fff;
+      display: grid;
+      min-height: 246px;
+      box-shadow: 0 10px 24px rgba(14, 52, 31, 0.08);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      position: relative;
+    }
+
+    .collection-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--store-shadow-card);
+    }
+
+    .collection-card img {
+      width: 100%;
+      height: 166px;
+      object-fit: cover;
+    }
+
+    .collection-copy {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .collection-copy h3 {
+      margin: 0;
+      font-size: 1.04rem;
+      color: #1d452f;
+    }
+
+    .collection-copy a {
+      color: var(--store-green-deep);
+      font-weight: 700;
+      font-size: 0.84rem;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .products-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .product-toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .filter-chip {
+      border: 1px solid var(--store-border);
+      background: #fff;
+      color: #225039;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-chip.is-active {
+      border-color: transparent;
+      background: linear-gradient(135deg, #1f864c, #2f9d5f);
+      color: #fff;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .product-card {
+      border: 1px solid var(--store-border);
+      border-radius: 18px;
+      background: #fff;
+      overflow: hidden;
+      display: grid;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--store-shadow-card);
+    }
+
+    .product-media {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-media img {
+      width: 100%;
+      height: 182px;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .product-card:hover .product-media img {
+      transform: scale(1.05);
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.62);
+      background: rgba(255, 255, 255, 0.8);
+      color: #3e5f4f;
+      cursor: pointer;
+      font-size: 1rem;
+      display: grid;
+      place-items: center;
+      transition: all 0.22s ease;
+    }
+
+    .wishlist-btn.is-active {
+      color: #b54769;
+      background: #fff2f7;
+      border-color: #f2c8d6;
+    }
+
+    .quick-view-layer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px;
+      background: linear-gradient(180deg, rgba(18, 44, 31, 0) 0%, rgba(18, 44, 31, 0.66) 100%);
+      transform: translateY(100%);
+      transition: transform 0.24s ease;
+    }
+
+    .product-card:hover .quick-view-layer {
+      transform: translateY(0);
+    }
+
+    .quick-view-btn {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.16);
+      color: #f5fbf6;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px 12px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    .product-copy {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .product-copy h3 {
+      margin: 0;
+      font-size: 0.98rem;
+      color: #1d442f;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      color: var(--store-muted);
+      font-size: 0.8rem;
+    }
+
+    .product-price {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .product-price strong {
+      font-size: 1.06rem;
+      color: #1b5f39;
+    }
+
+    .add-cart-btn {
+      border-radius: 999px;
+      border: 0;
+      background: linear-gradient(135deg, #1f864c, #32a060);
+      color: #fff;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .add-cart-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 16px rgba(17, 75, 44, 0.25);
+    }
+
+    .cart-panel {
+      position: sticky;
+      top: 104px;
+      border: 1px solid var(--store-border);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 14px 26px rgba(14, 52, 31, 0.1);
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .cart-panel h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: #1f4a34;
+    }
+
+    .cart-items {
+      display: grid;
+      gap: 8px;
+      max-height: 310px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .cart-item {
+      border: 1px solid var(--store-border);
+      border-radius: 12px;
+      background: #f9fcfa;
+      padding: 9px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .cart-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: #234f39;
+    }
+
+    .cart-qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qty-btn,
+    .remove-btn {
+      border: 1px solid var(--store-border);
+      background: #fff;
+      color: #1a5235;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .remove-btn {
+      color: #a44863;
+      border-color: #f1cdd8;
+      background: #fff4f8;
+    }
+
+    .cart-total {
+      border-top: 1px dashed var(--store-border);
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #1a4631;
+    }
+
+    .offer-banner {
+      margin-top: 18px;
+      border-radius: var(--store-radius-lg);
+      overflow: hidden;
+      border: 1px solid #c6dcc9;
+      background:
+        linear-gradient(120deg, rgba(20, 76, 47, 0.9), rgba(27, 114, 68, 0.82)),
+        url("https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1400&q=80") center/cover no-repeat;
+      color: #f4fcf7;
+      padding: clamp(20px, 3.4vw, 34px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: var(--store-shadow-soft);
+    }
+
+    .offer-banner h3 {
+      margin: 0 0 6px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1;
+    }
+
+    .offer-banner p {
+      margin: 0;
+      color: rgba(244, 252, 247, 0.9);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .testimonial-card {
+      border: 1px solid var(--store-border);
+      border-radius: 14px;
+      background: #fff;
+      padding: 14px;
+      box-shadow: 0 10px 22px rgba(14, 52, 31, 0.08);
+      display: grid;
+      gap: 10px;
+    }
+
+    .testimonial-head {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .testimonial-head img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #eef7f0;
+    }
+
+    .testimonial-head strong {
+      display: block;
+      font-size: 0.92rem;
+      color: #1d452f;
+    }
+
+    .testimonial-head span {
+      font-size: 0.78rem;
+      color: var(--store-muted);
+    }
+
+    .rating {
+      letter-spacing: 0.08em;
+      color: #b17712;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .store-blog-section {
+      background: #f7faf8;
+      border: 1px solid #e1ebe4;
+      border-radius: 16px;
+      padding: clamp(18px, 2.3vw, 26px);
+    }
+
+    .store-blog-head {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .store-blog-head h2 {
+      margin: 0;
+      color: #1f4731;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+
+    .store-blog-head p {
+      margin: 4px auto 0;
+      max-width: 520px;
+      color: #5f7064;
+      font-size: 0.74rem;
+      line-height: 1.4;
+    }
+
+    .store-blog-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .store-blog-card {
+      border: 1px solid #d7e3dc;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 8px;
+      box-shadow: 0 6px 14px rgba(16, 55, 34, 0.09);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 8px;
+    }
+
+    .store-blog-card img {
+      width: 100%;
+      height: 132px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .store-blog-card-copy {
+      display: grid;
+      align-content: start;
+      gap: 7px;
+    }
+
+    .store-blog-card h3 {
+      margin: 0;
+      font-size: 0.76rem;
+      line-height: 1.35;
+      color: #1b3f2d;
+    }
+
+    .store-blog-card p {
+      margin: 0;
+      color: #687a6d;
+      font-size: 0.66rem;
+      line-height: 1.45;
+    }
+
+    .store-blog-card a {
+      width: max-content;
+      color: #ffffff;
+      background: #1f6e43;
+      border: 1px solid #195a37;
+      border-radius: 4px;
+      padding: 5px 11px;
+      font-weight: 700;
+      font-size: 0.62rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .store-blog-card a:hover {
+      background: #185736;
+      transform: translateY(-1px);
+    }
+
+    .store-blog-foot {
+      display: flex;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .store-blog-explore {
+      border: 1px solid #c8d8cc;
+      color: #5f7265;
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 5px 13px;
+      font-size: 0.64rem;
+      font-weight: 700;
+      line-height: 1;
+      transition: border-color 0.25s ease, color 0.25s ease;
+    }
+
+    .store-blog-explore:hover {
+      border-color: #9cb9a6;
+      color: #39543f;
+    }
+
+    .newsletter {
+      margin-top: 18px;
+      border-radius: var(--store-radius-lg);
+      border: 1px solid #c7dac9;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(21, 59, 38, 0.48), rgba(21, 59, 38, 0.38)),
+        url("../image25.jpg") center/cover no-repeat;
+      color: #f3fbf5;
+      padding: clamp(24px, 3.2vw, 34px);
+      box-shadow: var(--store-shadow-soft);
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+      text-align: center;
+      min-height: 280px;
+      align-content: center;
+    }
+
+    .newsletter h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      line-height: 1;
+      text-shadow: 0 2px 10px rgba(19, 40, 27, 0.5);
+    }
+
+    .newsletter p {
+      margin: 0;
+      color: rgba(243, 251, 245, 0.9);
+      max-width: 60ch;
+      text-shadow: 0 1px 8px rgba(19, 40, 27, 0.45);
+    }
+
+    .newsletter-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      width: min(560px, 100%);
+      max-width: 560px;
+    }
+
+    .newsletter-form input {
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 10px;
+      background: rgba(250, 253, 250, 0.92);
+      color: #1d3d2b;
+      font: inherit;
+      padding: 12px 16px;
+      outline: none;
+    }
+
+    .newsletter-form input::placeholder {
+      color: rgba(60, 86, 70, 0.75);
+    }
+
+    .newsletter-message {
+      font-size: 0.82rem;
+      color: #e6f8eb;
+      min-height: 1.2em;
+    }
+
+    .store-footer {
+      margin-top: 18px;
+      border-radius: var(--store-radius-lg) var(--store-radius-lg) 0 0;
+      border: 1px solid #bfd3c2;
+      border-bottom: 0;
+      background: linear-gradient(180deg, #f8fcf9 0%, #edf5ef 100%);
+      padding: 28px clamp(18px, 3vw, 30px);
+      display: grid;
+      grid-template-columns: 1.3fr repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .store-footer h4 {
+      margin: 0 0 8px;
+      font-size: 0.95rem;
+      color: #1e4832;
+    }
+
+    .store-footer p,
+    .store-footer li,
+    .store-footer a {
+      color: var(--store-muted);
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+
+    .store-footer ul {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .social-links a {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid #ccdfcf;
+      background: #fff;
+      color: #245139;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal.is-visible {
+      animation: storeRise 0.75s cubic-bezier(0.18, 0.72, 0.18, 1) both;
+    }
+
+    @keyframes storeRise {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .quick-view-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 29, 19, 0.62);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1200;
+      padding: 16px;
+    }
+
+    .quick-view-modal.is-open {
+      display: flex;
+    }
+
+    .quick-view-card {
+      width: min(720px, 100%);
+      border-radius: 20px;
+      border: 1px solid var(--store-border);
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 26px 60px rgba(11, 35, 22, 0.34);
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .quick-view-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 260px;
+      object-fit: cover;
+    }
+
+    .quick-view-copy {
+      padding: 18px;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .quick-view-copy h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #1d452f;
+    }
+
+    .quick-view-copy p {
+      margin: 0;
+      color: var(--store-muted);
+      font-size: 0.9rem;
+    }
+
+    .quick-view-close {
+      justify-self: end;
+      border: 1px solid var(--store-border);
+      background: #fff;
+      color: #244f39;
+      border-radius: 999px;
+      width: 34px;
+      height: 34px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1160px) {
+      .product-grid,
+      .feature-grid,
+      .testimonials-grid,
+      .store-blog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .store-hero-main {
+        grid-template-columns: 1fr;
+      }
+
+      .store-hero-content {
+        max-width: 700px;
+        padding-bottom: 10px;
+      }
+
+      .store-hero-plant-rail {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 100%;
+        height: 320px;
+        order: 2;
+      }
+
+      .store-hero-stats {
+        max-width: 100%;
+      }
+
+    }
+
+    @media (max-width: 980px) {
+      .store-hero {
+        min-height: 620px;
+      }
+
+      .store-hero-topbar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .store-hero-nav {
+        gap: 14px;
+      }
+
+      .store-hero-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .store-hero-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding-inline: 6px;
+      }
+
+      .why-shop-layout {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .why-shop-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .why-shop-item,
+      .why-shop-item.right {
+        max-width: none;
+        margin-left: 0;
+      }
+
+      .why-shop-plant img {
+        width: min(100%, 300px);
+      }
+
+      .collection-grid,
+      .products-layout {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .cart-panel {
+        position: static;
+      }
+
+      .quick-view-card {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-view-card img {
+        min-height: 220px;
+        max-height: 260px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .store-hero {
+        min-height: 700px;
+      }
+
+      .store-hero-inner {
+        padding: 10px;
+      }
+
+      .store-hero-topbar {
+        padding: 10px 12px;
+      }
+
+      .store-hero-nav {
+        gap: 10px;
+        font-size: 0.72rem;
+      }
+
+      .store-hero-actions {
+        gap: 8px;
+      }
+
+      .store-hero-plant-rail {
+        height: 240px;
+      }
+
+      .why-shop-column {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .why-shop-item h3 {
+        font-size: 1.34rem;
+      }
+
+      .hero-title {
+        max-width: none;
+        font-size: clamp(2.2rem, 10vw, 3.2rem);
+      }
+
+      .hero-subtext {
+        max-width: none;
+      }
+
+      .store-hero-stats {
+        gap: 10px;
+      }
+
+      .store-stat-card {
+        padding: 12px 10px 10px;
+      }
+
+      .store-stat-card strong {
+        font-size: 1.25rem;
+      }
+
+      .feature-grid,
+      .collection-grid,
+      .product-grid,
+      .testimonials-grid,
+      .favorite-plants-grid,
+      .store-blog-grid,
+      .store-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .favorite-plants-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .favorite-tab {
+        width: 100%;
+        font-size: 0.9rem;
+        min-height: 42px;
+        padding: 10px 12px;
+      }
+
+      .favorite-tab:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .newsletter-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="store-body">
+      <section class="store-hero reveal" id="home" data-reveal>
+        <div class="store-hero-inner">
+          <div class="store-hero-topbar">
+            <a href="index.html" class="store-hero-brand" aria-label="GreenArch Home">
+              <img src="greenarch-logo.png" alt="GreenArch logo" />
+              <span>GreenArch</span>
+            </a>
+
+            <nav class="store-hero-nav" aria-label="Store quick navigation">
+              <a href="#home" class="is-active">Home</a>
+              <a href="#favorites">Shop</a>
+              <a href="#favorites">Plant Care</a>
+              <a href="about.html">About</a>
+              <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="store-hero-actions">
+              <span class="hero-action-icon" aria-hidden="true">⌕</span>
+              <span class="hero-action-icon" aria-hidden="true">⌂</span>
+              <a href="#favorites" class="store-btn store-btn-primary">Shop Now</a>
+            </div>
+          </div>
+
+          <div class="store-hero-main">
+            <div class="store-hero-content">
+              <div class="hero-badge">Breathe life into your space</div>
+              <h1 class="hero-title">
+                <span>Discover beautiful</span>
+                <span>indoor plants for every</span>
+                <span>corner of your home</span>
+              </h1>
+              <p class="hero-subtext">From indoor greens to outdoor blooms - shop plants, pots, and care tools delivered with love.</p>
+              <div class="hero-cta-row">
+                <a href="#favorites" class="store-btn store-btn-primary" data-scroll-target>Shop Now</a>
+                <a href="#favorites" class="store-btn store-btn-secondary" data-scroll-target>Watch how GreenArch works</a>
+              </div>
+            </div>
+
+            <div class="store-hero-stats" aria-label="Store trust metrics">
+              <div class="store-stat-card">
+                <strong>1,900+</strong>
+                <span>Happy Plant Lovers</span>
+              </div>
+              <div class="store-stat-card">
+                <strong>8,000+</strong>
+                <span>Unique Green Beauties</span>
+              </div>
+              <div class="store-stat-card">
+                <strong>520+</strong>
+                <span>Local Greenhouses</span>
+              </div>
+              <div class="store-stat-card">
+                <strong>4.9★</strong>
+                <span>by Our Customers</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="why-shop-section reveal" data-reveal>
+        <div class="why-shop-head">
+          <h2>Why Shop with GreenNest?</h2>
+          <p>From your screen to your space - we're here to make plant shopping smooth and stress-free.</p>
+        </div>
+
+        <div class="why-shop-layout" aria-label="Why customers choose GreenNest">
+          <div class="why-shop-column">
+            <article class="why-shop-item">
+              <div class="why-shop-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 16.5 10 9.5l4 4L21 6.5" />
+                  <path d="M21 11v-4.5H16.5" />
+                </svg>
+              </div>
+              <h3>Free and Fast Delivery</h3>
+              <p>Plants delivered fresh to your door - free on orders over 599.</p>
+            </article>
+
+            <article class="why-shop-item">
+              <div class="why-shop-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M8 7H4v4" />
+                  <path d="M4.5 11A8 8 0 1 1 8 18" />
+                </svg>
+              </div>
+              <h3>Hassle-Free Returns</h3>
+              <p>Changed your mind? Return it within 30 days, no stress.</p>
+            </article>
+          </div>
+
+          <figure class="why-shop-plant" aria-hidden="true">
+            <img src="assets/image24-cutout.png" alt="" loading="lazy" />
+          </figure>
+
+          <div class="why-shop-column">
+            <article class="why-shop-item right">
+              <div class="why-shop-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 16v.01" />
+                  <path d="M9.1 9a3 3 0 1 1 5.8 1c-.5 1.5-2.9 2.2-2.9 4" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              </div>
+              <h3>24/7 Customer Support</h3>
+              <p>We're here whenever you need us - day or night.</p>
+            </article>
+
+            <article class="why-shop-item right">
+              <div class="why-shop-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m5.5 12 4 4 9-9" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              </div>
+              <h3>Secure Payments</h3>
+              <p>Pay safely with 100% encrypted checkout.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="favorite-plants-section reveal" id="favorites" data-reveal>
+        <div class="favorite-plants-head">
+          <h2>Our Favorite Plants</h2>
+          <p>Curated bestsellers and everyday plant-care essentials for a more premium home garden.</p>
+        </div>
+
+        <div class="favorite-plants-tabs" aria-label="Plant filters">
+          <button class="favorite-tab is-active" type="button">All Products</button>
+          <button class="favorite-tab" type="button">Indoor Plants</button>
+          <button class="favorite-tab" type="button">Flowering</button>
+          <button class="favorite-tab" type="button">Garden Care</button>
+        </div>
+
+        <div class="favorite-plants-grid">
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-green">Sale</span>
+              <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=900&q=80" alt="Bird of Paradise Plant" loading="lazy" />
+              <span class="rating-pill">4.5★ | 36</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Bird of Paradise Plant</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-easy">Easy Care</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>₹ 599 - ₹ 1,249</strong></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <a class="product-cta is-secondary" href="booking.html">View Product</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-orange">Price Drop!</span>
+              <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=900&q=80" alt="Money Plant Variegated With Hanging Pot" loading="lazy" />
+              <span class="rating-pill">4.5★ | 8</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Money Plant Variegated With Hanging Pot</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-easy">Easy Care</span>
+                <span class="favorite-plant-badge is-vastu">Vastu Friendly</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>₹ 899</strong><span class="old-price">₹ 1,199</span></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <button class="product-cta is-primary" type="button">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-green">40% OFF</span>
+              <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80" alt="Combo of Summer Ready Plant Set" loading="lazy" />
+              <span class="rating-pill">5.0★ | 1</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Combo of 4 Summer Ready Plant Set for Office</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-air">Air Purifying</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>₹ 899</strong><span class="old-price">₹ 1,499</span></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <button class="product-cta is-primary" type="button">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-green">Sale</span>
+              <img src="https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=900&q=80" alt="Peperomia Green Plant" loading="lazy" />
+              <span class="rating-pill">4.6★ | 158</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Peperomia Green Plant</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-easy">Easy Care</span>
+                <span class="favorite-plant-badge is-pet">Pet Friendly</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>₹ 299 - ₹ 599</strong></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <a class="product-cta is-secondary" href="booking.html">View Product</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-green">42% OFF</span>
+              <img src="https://images.unsplash.com/photo-1593691509543-c55fb32e5ea0?auto=format&fit=crop&w=900&q=80" alt="Anthurium Livium Plant" loading="lazy" />
+              <span class="rating-pill">5.0★ | 4</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Anthurium Livium Plant</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-easy">Easy Care</span>
+                <span class="favorite-plant-badge is-tropical">Tropical</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>From ₹ 1,299</strong><span class="old-price">₹ 2,249</span></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <a class="product-cta is-secondary" href="booking.html">View Product</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-green">Sale</span>
+              <img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=900&q=80" alt="Money Plant Variegated" loading="lazy" />
+              <span class="rating-pill">4.8★ | 100</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Money Plant Variegated</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-easy">Easy Care</span>
+                <span class="favorite-plant-badge is-vastu">Vastu Friendly</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>₹ 199 - ₹ 899</strong></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <a class="product-cta is-secondary" href="booking.html">View Product</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-green">Sale</span>
+              <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=900&q=80" alt="Fiddle Leaf Fig Plant" loading="lazy" />
+              <span class="rating-pill">4.8★ | 59</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Fiddle Leaf Fig Plant - Bambino</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-air">Air Purifying</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>₹ 599 - ₹ 999</strong></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <a class="product-cta is-secondary" href="booking.html">View Product</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="favorite-plant-card">
+            <div class="favorite-plant-media">
+              <span class="deal-ribbon is-green">8% OFF</span>
+              <img src="https://images.unsplash.com/photo-1616500156885-e51d7c7b9e81?auto=format&fit=crop&w=900&q=80" alt="Aglaonema Manila Beauty" loading="lazy" />
+              <span class="rating-pill">4.5★ | 6</span>
+            </div>
+            <div class="favorite-plant-copy">
+              <h3>Aglaonema Manila Beauty - XL</h3>
+              <div class="favorite-plant-badge-row">
+                <span class="favorite-plant-badge is-easy">Easy Care</span>
+                <span class="favorite-plant-badge is-modern">Modern Decor</span>
+              </div>
+              <div class="favorite-plant-meta">
+                <div class="favorite-plant-price"><strong>₹ 2,299</strong><span class="old-price">₹ 2,499</span></div>
+              </div>
+            </div>
+            <div class="favorite-plant-actions">
+              <div class="favorite-plant-cta-group">
+                <button class="product-cta is-primary" type="button">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      
+
+      <section class="offer-banner reveal" data-reveal>
+        <div>
+          <h3>Spring Sale - Up to 25% Off Selected Plants</h3>
+          <p>Limited-time premium nursery sale for indoor and balcony essentials.</p>
+        </div>
+        <a href="#favorites" class="store-btn store-btn-primary" data-scroll-target>Shop the Offer</a>
+      </section>
+
+      <section class="section-block reveal" data-reveal>
+        <div class="section-head">
+          <div>
+            <h2>Our Happy Customers Say It Best</h2>
+            <p>Real-looking testimonials designed to build confidence and conversion.</p>
+          </div>
+        </div>
+
+        <div class="testimonials-grid">
+          <article class="testimonial-card">
+            <div class="testimonial-head">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Customer A" />
+              <div><strong>Ritika S.</strong><span>Bangalore</span></div>
+            </div>
+            <p>The plant quality was premium, beautifully packed, and exactly like the photos. My living room finally feels alive.</p>
+            <div class="rating">★★★★★</div>
+          </article>
+          <article class="testimonial-card">
+            <div class="testimonial-head">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Customer B" />
+              <div><strong>Aditya M.</strong><span>Hyderabad</span></div>
+            </div>
+            <p>Fast delivery and great support from the nursery partner. The quick care guide made setup super easy.</p>
+            <div class="rating">★★★★★</div>
+          </article>
+          <article class="testimonial-card">
+            <div class="testimonial-head">
+              <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=120&q=80" alt="Customer C" />
+              <div><strong>Neha K.</strong><span>Pune</span></div>
+            </div>
+            <p>Elegant shopping experience and trustworthy pricing. GreenArch feels like a real premium startup brand.</p>
+            <div class="rating">★★★★★</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="newsletter reveal" data-reveal>
+        <h2>Get the Green in Your Inbox</h2>
+        <p>Subscribe for exclusive plant care tips, new arrivals and fresh deals.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email..." required />
+          <button class="store-btn store-btn-primary" type="submit">Subscribe</button>
+        </form>
+        <p class="newsletter-message" id="newsletterMessage"></p>
+      </section>
+
+      <section class="section-block reveal store-blog-section" data-reveal>
+        <div class="store-blog-head">
+          <h2>From the GreenVibe Blog</h2>
+          <p>Grow your plant knowledge with expert tips, care guides, and lush daily inspiration.</p>
+        </div>
+
+        <div class="store-blog-grid">
+          <article class="store-blog-card">
+            <img src="image18-transparent.png" alt="Easy plants for beginners" />
+            <div class="store-blog-card-copy">
+              <h3>5 Easy Plants For Beginners</h3>
+              <p>Start growing with friendly greens that thrive with basic care and bright, soft light.</p>
+              <a href="blog.html">Read More</a>
+            </div>
+          </article>
+
+          <article class="store-blog-card">
+            <img src="assets/plant-cutout.png" alt="Air purifying plants" />
+            <div class="store-blog-card-copy">
+              <h3>Top 3 Air Purifying Plants</h3>
+              <p>Refresh your home with leafy picks known to support cleaner air and calmer rooms.</p>
+              <a href="blog.html">Read More</a>
+            </div>
+          </article>
+
+          <article class="store-blog-card">
+            <img src="assets/plant-logo-crop.png" alt="Watering indoor houseplants" />
+            <div class="store-blog-card-copy">
+              <h3>Watering Basics For Houseplants</h3>
+              <p>Confused about when to water? Learn the simple signs and best routine to keep plants healthy.</p>
+              <a href="blog.html">Read More</a>
+            </div>
+          </article>
+
+          <article class="store-blog-card">
+            <img src="assets/image24-cutout.png" alt="Low light plants" />
+            <div class="store-blog-card-copy">
+              <h3>Low-Light Plants That Thrive</h3>
+              <p>No direct sunlight? Discover beautiful options that stay green and vibrant in shaded corners.</p>
+              <a href="blog.html">Read More</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="store-blog-foot">
+          <a href="blog.html" class="store-blog-explore">Explore More</a>
+        </div>
+      </section>
+
+      <footer class="store-footer reveal" data-reveal>
+        <div>
+          <h4>GreenArch Plant Store</h4>
+          <p>Premium plant ecommerce experience powered by trusted nursery partners, elegant delivery, and genuine plant care support.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="YouTube">YT</a>
+            <a href="#" aria-label="X">X</a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="plant-store.html">Plant Store</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="#favorites" data-scroll-target>Indoor Plants</a></li>
+            <li><a href="#favorites" data-scroll-target>Balcony Plants</a></li>
+            <li><a href="#favorites" data-scroll-target>Pots &amp; Decor</a></li>
+            <li><a href="#favorites" data-scroll-target>Garden Tools</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li>support@greenarch.com</li>
+            <li>+91 98765 43210</li>
+            <li>Mon-Sat, 9 AM - 7 PM</li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <div class="quick-view-modal" id="quickViewModal" aria-hidden="true">
+    <article class="quick-view-card">
+      <img id="quickViewImage" src="" alt="Product preview" />
+      <div class="quick-view-copy">
+        <button class="quick-view-close" id="quickViewClose" type="button" aria-label="Close quick view">×</button>
+        <h3 id="quickViewTitle"></h3>
+        <p id="quickViewNursery"></p>
+        <div class="rating" id="quickViewRating"></div>
+        <p id="quickViewDescription"></p>
+        <strong id="quickViewPrice"></strong>
+        <button class="store-btn store-btn-primary" id="quickViewAddCart" type="button">Add to Cart</button>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      const STORE_CART_KEY = "greenarch_store_cart_v2";
+      const STORE_WISHLIST_KEY = "greenarch_store_wishlist_v2";
+
+      const products = [
+        {
+          id: "p1",
+          name: "Philodendron Green Luxe",
+          category: "Indoor Plants",
+          price: 599,
+          rating: 4.8,
+          nursery: "Urban Leaf Nursery",
+          image: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=900&q=80",
+          description: "Velvety leaves and rich color for premium living spaces."
+        },
+        {
+          id: "p2",
+          name: "Peace Lily Premium",
+          category: "Air Purifying",
+          price: 699,
+          rating: 4.7,
+          nursery: "GreenAura Farms",
+          image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=900&q=80",
+          description: "Elegant flowering indoor plant known for air purification."
+        },
+        {
+          id: "p3",
+          name: "Balcony Fern Basket",
+          category: "Balcony Plants",
+          price: 549,
+          rating: 4.6,
+          nursery: "BloomRoot Gardens",
+          image: "https://images.unsplash.com/photo-1470163395405-d2b80e7450ed?auto=format&fit=crop&w=900&q=80",
+          description: "Soft textured fern cluster ideal for shaded balcony corners."
+        },
+        {
+          id: "p4",
+          name: "Low Light ZZ Plant",
+          category: "Low Maintenance",
+          price: 799,
+          rating: 4.9,
+          nursery: "Leafline Studio",
+          image: "https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=900&q=80",
+          description: "Resilient and stylish indoor statement for busy routines."
+        },
+        {
+          id: "p5",
+          name: "Ceramic Pot Set",
+          category: "Pots & Decor",
+          price: 899,
+          rating: 4.7,
+          nursery: "ClayNest Collective",
+          image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=900&q=80",
+          description: "Minimal ceramic pots in premium matte textures."
+        },
+        {
+          id: "p6",
+          name: "Garden Tool Starter Kit",
+          category: "Garden Tools",
+          price: 649,
+          rating: 4.6,
+          nursery: "GrowCraft Supply",
+          image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=80",
+          description: "Hand-picked toolkit for regular care and maintenance."
+        },
+        {
+          id: "p7",
+          name: "Areca Palm Deluxe",
+          category: "Indoor Plants",
+          price: 1199,
+          rating: 4.9,
+          nursery: "Canopy Nurseries",
+          image: "https://images.unsplash.com/photo-1477511801984-4ad318ed9846?auto=format&fit=crop&w=900&q=80",
+          description: "Tall indoor palm that adds premium tropical character."
+        },
+        {
+          id: "p8",
+          name: "Snake Plant Classic",
+          category: "Air Purifying",
+          price: 499,
+          rating: 4.8,
+          nursery: "Rooted & Co.",
+          image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80",
+          description: "Architectural leaves and easy maintenance for modern homes."
+        }
+      ];
+
+      function inr(value) {
+        return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(value);
+      }
+
+      function loadState(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch {
+          return fallback;
+        }
+      }
+
+      function saveState(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+
+      const state = {
+        filter: "all",
+        cart: loadState(STORE_CART_KEY, {}),
+        wishlist: new Set(loadState(STORE_WISHLIST_KEY, [])),
+        quickViewProductId: null
+      };
+
+      const productGrid = document.getElementById("productGrid");
+      const cartItems = document.getElementById("cartItems");
+      const cartTotal = document.getElementById("cartTotal");
+      const cartPillCount = document.getElementById("cartPillCount");
+      const filterWrap = document.getElementById("productFilters");
+      const quickViewModal = document.getElementById("quickViewModal");
+      const quickViewImage = document.getElementById("quickViewImage");
+      const quickViewTitle = document.getElementById("quickViewTitle");
+      const quickViewNursery = document.getElementById("quickViewNursery");
+      const quickViewRating = document.getElementById("quickViewRating");
+      const quickViewDescription = document.getElementById("quickViewDescription");
+      const quickViewPrice = document.getElementById("quickViewPrice");
+      const quickViewAddCart = document.getElementById("quickViewAddCart");
+      const hasMarketplaceUI = Boolean(
+        productGrid &&
+        cartItems &&
+        cartTotal &&
+        filterWrap &&
+        quickViewModal &&
+        quickViewImage &&
+        quickViewTitle &&
+        quickViewNursery &&
+        quickViewRating &&
+        quickViewDescription &&
+        quickViewPrice &&
+        quickViewAddCart
+      );
+
+      function getFilteredProducts() {
+        if (state.filter === "all") {
+          return products;
+        }
+        return products.filter((item) => item.category === state.filter);
+      }
+
+      function renderProducts() {
+        if (!hasMarketplaceUI) {
+          return;
+        }
+        const list = getFilteredProducts();
+        if (!list.length) {
+          productGrid.innerHTML = "<p>No products found in this category.</p>";
+          return;
+        }
+
+        productGrid.innerHTML = list
+          .map((product) => {
+            const wished = state.wishlist.has(product.id);
+            return `
+              <article class="product-card">
+                <div class="product-media">
+                  <img src="${product.image}" alt="${product.name}" loading="lazy" />
+                  <button class="wishlist-btn ${wished ? "is-active" : ""}" type="button" data-action="wishlist" data-id="${product.id}" aria-label="Toggle wishlist">❤</button>
+                  <div class="quick-view-layer">
+                    <button class="quick-view-btn" type="button" data-action="quick-view" data-id="${product.id}">Quick View</button>
+                  </div>
+                </div>
+                <div class="product-copy">
+                  <h3>${product.name}</h3>
+                  <div class="product-meta"><span>${product.nursery}</span><span>★ ${product.rating.toFixed(1)}</span></div>
+                  <div class="product-price">
+                    <strong>${inr(product.price)}</strong>
+                    <button class="add-cart-btn" type="button" data-action="add-cart" data-id="${product.id}">Add to Cart</button>
+                  </div>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function getCartRows() {
+        return Object.entries(state.cart)
+          .map(([id, qty]) => {
+            const product = products.find((item) => item.id === id);
+            if (!product || qty < 1) {
+              return null;
+            }
+            return { product, qty };
+          })
+          .filter(Boolean);
+      }
+
+      function renderCart() {
+        if (!hasMarketplaceUI) {
+          return;
+        }
+        const rows = getCartRows();
+        if (!rows.length) {
+          cartItems.innerHTML = '<p style="font-size:0.84rem;color:#5a7566;">Your cart is empty.</p>';
+          cartTotal.textContent = inr(0);
+          if (cartPillCount) {
+            cartPillCount.textContent = "0";
+          }
+          return;
+        }
+
+        cartItems.innerHTML = rows
+          .map(({ product, qty }) => {
+            return `
+              <article class="cart-item">
+                <div class="cart-item-top">
+                  <strong>${product.name}</strong>
+                  <span>${inr(product.price * qty)}</span>
+                </div>
+                <div class="cart-qty">
+                  <button class="qty-btn" type="button" data-action="dec" data-id="${product.id}">-</button>
+                  <span>Qty: ${qty}</span>
+                  <button class="qty-btn" type="button" data-action="inc" data-id="${product.id}">+</button>
+                  <button class="remove-btn" type="button" data-action="remove" data-id="${product.id}">Remove</button>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        const total = rows.reduce((sum, row) => sum + row.product.price * row.qty, 0);
+        const count = rows.reduce((sum, row) => sum + row.qty, 0);
+
+        cartTotal.textContent = inr(total);
+        if (cartPillCount) {
+          cartPillCount.textContent = String(count);
+        }
+      }
+
+      function persist() {
+        saveState(STORE_CART_KEY, state.cart);
+        saveState(STORE_WISHLIST_KEY, Array.from(state.wishlist));
+      }
+
+      function addToCart(productId) {
+        const current = Number(state.cart[productId] || 0);
+        state.cart[productId] = current + 1;
+        persist();
+        renderCart();
+      }
+
+      function changeQty(productId, delta) {
+        const current = Number(state.cart[productId] || 0);
+        const next = current + delta;
+        if (next <= 0) {
+          delete state.cart[productId];
+        } else {
+          state.cart[productId] = next;
+        }
+        persist();
+        renderCart();
+      }
+
+      function removeFromCart(productId) {
+        delete state.cart[productId];
+        persist();
+        renderCart();
+      }
+
+      function toggleWishlist(productId) {
+        if (state.wishlist.has(productId)) {
+          state.wishlist.delete(productId);
+        } else {
+          state.wishlist.add(productId);
+        }
+        persist();
+        renderProducts();
+      }
+
+      function openQuickView(productId) {
+        if (!hasMarketplaceUI) {
+          return;
+        }
+        const product = products.find((item) => item.id === productId);
+        if (!product) {
+          return;
+        }
+
+        state.quickViewProductId = product.id;
+        quickViewImage.src = product.image;
+        quickViewTitle.textContent = product.name;
+        quickViewNursery.textContent = `${product.nursery} • ${product.category}`;
+        quickViewRating.textContent = `Rating: ★ ${product.rating.toFixed(1)}`;
+        quickViewDescription.textContent = product.description;
+        quickViewPrice.textContent = inr(product.price);
+        quickViewModal.classList.add("is-open");
+        quickViewModal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeQuickView() {
+        if (!hasMarketplaceUI) {
+          return;
+        }
+        state.quickViewProductId = null;
+        quickViewModal.classList.remove("is-open");
+        quickViewModal.setAttribute("aria-hidden", "true");
+      }
+
+      if (hasMarketplaceUI) {
+        productGrid.addEventListener("click", (event) => {
+          const button = event.target.closest("button[data-action][data-id]");
+          if (!button) {
+            return;
+          }
+          const action = button.getAttribute("data-action");
+          const id = button.getAttribute("data-id");
+
+          if (action === "add-cart") {
+            addToCart(id);
+            return;
+          }
+          if (action === "wishlist") {
+            toggleWishlist(id);
+            return;
+          }
+          if (action === "quick-view") {
+            openQuickView(id);
+          }
+        });
+
+        cartItems.addEventListener("click", (event) => {
+          const button = event.target.closest("button[data-action][data-id]");
+          if (!button) {
+            return;
+          }
+          const action = button.getAttribute("data-action");
+          const id = button.getAttribute("data-id");
+
+          if (action === "inc") {
+            changeQty(id, 1);
+            return;
+          }
+          if (action === "dec") {
+            changeQty(id, -1);
+            return;
+          }
+          if (action === "remove") {
+            removeFromCart(id);
+          }
+        });
+
+        filterWrap.addEventListener("click", (event) => {
+          const button = event.target.closest("button[data-filter]");
+          if (!button) {
+            return;
+          }
+          state.filter = button.getAttribute("data-filter") || "all";
+
+          filterWrap.querySelectorAll("button[data-filter]").forEach((item) => {
+            item.classList.toggle("is-active", item === button);
+          });
+
+          renderProducts();
+        });
+
+        quickViewAddCart.addEventListener("click", () => {
+          if (!state.quickViewProductId) {
+            return;
+          }
+          addToCart(state.quickViewProductId);
+          closeQuickView();
+        });
+
+        document.getElementById("quickViewClose").addEventListener("click", closeQuickView);
+        quickViewModal.addEventListener("click", (event) => {
+          if (event.target === quickViewModal) {
+            closeQuickView();
+          }
+        });
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && quickViewModal.classList.contains("is-open")) {
+          closeQuickView();
+        }
+      });
+
+      document.querySelectorAll("a[data-scroll-target]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const href = link.getAttribute("href");
+          if (!href || !href.startsWith("#")) {
+            return;
+          }
+          const target = document.querySelector(href);
+          if (!target) {
+            return;
+          }
+          event.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+
+      const newsletterForm = document.getElementById("newsletterForm");
+      const newsletterEmail = document.getElementById("newsletterEmail");
+      const newsletterMessage = document.getElementById("newsletterMessage");
+      newsletterForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = String(newsletterEmail.value || "").trim();
+        if (!email) {
+          newsletterMessage.textContent = "Please enter a valid email.";
+          return;
+        }
+        newsletterMessage.textContent = "Thanks! You are subscribed to GreenArch updates.";
+        newsletterForm.reset();
+      });
+
+      const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.16 }
+        );
+        revealItems.forEach((item) => observer.observe(item));
+      } else {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      }
+
+      if (hasMarketplaceUI) {
+        renderProducts();
+        renderCart();
+      }
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

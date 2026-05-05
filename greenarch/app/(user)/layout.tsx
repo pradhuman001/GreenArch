@@ -1,13 +1,10 @@
-'use client';
+import Navbar from '@/components/layout/Navbar'
 
-import { ReactNode } from 'react';
-
-export default function UserLayout({ children }: { children: ReactNode }) {
+export default function UserLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Navbar would go here */}
-      <main className="flex-1">{children}</main>
-      {/* Footer would go here */}
-    </div>
-  );
+    <>
+      <Navbar />
+      <main>{children}</main>
+    </>
+  )
 }

@@ -1,110 +1,66 @@
-/**
- * Firestore Query Functions for Nurseries Collection
- */
 import { db } from '@/lib/firebase';
+import { Nursery } from '@/types';
 import {
   collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
   query,
   where,
-  getDocs,
-  getDoc,
-  doc,
-  updateDoc,
-  QueryConstraint,
-  Timestamp,
+  serverTimestamp,
 } from 'firebase/firestore';
-import { Nursery } from '@/types';
 
 const nurseriesCollection = collection(db, 'nurseries');
 
-/**
- * Get a single nursery by ID
- */
-export async function getNursery(nurseryId: string): Promise<Nursery | null> {
-  try {
-    const nurseryDoc = await getDoc(doc(db, 'nurseries', nurseryId));
-    if (!nurseryDoc.exists()) return null;
-    return { id: nurseryDoc.id, ...nurseryDoc.data() } as Nursery;
-  } catch (error) {
-    console.error('Error fetching nursery:', error);
+export async function getNursery(id: string): Promise<Nursery | null> {
+  const nurserySnap = await getDoc(doc(db, 'nurseries', id));
+
+  if (!nurserySnap.exists()) {
     return null;
   }
+
+  return {
+    id: nurserySnap.id,
+    ...(nurserySnap.data() as Omit<Nursery, 'id'>),
+  } as Nursery;
 }
 
-/**
- * Get all nurseries with optional filters
- */
-export async function getNurseries(constraints: QueryConstraint[] = []): Promise<Nursery[]> {
-  try {
-    const q = query(nurseriesCollection, ...constraints);
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Nursery));
-  } catch (error) {
-    console.error('Error fetching nurseries:', error);
-    return [];
-  }
-}
-
-/**
- * Get verified nurseries
- */
-export async function getVerifiedNurseries(): Promise<Nursery[]> {
-  try {
-    const q = query(nurseriesCollection, where('verified', '==', true));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Nursery));
-  } catch (error) {
-    console.error('Error fetching verified nurseries:', error);
-    return [];
-  }
-}
-
-/**
- * Get nurseries by owner
- */
 export async function getNurseriesByOwner(ownerId: string): Promise<Nursery[]> {
-  try {
-    const q = query(nurseriesCollection, where('ownerId', '==', ownerId));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Nursery));
-  } catch (error) {
-    console.error('Error fetching nurseries by owner:', error);
-    return [];
-  }
+  const nurseriesQuery = query(nurseriesCollection, where('ownerId', '==', ownerId));
+  const querySnap = await getDocs(nurseriesQuery);
+
+  return querySnap.docs.map((nurseryDoc) => ({
+    id: nurseryDoc.id,
+    ...(nurseryDoc.data() as Omit<Nursery, 'id'>),
+  })) as Nursery[];
 }
 
-/**
- * Get top-rated nurseries
- */
-export async function getTopRatedNurseries(limit: number = 10): Promise<Nursery[]> {
-  try {
-    const q = query(
-      nurseriesCollection,
-      where('verified', '==', true),
-      // orderBy would need proper index setup
-    );
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-      .map((doc) => ({ id: doc.id, ...doc.data() } as Nursery))
-      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-      .slice(0, limit);
-  } catch (error) {
-    console.error('Error fetching top-rated nurseries:', error);
-    return [];
-  }
+export async function createNursery(
+  data: Omit<Nursery, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<string> {
+  const docRef = await addDoc(nurseriesCollection, {
+    ...data,
+    rating: 0,
+    reviewCount: 0,
+    isVerified: false,
+    isActive: true,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+
+  return docRef.id;
 }
 
-/**
- * Update nursery information
- */
-export async function updateNursery(nurseryId: string, updates: Partial<Nursery>): Promise<void> {
-  try {
-    await updateDoc(doc(db, 'nurseries', nurseryId), {
-      ...updates,
-      updatedAt: Timestamp.now(),
-    });
-  } catch (error) {
-    console.error('Error updating nursery:', error);
-    throw error;
-  }
+export async function updateNursery(id: string, data: Partial<Nursery>): Promise<void> {
+  await updateDoc(doc(db, 'nurseries', id), {
+    ...data,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function getAllNurseries(): Promise<Nursery[]> {
+  const querySnap = await getDocs(collection(db, 'nurseries'));
+  return querySnap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Nursery, 'id'>) })) as Nursery[];
 }

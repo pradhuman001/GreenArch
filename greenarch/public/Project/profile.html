@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Profile</title>
+  <meta name="description" content="Manage your GreenArch profile and account details." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <section class="account-shell">
+      <aside class="account-sidebar reveal slide-up">
+        <h1>Hello, <span data-user-name>GreenArch User</span></h1>
+        <p>Your profile and account details in one place.</p>
+        <nav class="account-nav-links">
+          <a class="is-active" href="profile.html">Profile</a>
+          <a href="my-bookings.html">My Bookings</a>
+          <a href="saved-services.html">Saved Services</a>
+          <a href="support.html">Support</a>
+          <a href="settings.html">Settings</a>
+        </nav>
+      </aside>
+
+      <section class="account-content reveal slide-up">
+        <article class="account-card">
+          <h2>Profile Information</h2>
+          <p class="account-subtitle">Update your basic details used for inspections and support.</p>
+
+          <div class="account-user-line">
+            <span class="label">Email:</span>
+            <span data-user-email>-</span>
+          </div>
+          <div class="account-user-line">
+            <span class="label">Phone:</span>
+            <span data-user-phone>-</span>
+          </div>
+
+          <form id="profileForm" class="account-form">
+            <label for="profileName">Name</label>
+            <input id="profileName" type="text" required />
+
+            <label for="profileEmail">Email</label>
+            <input id="profileEmail" type="email" required />
+
+            <label for="profilePhone">Phone</label>
+            <input id="profilePhone" type="tel" required />
+
+            <button class="btn btn-solid" type="submit">Save Changes</button>
+          </form>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

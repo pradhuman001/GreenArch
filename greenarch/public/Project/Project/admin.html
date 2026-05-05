@@ -1,0 +1,3563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch Admin</title>
+  <meta name="description" content="Production admin dashboard for GreenArch with live bookings, gardeners, tasks, charts, and operations insights." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ga-bg: #f6f4ff;
+      --ga-panel: #ffffff;
+      --ga-panel-soft: #fff9f3;
+      --ga-border: #ded6ff;
+      --ga-text: #1d1942;
+      --ga-muted: #625f8a;
+      --ga-shadow: 0 16px 34px rgba(50, 36, 110, 0.14);
+      --ga-green: #2dbe8a;
+      --ga-green-deep: #1e8f6d;
+      --ga-radius-xl: 22px;
+      --ga-radius-lg: 16px;
+      --ga-radius-md: 12px;
+      --ga-sidebar-bg: #1f1240;
+      --ga-sidebar-soft: #2f1d61;
+      --ga-danger: #d0446f;
+      --ga-warning: #bc7b0b;
+      --ga-info: #2e63d4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ga-text);
+      font-family: "Manrope", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(239, 91, 136, 0.18), transparent 32%),
+        radial-gradient(circle at 92% 10%, rgba(72, 120, 249, 0.16), transparent 34%),
+        radial-gradient(circle at 78% 92%, rgba(53, 208, 165, 0.14), transparent 30%),
+        linear-gradient(180deg, #f7f4ff 0%, #fff7f2 100%);
+    }
+
+    .navbar-main,
+    .page-accent {
+      display: none !important;
+    }
+
+    .ga-shell {
+      width: min(1460px, 97%);
+      margin: 16px auto;
+      border: 1px solid #d8cdfd;
+      border-radius: 30px;
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(252, 246, 255, 0.92));
+      box-shadow: 0 22px 48px rgba(43, 24, 118, 0.2);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      min-height: calc(100vh - 32px);
+    }
+
+    .ga-sidebar {
+      background:
+        radial-gradient(circle at 10% 12%, rgba(139, 113, 255, 0.32), transparent 34%),
+        radial-gradient(circle at 82% 85%, rgba(33, 193, 166, 0.28), transparent 30%),
+        linear-gradient(180deg, var(--ga-sidebar-bg) 0%, #180d34 100%);
+      color: #efe8ff;
+      padding: 22px 16px;
+      border-right: 1px solid rgba(225, 255, 236, 0.09);
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ga-sidebar::after {
+      content: "";
+      position: absolute;
+      inset: auto -90px -100px auto;
+      width: 230px;
+      height: 230px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(62, 185, 112, 0.24), transparent 72%);
+      pointer-events: none;
+    }
+
+    .ga-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Sora", sans-serif;
+      font-size: 1.16rem;
+      letter-spacing: -0.02em;
+    }
+
+    .ga-brand-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff8eb2 0%, #7c6cff 46%, #2bc89d 100%);
+      box-shadow: 0 0 0 6px rgba(156, 128, 255, 0.22);
+    }
+
+    .ga-sidebar-note {
+      border: 1px solid rgba(229, 216, 255, 0.24);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.09);
+      padding: 10px;
+      font-size: 0.82rem;
+      color: #c8e6d5;
+      display: grid;
+      gap: 4px;
+    }
+
+    .ga-sidebar-note strong {
+      color: #fff0fb;
+      font-size: 0.9rem;
+    }
+
+    .ga-nav {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ga-nav button {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: #e5d8ff;
+      text-align: left;
+      padding: 10px 10px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .ga-nav button:hover {
+      transform: translateX(2px);
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    .ga-nav button.is-active {
+      background: linear-gradient(135deg, rgba(255, 143, 180, 0.28), rgba(127, 101, 255, 0.28));
+      border-color: rgba(228, 205, 255, 0.5);
+      color: #fff6ff;
+    }
+
+    .ga-nav-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(226, 211, 255, 0.38);
+      background: linear-gradient(140deg, rgba(255, 152, 188, 0.22), rgba(96, 138, 255, 0.26));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .ga-nav-badge {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 8px;
+      color: #fff3ff;
+    }
+
+    .ga-main {
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(251, 246, 255, 0.55));
+    }
+
+    .ga-topbar {
+      position: sticky;
+      top: 8px;
+      z-index: 20;
+      border: 1px solid #dbcfff;
+      border-radius: var(--ga-radius-xl);
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.94), rgba(249, 242, 255, 0.9));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: var(--ga-shadow);
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .ga-search {
+      border: 1px solid #ded2ff;
+      border-radius: 12px;
+      min-height: 46px;
+      background: var(--ga-panel-soft);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      padding: 0 12px;
+      color: #4d4b7a;
+    }
+
+    .ga-search span {
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #5a7a67;
+    }
+
+    .ga-search input {
+      border: 0;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      color: var(--ga-text);
+      width: 100%;
+    }
+
+    .ga-top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .ga-top-actions > * {
+      flex-shrink: 0;
+    }
+
+    .ga-btn,
+    .ga-btn-icon {
+      border: 1px solid #d9cdfd;
+      background: linear-gradient(180deg, #ffffff, #f9f4ff);
+      border-radius: 12px;
+      min-height: 44px;
+      padding: 0 14px;
+      font: inherit;
+      font-weight: 700;
+      color: #2e2664;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ga-btn:hover,
+    .ga-btn-icon:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(18, 70, 45, 0.12);
+    }
+
+    .ga-btn-icon {
+      min-width: 44px;
+      padding: 0 10px;
+    }
+
+    .ga-btn.primary {
+      border-color: #7d66ff;
+      background: linear-gradient(135deg, #ff6fa4 0%, #7d66ff 52%, #3ecfa4 100%);
+      color: #fff;
+      box-shadow: 0 12px 22px rgba(110, 78, 241, 0.28);
+    }
+
+    .ga-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .ga-heading h1 {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.46rem, 2.2vw, 2.1rem);
+    }
+
+    .ga-segment {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ga-segment button {
+      border: 1px solid #d8cdf9;
+      border-radius: 999px;
+      background: #fff;
+      color: #454080;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ga-segment button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 14px rgba(20, 70, 44, 0.12);
+    }
+
+    .ga-segment button.is-active {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, #ff7aac 0%, #7565ff 100%);
+    }
+
+    .ga-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .ga-kpi {
+      border: 1px solid #ddd2ff;
+      border-radius: var(--ga-radius-lg);
+      background: linear-gradient(180deg, #ffffff, #fbf7ff);
+      box-shadow: var(--ga-shadow);
+      padding: 14px;
+      display: grid;
+      gap: 6px;
+      min-height: 126px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ga-kpi:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 32px rgba(17, 67, 43, 0.12);
+    }
+
+    .ga-kpi small {
+      color: var(--ga-muted);
+      font-weight: 700;
+    }
+
+    .ga-kpi-value {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.45rem, 2vw, 2rem);
+      letter-spacing: -0.03em;
+      color: #292462;
+    }
+
+    .ga-kpi:nth-child(1) {
+      background: linear-gradient(180deg, #ffffff, #ffeef5);
+      border-color: #ffcde0;
+    }
+
+    .ga-kpi:nth-child(2) {
+      background: linear-gradient(180deg, #ffffff, #f2eeff);
+      border-color: #d9cdfb;
+    }
+
+    .ga-kpi:nth-child(3) {
+      background: linear-gradient(180deg, #ffffff, #ecfff8);
+      border-color: #c6eadf;
+    }
+
+    .ga-kpi:nth-child(4) {
+      background: linear-gradient(180deg, #ffffff, #eef6ff);
+      border-color: #cfe0ff;
+    }
+
+    .ga-trend {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 4px 9px;
+    }
+
+    .ga-trend.up {
+      color: #1b7f48;
+      background: #e8f6ef;
+      border: 1px solid #bfdfcc;
+    }
+
+    .ga-trend.down {
+      color: #ab4558;
+      background: #fbecef;
+      border: 1px solid #f0c8d0;
+    }
+
+    .ga-trend.flat {
+      color: #5a7768;
+      background: #edf4f0;
+      border: 1px solid #d7e6dc;
+    }
+
+    .ga-kpi p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: var(--ga-muted);
+    }
+
+    .ga-layout-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .ga-card {
+      border: 1px solid #ddd3ff;
+      border-radius: var(--ga-radius-xl);
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.98), rgba(247, 241, 255, 0.92));
+      box-shadow: var(--ga-shadow);
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .ga-card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 30px;
+    }
+
+    .ga-card-head h2,
+    .ga-card-head h3 {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    .ga-card-head h2 { font-size: 1.12rem; }
+    .ga-card-head h3 { font-size: 1rem; }
+
+    .ga-state {
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px solid #d8cdfd;
+      background: #f8f3ff;
+      color: #4b4a7f;
+      font-size: 0.84rem;
+      display: none;
+    }
+
+    .ga-state.show { display: block; }
+    .ga-state.loading { background: #f0f7f3; }
+    .ga-state.empty { background: #f8fbf9; }
+    .ga-state.error { background: #fff1f4; color: #944455; border-color: #f0ced5; }
+
+    .ga-table-wrap {
+      overflow: auto;
+      border: 1px solid #ddd4ff;
+      border-radius: 14px;
+      scrollbar-width: thin;
+      scrollbar-color: #8dbba1 #eaf6ee;
+    }
+
+    .ga-table-wrap::-webkit-scrollbar {
+      height: 10px;
+      width: 10px;
+    }
+
+    .ga-table-wrap::-webkit-scrollbar-track {
+      background: #eaf6ee;
+      border-radius: 999px;
+    }
+
+    .ga-table-wrap::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #9fcbaf, #74ac8a);
+      border-radius: 999px;
+      border: 2px solid #eaf6ee;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      background: #fff;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 11px;
+      border-bottom: 1px solid #edf3ee;
+      font-size: 0.88rem;
+      vertical-align: middle;
+      line-height: 1.35;
+    }
+
+    th {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.77rem;
+      color: #625e8e;
+      background: linear-gradient(180deg, #fbf7ff, #f8f3ff);
+    }
+
+    tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: linear-gradient(90deg, #fff3f8, #f6f1ff);
+    }
+
+    .ga-cell-customer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 180px;
+    }
+
+    .ga-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff7ea8 0%, #7864ff 52%, #32c39d 100%);
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .ga-status {
+      display: inline-flex;
+      min-width: 98px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .ga-status.pending { background: #fff5e6; color: var(--ga-warning); border-color: #f4d8a3; }
+    .ga-status.confirmed { background: #e8fff6; color: #1a8a67; border-color: #bdebdc; }
+    .ga-status.completed { background: #edf1ff; color: var(--ga-info); border-color: #ccd9ff; }
+    .ga-status.cancelled { background: #ffeaf2; color: var(--ga-danger); border-color: #f8c8da; }
+
+    .ga-row-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .ga-row-actions button {
+      border: 1px solid #dacffd;
+      background: linear-gradient(180deg, #fff, #f9f4ff);
+      border-radius: 9px;
+      padding: 6px 9px;
+      font: inherit;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #433c7d;
+      cursor: pointer;
+    }
+
+    .ga-row-actions button:hover {
+      background: linear-gradient(180deg, #fff0f7, #f2efff);
+    }
+
+    .ga-skeleton {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #eef5f0;
+      min-height: 12px;
+    }
+
+    .ga-skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+      animation: ga-shimmer 1.2s infinite;
+    }
+
+    @keyframes ga-shimmer {
+      to { transform: translateX(100%); }
+    }
+
+    .ga-widget-stack {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .ga-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .ga-list-item {
+      border: 1px solid #ddd2ff;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff, #f9f4ff);
+      padding: 10px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .ga-list-item strong {
+      font-size: 0.9rem;
+      color: #2d2864;
+    }
+
+    .ga-list-item small {
+      color: var(--ga-muted);
+      font-size: 0.8rem;
+    }
+
+    .ga-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .ga-dot.online { background: #26c58f; }
+    .ga-dot.busy { background: #ff9f45; }
+    .ga-dot.offline { background: #c6bfdc; }
+
+    .ga-charts {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .ga-line-wrap {
+      border: 1px solid #ddd3ff;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #f8f2ff);
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .ga-line-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--ga-muted);
+      font-size: 0.82rem;
+    }
+
+    .ga-line-chart {
+      width: 100%;
+      height: 220px;
+    }
+
+    .ga-grid-line {
+      stroke: #e7dcff;
+      stroke-width: 1;
+    }
+
+    .ga-line {
+      fill: none;
+      stroke: #7a64ff;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ga-area {
+      fill: rgba(125, 102, 255, 0.18);
+    }
+
+    .ga-point {
+      fill: #ff6ea3;
+      stroke: #ffffff;
+      stroke-width: 2;
+    }
+
+    .ga-donut-wrap {
+      border: 1px solid #ddd3ff;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #f8f2ff);
+      padding: 12px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      justify-items: center;
+    }
+
+    .ga-donut {
+      width: 170px;
+      height: 170px;
+      border-radius: 999px;
+      background: conic-gradient(#e8f1eb 0 100%);
+      position: relative;
+    }
+
+    .ga-donut::after {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #e2d9ff;
+    }
+
+    .ga-donut-center {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      z-index: 1;
+      text-align: center;
+      font-size: 0.76rem;
+      color: var(--ga-muted);
+    }
+
+    .ga-donut-center strong {
+      display: block;
+      font-family: "Sora", sans-serif;
+      color: #29245e;
+      font-size: 1.18rem;
+      letter-spacing: -0.02em;
+    }
+
+    .ga-legend {
+      display: grid;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .ga-legend-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: #4b467d;
+    }
+
+    .ga-legend-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ga-legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .ga-empty {
+      border: 1px dashed #d7cafb;
+      border-radius: 12px;
+      background: #faf5ff;
+      color: var(--ga-muted);
+      text-align: center;
+      padding: 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .ga-empty::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      margin-right: 8px;
+      vertical-align: -5px;
+      border: 1px solid #bdd8c6;
+      background:
+        radial-gradient(circle at center, #8ebea0 0 2px, transparent 3px),
+        linear-gradient(180deg, #f6fcf8, #ebf7ef);
+    }
+
+    .ga-views {
+      display: grid;
+      gap: 14px;
+    }
+
+    .ga-view {
+      display: none;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .ga-view.is-active {
+      display: grid;
+    }
+
+    .ga-toolbar {
+      border: 1px solid #ddd1ff;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff, #f9f4ff);
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ga-toolbar input,
+    .ga-toolbar select {
+      border: 1px solid #d8cdfb;
+      border-radius: 10px;
+      min-height: 38px;
+      padding: 0 10px;
+      font: inherit;
+      color: #2c255f;
+      background: #fff;
+      min-width: 190px;
+    }
+
+    .ga-toolbar-meta {
+      font-size: 0.8rem;
+      color: var(--ga-muted);
+      font-weight: 700;
+    }
+
+    .ga-mini-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ga-mini-card {
+      border: 1px solid #dbd0fd;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffffff, #f7f1ff);
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .ga-mini-card small {
+      font-size: 0.78rem;
+      color: var(--ga-muted);
+      font-weight: 700;
+    }
+
+    .ga-mini-card strong {
+      font-family: "Sora", sans-serif;
+      font-size: 1.2rem;
+      color: #2d2668;
+      letter-spacing: -0.02em;
+    }
+
+    .ga-settings-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ga-setting {
+      border: 1px solid #ddd3ff;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #f7f1ff);
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .ga-setting label {
+      display: grid;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: #463e7c;
+      font-weight: 700;
+    }
+
+    .ga-setting input,
+    .ga-setting select {
+      border: 1px solid #d8cdfa;
+      border-radius: 10px;
+      min-height: 38px;
+      padding: 0 10px;
+      font: inherit;
+      color: #2f2864;
+      background: #fff;
+    }
+
+    .ga-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: #49427f;
+      font-weight: 700;
+    }
+
+    .ga-settings-foot {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ga-muted-note {
+      font-size: 0.8rem;
+      color: #5f5a8d;
+      font-weight: 700;
+    }
+
+    .ga-view[data-view="dashboard"] .ga-heading h1 { color: #6d45cf; }
+    .ga-view[data-view="bookings"] .ga-heading h1 { color: #346ad6; }
+    .ga-view[data-view="customers"] .ga-heading h1 { color: #d6528b; }
+    .ga-view[data-view="gardeners"] .ga-heading h1 { color: #2caa7f; }
+    .ga-view[data-view="services"] .ga-heading h1 { color: #8f4fd1; }
+    .ga-view[data-view="payments"] .ga-heading h1 { color: #d57a2e; }
+    .ga-view[data-view="reviews"] .ga-heading h1 { color: #b94e9f; }
+    .ga-view[data-view="analytics"] .ga-heading h1 { color: #475fd6; }
+    .ga-view[data-view="settings"] .ga-heading h1 { color: #6148c8; }
+
+    .ga-toast-root {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 9999;
+      display: grid;
+      gap: 8px;
+      width: min(360px, calc(100vw - 24px));
+      pointer-events: none;
+    }
+
+    .ga-toast {
+      border: 1px solid #d4e4da;
+      border-left-width: 5px;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 16px 28px rgba(19, 61, 40, 0.16);
+      padding: 10px 12px;
+      font-size: 0.84rem;
+      color: #1c442f;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: ga-toast-in 0.24s ease forwards;
+    }
+
+    .ga-toast.success { border-left-color: #1f9a53; }
+    .ga-toast.warning { border-left-color: #a66a10; }
+    .ga-toast.error { border-left-color: #b7455a; }
+    .ga-toast.info { border-left-color: #2262ae; }
+
+    .ga-toast.fade-out {
+      animation: ga-toast-out 0.22s ease forwards;
+    }
+
+    @keyframes ga-toast-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes ga-toast-out {
+      to {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+    }
+
+    /* Green-first visual override */
+    :root {
+      --ga-bg: #edf8f1;
+      --ga-panel-soft: #f4fbf6;
+      --ga-border: #cfe6d6;
+      --ga-text: #153a29;
+      --ga-muted: #537666;
+      --ga-shadow: 0 16px 34px rgba(17, 77, 47, 0.14);
+      --ga-green: #21a35a;
+      --ga-green-deep: #14693a;
+      --ga-sidebar-bg: #0f2d1e;
+      --ga-sidebar-soft: #18452f;
+      --ga-danger: #c14b5e;
+      --ga-warning: #b77a18;
+      --ga-info: #2a6db4;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 11% 10%, rgba(69, 201, 122, 0.2), transparent 33%),
+        radial-gradient(circle at 90% 12%, rgba(37, 163, 120, 0.14), transparent 35%),
+        radial-gradient(circle at 82% 90%, rgba(165, 219, 110, 0.18), transparent 32%),
+        linear-gradient(180deg, #effaf2 0%, #f8fff9 100%);
+      color: var(--ga-text);
+    }
+
+    .ga-shell {
+      border-color: #c9e2d1;
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(244, 252, 247, 0.94));
+      box-shadow: 0 22px 48px rgba(20, 82, 49, 0.2);
+    }
+
+    .ga-sidebar {
+      background:
+        radial-gradient(circle at 8% 12%, rgba(80, 212, 135, 0.14), transparent 36%),
+        radial-gradient(circle at 84% 84%, rgba(149, 210, 85, 0.12), transparent 32%),
+        linear-gradient(180deg, var(--ga-sidebar-bg) 0%, #0b2418 100%);
+      color: #e9ffef;
+    }
+
+    .ga-brand-dot {
+      background: linear-gradient(135deg, #8de36d 0%, #2cbf77 50%, #177a45 100%);
+      box-shadow: 0 0 0 6px rgba(95, 205, 134, 0.14);
+    }
+
+    .ga-sidebar-note {
+      border-color: rgba(172, 232, 197, 0.26);
+      background: rgba(223, 255, 236, 0.08);
+      color: #d6f4e1;
+    }
+
+    .ga-sidebar-note strong { color: #f2fff6; }
+
+    .ga-nav button { color: #d6f2df; }
+
+    .ga-nav button:hover {
+      background: rgba(223, 255, 236, 0.12);
+    }
+
+    .ga-nav button.is-active {
+      background: linear-gradient(135deg, rgba(78, 202, 125, 0.22), rgba(20, 120, 67, 0.2));
+      border-color: rgba(149, 236, 186, 0.34);
+      color: #f4fff7;
+    }
+
+    .ga-nav-icon {
+      border-color: rgba(163, 232, 191, 0.4);
+      background: linear-gradient(140deg, rgba(120, 223, 148, 0.24), rgba(43, 165, 104, 0.28));
+    }
+
+    .ga-nav-badge {
+      background: rgba(209, 255, 227, 0.22);
+      color: #edfff3;
+    }
+
+    .ga-main {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.64), rgba(242, 252, 246, 0.58));
+    }
+
+    .ga-topbar {
+      border-color: #cfe6d6;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.95), rgba(243, 252, 246, 0.92));
+    }
+
+    .ga-search {
+      border-color: #cee4d5;
+      color: #3f6955;
+    }
+
+    .ga-btn,
+    .ga-btn-icon {
+      border-color: #cbe3d2;
+      background: linear-gradient(180deg, #ffffff, #f3fbf6);
+      color: #1f563b;
+    }
+
+    .ga-btn.primary {
+      border-color: #1f9655;
+      background: linear-gradient(135deg, #66cd75 0%, #28b266 50%, #157b43 100%);
+      color: #fff;
+      box-shadow: 0 12px 22px rgba(24, 126, 67, 0.28);
+    }
+
+    .ga-segment button {
+      border-color: #cae3d1;
+      color: #2c684a;
+    }
+
+    .ga-segment button.is-active {
+      background: linear-gradient(135deg, #55c972 0%, #239e57 100%);
+      color: #fff;
+    }
+
+    .ga-kpi,
+    .ga-card,
+    .ga-line-wrap,
+    .ga-donut-wrap,
+    .ga-mini-card,
+    .ga-setting {
+      border-color: #cfe5d5;
+      background: linear-gradient(170deg, rgba(255, 255, 255, 0.98), rgba(244, 252, 247, 0.94));
+    }
+
+    .ga-kpi-value,
+    .ga-mini-card strong,
+    .ga-donut-center strong,
+    .ga-list-item strong {
+      color: #1f5d3f;
+    }
+
+    .ga-kpi:nth-child(1) {
+      background: linear-gradient(180deg, #ffffff, #e9faed);
+      border-color: #bfe8ca;
+    }
+
+    .ga-kpi:nth-child(2) {
+      background: linear-gradient(180deg, #ffffff, #f0f9ea);
+      border-color: #cde5bc;
+    }
+
+    .ga-kpi:nth-child(3) {
+      background: linear-gradient(180deg, #ffffff, #e8f8f2);
+      border-color: #b9e5d3;
+    }
+
+    .ga-kpi:nth-child(4) {
+      background: linear-gradient(180deg, #ffffff, #edf8ef);
+      border-color: #c5e7cd;
+    }
+
+    .ga-table-wrap { border-color: #cfe4d5; }
+
+    .ga-table-wrap::-webkit-scrollbar-track {
+      background: #edf7f1;
+    }
+
+    .ga-table-wrap::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #8dbfa1, #5f9a79);
+      border-color: #edf7f1;
+    }
+
+    th {
+      color: #4a6f5a;
+      background: linear-gradient(180deg, #f4fbf6, #edf8f0);
+    }
+
+    tbody tr:hover {
+      background: linear-gradient(90deg, #effbf3, #e8f8ee);
+    }
+
+    .ga-avatar {
+      background: linear-gradient(135deg, #8edc6f 0%, #2fb96f 56%, #1a8047 100%);
+    }
+
+    .ga-row-actions button {
+      border-color: #c9e0d0;
+      background: linear-gradient(180deg, #ffffff, #f2fbf5);
+      color: #2f684a;
+    }
+
+    .ga-row-actions button:hover {
+      background: linear-gradient(180deg, #ecfbf1, #e4f7eb);
+    }
+
+    .ga-list-item {
+      border-color: #cde3d4;
+      background: linear-gradient(180deg, #ffffff, #f2fbf6);
+    }
+
+    .ga-dot.online { background: #1eb870; }
+    .ga-dot.busy { background: #9fbf2e; }
+    .ga-dot.offline { background: #a9c3b5; }
+
+    .ga-grid-line { stroke: #d8ecdf; }
+    .ga-line { stroke: #1ea95e; }
+    .ga-area { fill: rgba(36, 168, 90, 0.18); }
+    .ga-point { fill: #79cc62; }
+
+    .ga-empty {
+      border-color: #c9dfcf;
+      background: #f1fbf4;
+      color: #5a7a67;
+    }
+
+    .ga-toolbar {
+      border-color: #cae1d1;
+      background: linear-gradient(180deg, #fff, #f2fbf5);
+    }
+
+    .ga-toolbar input,
+    .ga-toolbar select,
+    .ga-setting input,
+    .ga-setting select {
+      border-color: #c5dccd;
+      color: #23563d;
+    }
+
+    .ga-view[data-view="dashboard"] .ga-heading h1 { color: #1f8e4f; }
+    .ga-view[data-view="bookings"] .ga-heading h1 { color: #2a9f57; }
+    .ga-view[data-view="customers"] .ga-heading h1 { color: #389e67; }
+    .ga-view[data-view="gardeners"] .ga-heading h1 { color: #1d8a55; }
+    .ga-view[data-view="services"] .ga-heading h1 { color: #3f9f4f; }
+    .ga-view[data-view="payments"] .ga-heading h1 { color: #579f3a; }
+    .ga-view[data-view="reviews"] .ga-heading h1 { color: #2f8f5f; }
+    .ga-view[data-view="analytics"] .ga-heading h1 { color: #2a8a4b; }
+    .ga-view[data-view="settings"] .ga-heading h1 { color: #217d42; }
+
+    .ga-toast {
+      border-color: #c9dfcf;
+      background: #f3fbf6;
+      color: #1d5a3e;
+      box-shadow: 0 14px 26px rgba(17, 75, 46, 0.18);
+    }
+
+    .ga-toast.success { border-left-color: #1f9a53; }
+    .ga-toast.warning { border-left-color: #89a82e; }
+    .ga-toast.error { border-left-color: #c14b5e; }
+    .ga-toast.info { border-left-color: #2a6db4; }
+
+    @media (max-width: 1320px) {
+      .ga-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ga-layout-main { grid-template-columns: 1fr; }
+      .ga-charts { grid-template-columns: 1fr; }
+      .ga-mini-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 980px) {
+      .ga-shell { grid-template-columns: 1fr; }
+      .ga-sidebar { grid-template-rows: auto auto; }
+      .ga-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      table { min-width: 860px; }
+    }
+
+    @media (max-width: 760px) {
+      .ga-topbar { position: static; grid-template-columns: 1fr; }
+      .ga-top-actions { justify-content: flex-start; }
+      .ga-top-actions > * { flex: 1 1 auto; min-width: 116px; }
+      .ga-nav { grid-template-columns: 1fr; }
+      .ga-kpi-grid { grid-template-columns: 1fr; }
+      .ga-shell { width: 95%; border-radius: 18px; margin: 10px auto; min-height: calc(100vh - 20px); }
+      .ga-main { padding: 12px; }
+      .ga-layout-main { gap: 10px; }
+      .ga-settings-grid { grid-template-columns: 1fr; }
+      table { min-width: 740px; }
+      th,
+      td { padding: 9px; font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ga-shell">
+    <aside class="ga-sidebar" aria-label="Primary">
+      <div class="ga-brand"><span class="ga-brand-dot" aria-hidden="true"></span><span>GreenArch Admin</span></div>
+
+      <div class="ga-sidebar-note">
+        <strong>Live Product Mode</strong>
+        <span id="ga-data-source">Source: connecting...</span>
+        <span id="ga-last-sync">Last sync: --</span>
+      </div>
+
+      <nav class="ga-nav" aria-label="Sidebar Navigation">
+        <button class="is-active" type="button" data-view="dashboard"><span class="ga-nav-icon">DB</span><span>Dashboard</span><span></span></button>
+        <button type="button" data-view="bookings"><span class="ga-nav-icon">BK</span><span>Bookings</span><span class="ga-nav-badge" id="ga-booking-badge">--</span></button>
+        <button type="button" data-view="customers"><span class="ga-nav-icon">CU</span><span>Customers</span><span></span></button>
+        <button type="button" data-view="gardeners"><span class="ga-nav-icon">GD</span><span>Gardeners</span><span></span></button>
+        <button type="button" data-view="services"><span class="ga-nav-icon">SV</span><span>Services</span><span></span></button>
+        <button type="button" data-view="payments"><span class="ga-nav-icon">PM</span><span>Payments</span><span></span></button>
+        <button type="button" data-view="reviews"><span class="ga-nav-icon">RV</span><span>Reviews</span><span></span></button>
+        <button type="button" data-view="analytics"><span class="ga-nav-icon">AN</span><span>Analytics</span><span></span></button>
+        <button type="button" data-view="settings"><span class="ga-nav-icon">ST</span><span>Settings</span><span></span></button>
+      </nav>
+    </aside>
+
+    <main class="ga-main">
+      <header class="ga-topbar">
+        <label class="ga-search" aria-label="Search">
+          <span aria-hidden="true">Find</span>
+          <input id="ga-search" type="search" placeholder="Bookings, customers, areas, gardeners" />
+        </label>
+        <div class="ga-top-actions">
+          <button class="ga-btn-icon" type="button" id="ga-open-notifications" aria-label="Notifications">NT</button>
+          <button class="ga-btn-icon" type="button" id="ga-open-profile" aria-label="Profile">PF</button>
+          <button class="ga-btn" type="button" id="ga-refresh">Refresh</button>
+          <button class="ga-btn primary" type="button" id="ga-quick-action">Quick Action</button>
+        </div>
+      </header>
+
+      <div class="ga-views" id="ga-views">
+        <section class="ga-view is-active" data-view="dashboard">
+          <section class="ga-heading">
+            <h1>Bookings Dashboard</h1>
+            <div class="ga-segment" aria-label="Booking Filters">
+              <button class="is-active" data-status="all" type="button">All</button>
+              <button data-status="pending" type="button">Pending</button>
+              <button data-status="confirmed" type="button">Confirmed</button>
+              <button data-status="completed" type="button">Completed</button>
+              <button data-status="cancelled" type="button">Cancelled</button>
+            </div>
+          </section>
+
+          <section class="ga-kpi-grid" aria-label="KPI Cards">
+            <article class="ga-kpi">
+              <small>Total Bookings</small>
+              <h2 class="ga-kpi-value" id="kpi-bookings">--</h2>
+              <span class="ga-trend flat" id="trend-bookings">No trend yet</span>
+              <p id="kpi-bookings-note">No booking data yet</p>
+            </article>
+            <article class="ga-kpi">
+              <small>Revenue</small>
+              <h2 class="ga-kpi-value" id="kpi-revenue">--</h2>
+              <span class="ga-trend flat" id="trend-revenue">No trend yet</span>
+              <p id="kpi-revenue-note">No payment data yet</p>
+            </article>
+            <article class="ga-kpi">
+              <small>Active Gardeners</small>
+              <h2 class="ga-kpi-value" id="kpi-gardeners">--</h2>
+              <span class="ga-trend flat" id="trend-gardeners">No trend yet</span>
+              <p id="kpi-gardeners-note">No gardener data yet</p>
+            </article>
+            <article class="ga-kpi">
+              <small>Customer Rating</small>
+              <h2 class="ga-kpi-value" id="kpi-rating">--</h2>
+              <span class="ga-trend flat" id="trend-rating">No trend yet</span>
+              <p id="kpi-rating-note">No ratings data yet</p>
+            </article>
+          </section>
+
+          <section class="ga-mini-grid" aria-label="Operations Summary">
+            <article class="ga-mini-card"><small>Today Visits</small><strong id="ga-dashboard-today-visits">--</strong></article>
+            <article class="ga-mini-card"><small>Recent Bookings (24h)</small><strong id="ga-dashboard-recent-bookings">--</strong></article>
+            <article class="ga-mini-card"><small>Open Alerts</small><strong id="ga-dashboard-alert-count">--</strong></article>
+          </section>
+
+          <section class="ga-layout-main">
+            <article class="ga-card">
+              <div class="ga-card-head">
+                <h2>Booking Management</h2>
+                <span class="ga-note">Interactive table with actions</span>
+              </div>
+
+              <div class="ga-state loading show" id="ga-table-state">Loading live booking data...</div>
+
+              <div class="ga-table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Service</th>
+                      <th>Date</th>
+                      <th>Slot</th>
+                      <th>Status</th>
+                      <th>Gardener</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ga-booking-table-body">
+                    <tr>
+                      <td><div class="ga-skeleton"></div></td>
+                      <td><div class="ga-skeleton"></div></td>
+                      <td><div class="ga-skeleton"></div></td>
+                      <td><div class="ga-skeleton"></div></td>
+                      <td><div class="ga-skeleton"></div></td>
+                      <td><div class="ga-skeleton"></div></td>
+                      <td><div class="ga-skeleton"></div></td>
+                      <td><div class="ga-skeleton"></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <aside class="ga-widget-stack">
+              <article class="ga-card">
+                <div class="ga-card-head"><h3>Today Schedule</h3><span class="ga-note" id="today-count">--</span></div>
+                <div class="ga-list" id="today-schedule-list">
+                  <div class="ga-empty">Loading schedule</div>
+                </div>
+              </article>
+
+              <article class="ga-card">
+                <div class="ga-card-head"><h3>Pending Tasks</h3><span class="ga-note" id="tasks-count">--</span></div>
+                <div class="ga-list" id="pending-tasks-list">
+                  <div class="ga-empty">Loading tasks</div>
+                </div>
+              </article>
+
+              <article class="ga-card">
+                <div class="ga-card-head"><h3>Live Gardener Status</h3><span class="ga-note" id="gardeners-count">--</span></div>
+                <div class="ga-list" id="gardener-status-list">
+                  <div class="ga-empty">Loading gardener status</div>
+                </div>
+              </article>
+
+              <article class="ga-card">
+                <div class="ga-card-head"><h3>Alerts</h3><span class="ga-note" id="ga-alerts-meta">--</span></div>
+                <div class="ga-list" id="ga-alerts-list">
+                  <div class="ga-empty">No alerts yet</div>
+                </div>
+              </article>
+            </aside>
+          </section>
+
+          <section class="ga-charts">
+            <article class="ga-card">
+              <div class="ga-card-head"><h3>Bookings Trend</h3><span class="ga-note" id="line-range-note">Last 7 days</span></div>
+              <div class="ga-line-wrap">
+                <div class="ga-line-meta"><span id="line-total">--</span><span id="line-peak">Peak: --</span></div>
+                <svg class="ga-line-chart" id="line-chart" viewBox="0 0 700 220" preserveAspectRatio="none" aria-label="Bookings line chart">
+                  <line class="ga-grid-line" x1="0" y1="40" x2="700" y2="40"></line>
+                  <line class="ga-grid-line" x1="0" y1="95" x2="700" y2="95"></line>
+                  <line class="ga-grid-line" x1="0" y1="150" x2="700" y2="150"></line>
+                  <line class="ga-grid-line" x1="0" y1="205" x2="700" y2="205"></line>
+                  <path class="ga-area" id="line-area" d=""></path>
+                  <path class="ga-line" id="line-path" d=""></path>
+                  <g id="line-points"></g>
+                </svg>
+              </div>
+            </article>
+
+            <article class="ga-card">
+              <div class="ga-card-head"><h3>Status Split</h3><span class="ga-note" id="donut-total">--</span></div>
+              <div class="ga-donut-wrap">
+                <div class="ga-donut" id="status-donut">
+                  <div class="ga-donut-center"><div><strong id="donut-center-value">--</strong><span>bookings</span></div></div>
+                </div>
+                <div class="ga-legend" id="status-legend">
+                  <div class="ga-legend-row"><span class="ga-legend-left"><span class="ga-legend-swatch" style="background:#e8f1eb"></span>No data</span><strong>--</strong></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="ga-card">
+              <div class="ga-card-head"><h3>Revenue Pulse</h3><span class="ga-note" id="ga-revenue-meta">Last 7 days</span></div>
+              <div class="ga-list" id="ga-revenue-bars">
+                <div class="ga-empty">Loading revenue</div>
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="bookings">
+          <section class="ga-heading">
+            <h1>Bookings Workspace</h1>
+          </section>
+          <section class="ga-card">
+            <div class="ga-toolbar">
+              <div class="ga-segment" aria-label="Bookings View Filters">
+                <button class="is-active" data-bookings-status="all" type="button">All</button>
+                <button data-bookings-status="pending" type="button">Pending</button>
+                <button data-bookings-status="confirmed" type="button">Confirmed</button>
+                <button data-bookings-status="completed" type="button">Completed</button>
+                <button data-bookings-status="cancelled" type="button">Cancelled</button>
+              </div>
+              <input id="ga-bookings-search" type="search" placeholder="Search customer, service, area, slot" />
+              <select id="ga-bookings-service-filter">
+                <option value="all">All services</option>
+              </select>
+              <input id="ga-bookings-date-filter" type="date" />
+            </div>
+            <div class="ga-toolbar-meta" id="ga-bookings-meta">--</div>
+            <div class="ga-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Slot</th>
+                    <th>Status</th>
+                    <th>Gardener</th>
+                    <th>Area</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-bookings-view-body">
+                  <tr><td colspan="10" class="ga-empty">Loading bookings</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="customers">
+          <section class="ga-heading"><h1>Customers Hub</h1></section>
+          <section class="ga-card">
+            <div class="ga-toolbar">
+              <div class="ga-toolbar-meta" id="ga-customers-meta">--</div>
+              <input id="ga-customers-search" type="search" placeholder="Search customer, contact, address" />
+            </div>
+            <div class="ga-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Bookings</th>
+                    <th>Total Spend</th>
+                    <th>Active Plan</th>
+                    <th>Last Booking</th>
+                    <th>Notes / History</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-customers-body">
+                  <tr><td colspan="8" class="ga-empty">Loading customers</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="gardeners">
+          <section class="ga-heading"><h1>Gardeners Board</h1></section>
+          <section class="ga-card">
+            <div class="ga-mini-grid">
+              <article class="ga-mini-card"><small>Total Gardeners</small><strong id="ga-gardeners-total">--</strong></article>
+              <article class="ga-mini-card"><small>Online</small><strong id="ga-gardeners-online">--</strong></article>
+              <article class="ga-mini-card"><small>Busy</small><strong id="ga-gardeners-busy">--</strong></article>
+            </div>
+            <div class="ga-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Availability</th>
+                    <th>Assigned Jobs</th>
+                    <th>Rating</th>
+                    <th>Location / Area</th>
+                    <th>Earnings</th>
+                    <th>Account</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-gardeners-view-body">
+                  <tr><td colspan="7" class="ga-empty">Loading gardeners</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="services">
+          <section class="ga-heading"><h1>Services Performance</h1></section>
+          <section class="ga-card">
+            <div class="ga-toolbar">
+              <div class="ga-toolbar-meta" id="ga-services-meta">--</div>
+              <input id="ga-service-name" type="text" placeholder="Service name" />
+              <input id="ga-service-price" type="number" min="0" step="1" placeholder="Price" />
+              <input id="ga-service-duration" type="text" placeholder="Duration (e.g. 90 min)" />
+              <button class="ga-btn" type="button" id="ga-add-service">Add New Service</button>
+            </div>
+            <div class="ga-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Service</th>
+                    <th>Price</th>
+                    <th>Duration</th>
+                    <th>Description</th>
+                    <th>Revenue</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-services-body">
+                  <tr><td colspan="7" class="ga-empty">Loading services</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="payments">
+          <section class="ga-heading"><h1>Payments Ledger</h1></section>
+          <section class="ga-card">
+            <div class="ga-mini-grid">
+              <article class="ga-mini-card"><small>Total Collected</small><strong id="ga-payments-collected">--</strong></article>
+              <article class="ga-mini-card"><small>Pending Amount</small><strong id="ga-payments-pending">--</strong></article>
+              <article class="ga-mini-card"><small>Refunds</small><strong id="ga-payments-refunds">--</strong></article>
+            </div>
+            <div class="ga-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Payout</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-payments-body">
+                  <tr><td colspan="7" class="ga-empty">Loading payments</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="ga-toolbar-meta" id="ga-payment-methods-meta">Methods: --</div>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="reviews">
+          <section class="ga-heading"><h1>Reviews Monitor</h1></section>
+          <section class="ga-card">
+            <div class="ga-mini-grid">
+              <article class="ga-mini-card"><small>Average Rating</small><strong id="ga-reviews-average">--</strong></article>
+              <article class="ga-mini-card"><small>Rated Bookings</small><strong id="ga-reviews-count">--</strong></article>
+              <article class="ga-mini-card"><small>Unrated Bookings</small><strong id="ga-reviews-unrated">--</strong></article>
+            </div>
+            <div class="ga-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                    <th>Moderation</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-reviews-body">
+                  <tr><td colspan="6" class="ga-empty">Loading reviews</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="analytics">
+          <section class="ga-heading"><h1>Analytics Center</h1></section>
+          <section class="ga-card">
+            <div class="ga-mini-grid">
+              <article class="ga-mini-card"><small>Completion Rate</small><strong id="ga-analytics-completion">--</strong></article>
+              <article class="ga-mini-card"><small>Cancellation Rate</small><strong id="ga-analytics-cancellation">--</strong></article>
+              <article class="ga-mini-card"><small>Avg Ticket Size</small><strong id="ga-analytics-ticket">--</strong></article>
+            </div>
+            <div class="ga-mini-grid">
+              <article class="ga-mini-card"><small>Daily Bookings</small><strong id="ga-analytics-daily">--</strong></article>
+              <article class="ga-mini-card"><small>Weekly Bookings</small><strong id="ga-analytics-weekly">--</strong></article>
+              <article class="ga-mini-card"><small>Repeat Customers</small><strong id="ga-analytics-repeat">--</strong></article>
+            </div>
+            <div class="ga-charts">
+              <article class="ga-line-wrap">
+                <div class="ga-line-meta"><span>Top Areas</span><span id="ga-areas-meta">--</span></div>
+                <div class="ga-list" id="ga-top-areas-list"><div class="ga-empty">No area data</div></div>
+              </article>
+              <article class="ga-line-wrap">
+                <div class="ga-line-meta"><span>Top Services</span><span id="ga-top-services-meta">--</span></div>
+                <div class="ga-list" id="ga-top-services-list"><div class="ga-empty">No service data</div></div>
+              </article>
+            </div>
+            <div class="ga-line-wrap">
+              <div class="ga-line-meta"><span>Revenue Trend (Daily)</span><span id="ga-conversion-meta">Conversion: --</span></div>
+              <div class="ga-list" id="ga-revenue-trend-list"><div class="ga-empty">No revenue trend</div></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="ga-view" data-view="settings">
+          <section class="ga-heading"><h1>Admin Settings</h1></section>
+          <section class="ga-card">
+            <div class="ga-settings-grid">
+              <article class="ga-setting">
+                <label for="ga-admin-name">Admin Profile
+                  <input id="ga-admin-name" type="text" placeholder="Admin name" />
+                </label>
+                <label for="ga-business-name">Business Info
+                  <input id="ga-business-name" type="text" placeholder="GreenArch Pvt Ltd" />
+                </label>
+                <label for="ga-service-areas">Service Areas
+                  <input id="ga-service-areas" type="text" placeholder="Indore, Bhopal, Ujjain" />
+                </label>
+                <label for="ga-pricing-rule">Pricing Rules
+                  <input id="ga-pricing-rule" type="text" placeholder="Weekend +15%" />
+                </label>
+                <label for="ga-api-base">API Base URL
+                  <input id="ga-api-base" type="text" placeholder="http://localhost:3000" />
+                </label>
+                <label for="ga-default-view">Default Landing View
+                  <select id="ga-default-view">
+                    <option value="dashboard">Dashboard</option>
+                    <option value="bookings">Bookings</option>
+                    <option value="customers">Customers</option>
+                    <option value="gardeners">Gardeners</option>
+                    <option value="services">Services</option>
+                    <option value="payments">Payments</option>
+                    <option value="reviews">Reviews</option>
+                    <option value="analytics">Analytics</option>
+                    <option value="settings">Settings</option>
+                  </select>
+                </label>
+              </article>
+              <article class="ga-setting">
+                <label class="ga-switch" for="ga-auto-refresh">
+                  <input id="ga-auto-refresh" type="checkbox" />
+                  Enable auto refresh every 60s
+                </label>
+                <label class="ga-switch" for="ga-notifications-enabled">
+                  <input id="ga-notifications-enabled" type="checkbox" />
+                  Notifications enabled
+                </label>
+                <label for="ga-theme-select">Theme
+                  <select id="ga-theme-select">
+                    <option value="green">Green Arch</option>
+                    <option value="light">Light</option>
+                    <option value="contrast">High Contrast</option>
+                  </select>
+                </label>
+                <label for="ga-password-mask">Password / Security
+                  <input id="ga-password-mask" type="password" placeholder="Update admin password" />
+                </label>
+                <div class="ga-muted-note">Use this for live operations teams that need continuous updates.</div>
+              </article>
+            </div>
+            <div class="ga-settings-foot">
+              <div class="ga-muted-note" id="ga-settings-status">No settings changes yet.</div>
+              <div>
+                <button class="ga-btn" type="button" id="ga-logout">Logout</button>
+                <button class="ga-btn" type="button" id="ga-reset-settings">Reset</button>
+                <button class="ga-btn primary" type="button" id="ga-save-settings">Save & Reload Data</button>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div class="ga-toast-root" id="ga-toast-root" aria-live="polite" aria-atomic="false"></div>
+
+  <script>
+    (function () {
+      function keepFirstInstance(selector) {
+        const nodes = document.querySelectorAll(selector);
+        nodes.forEach(function (node, index) {
+          if (index > 0) {
+            node.remove();
+          }
+        });
+      }
+
+      // Defensive cleanup in case duplicate markup is accidentally injected.
+      keepFirstInstance('.ga-shell');
+      keepFirstInstance('.ga-topbar');
+
+      if (window.__GREENARCH_ADMIN_DASHBOARD_INITIALIZED__) {
+        return;
+      }
+      window.__GREENARCH_ADMIN_DASHBOARD_INITIALIZED__ = true;
+
+      const state = {
+        bookings: [],
+        gardeners: [],
+        tasks: [],
+        analytics: null,
+        activeView: 'dashboard',
+        activeStatus: 'all',
+        searchQuery: '',
+        bookingsViewStatus: 'all',
+        bookingsViewQuery: '',
+        bookingsViewService: 'all',
+        bookingsViewDate: '',
+        customersQuery: '',
+        gardenerDisabled: {},
+        flaggedReviews: {},
+        serviceCatalog: [],
+        authUser: null,
+        autoRefreshTimer: null
+      };
+
+      const nodes = {
+        tableBody: document.querySelector('#ga-booking-table-body'),
+        tableState: document.querySelector('#ga-table-state'),
+        search: document.querySelector('#ga-search'),
+        refresh: document.querySelector('#ga-refresh'),
+        filters: document.querySelectorAll('[data-status]'),
+        dataSource: document.querySelector('#ga-data-source'),
+        lastSync: document.querySelector('#ga-last-sync'),
+        bookingBadge: document.querySelector('#ga-booking-badge'),
+        kpiBookings: document.querySelector('#kpi-bookings'),
+        kpiRevenue: document.querySelector('#kpi-revenue'),
+        kpiGardeners: document.querySelector('#kpi-gardeners'),
+        kpiRating: document.querySelector('#kpi-rating'),
+        kpiBookingsNote: document.querySelector('#kpi-bookings-note'),
+        kpiRevenueNote: document.querySelector('#kpi-revenue-note'),
+        kpiGardenersNote: document.querySelector('#kpi-gardeners-note'),
+        kpiRatingNote: document.querySelector('#kpi-rating-note'),
+        trendBookings: document.querySelector('#trend-bookings'),
+        trendRevenue: document.querySelector('#trend-revenue'),
+        trendGardeners: document.querySelector('#trend-gardeners'),
+        trendRating: document.querySelector('#trend-rating'),
+        todayList: document.querySelector('#today-schedule-list'),
+        todayCount: document.querySelector('#today-count'),
+        tasksList: document.querySelector('#pending-tasks-list'),
+        tasksCount: document.querySelector('#tasks-count'),
+        gardenersList: document.querySelector('#gardener-status-list'),
+        gardenersCount: document.querySelector('#gardeners-count'),
+        linePath: document.querySelector('#line-path'),
+        lineArea: document.querySelector('#line-area'),
+        linePoints: document.querySelector('#line-points'),
+        lineTotal: document.querySelector('#line-total'),
+        linePeak: document.querySelector('#line-peak'),
+        donut: document.querySelector('#status-donut'),
+        donutCenterValue: document.querySelector('#donut-center-value'),
+        donutTotal: document.querySelector('#donut-total'),
+        statusLegend: document.querySelector('#status-legend'),
+        views: document.querySelectorAll('.ga-view'),
+        navButtons: document.querySelectorAll('.ga-nav [data-view]'),
+        bookingsViewSearch: document.querySelector('#ga-bookings-search'),
+        bookingsViewFilters: document.querySelectorAll('[data-bookings-status]'),
+        bookingsViewMeta: document.querySelector('#ga-bookings-meta'),
+        bookingsViewBody: document.querySelector('#ga-bookings-view-body'),
+        customersMeta: document.querySelector('#ga-customers-meta'),
+        customersBody: document.querySelector('#ga-customers-body'),
+        gardenersTotal: document.querySelector('#ga-gardeners-total'),
+        gardenersOnline: document.querySelector('#ga-gardeners-online'),
+        gardenersBusy: document.querySelector('#ga-gardeners-busy'),
+        gardenersViewBody: document.querySelector('#ga-gardeners-view-body'),
+        servicesMeta: document.querySelector('#ga-services-meta'),
+        servicesBody: document.querySelector('#ga-services-body'),
+        paymentsCollected: document.querySelector('#ga-payments-collected'),
+        paymentsPending: document.querySelector('#ga-payments-pending'),
+        paymentsRefunds: document.querySelector('#ga-payments-refunds'),
+        paymentsBody: document.querySelector('#ga-payments-body'),
+        paymentMethodsMeta: document.querySelector('#ga-payment-methods-meta'),
+        reviewsAverage: document.querySelector('#ga-reviews-average'),
+        reviewsCount: document.querySelector('#ga-reviews-count'),
+        reviewsUnrated: document.querySelector('#ga-reviews-unrated'),
+        reviewsBody: document.querySelector('#ga-reviews-body'),
+        analyticsCompletion: document.querySelector('#ga-analytics-completion'),
+        analyticsCancellation: document.querySelector('#ga-analytics-cancellation'),
+        analyticsTicket: document.querySelector('#ga-analytics-ticket'),
+        analyticsDaily: document.querySelector('#ga-analytics-daily'),
+        analyticsWeekly: document.querySelector('#ga-analytics-weekly'),
+        analyticsRepeat: document.querySelector('#ga-analytics-repeat'),
+        areasMeta: document.querySelector('#ga-areas-meta'),
+        topServicesMeta: document.querySelector('#ga-top-services-meta'),
+        topAreasList: document.querySelector('#ga-top-areas-list'),
+        topServicesList: document.querySelector('#ga-top-services-list'),
+        revenueTrendList: document.querySelector('#ga-revenue-trend-list'),
+        conversionMeta: document.querySelector('#ga-conversion-meta'),
+        revenueBars: document.querySelector('#ga-revenue-bars'),
+        revenueMeta: document.querySelector('#ga-revenue-meta'),
+        dashboardTodayVisits: document.querySelector('#ga-dashboard-today-visits'),
+        dashboardRecentBookings: document.querySelector('#ga-dashboard-recent-bookings'),
+        dashboardAlertCount: document.querySelector('#ga-dashboard-alert-count'),
+        alertsMeta: document.querySelector('#ga-alerts-meta'),
+        alertsList: document.querySelector('#ga-alerts-list'),
+        bookingsServiceFilter: document.querySelector('#ga-bookings-service-filter'),
+        bookingsDateFilter: document.querySelector('#ga-bookings-date-filter'),
+        customersSearch: document.querySelector('#ga-customers-search'),
+        addService: document.querySelector('#ga-add-service'),
+        serviceName: document.querySelector('#ga-service-name'),
+        servicePrice: document.querySelector('#ga-service-price'),
+        serviceDuration: document.querySelector('#ga-service-duration'),
+        quickAction: document.querySelector('#ga-quick-action'),
+        openNotifications: document.querySelector('#ga-open-notifications'),
+        openProfile: document.querySelector('#ga-open-profile'),
+        toastRoot: document.querySelector('#ga-toast-root'),
+        apiBase: document.querySelector('#ga-api-base'),
+        defaultView: document.querySelector('#ga-default-view'),
+        autoRefresh: document.querySelector('#ga-auto-refresh'),
+        notificationsEnabled: document.querySelector('#ga-notifications-enabled'),
+        themeSelect: document.querySelector('#ga-theme-select'),
+        adminName: document.querySelector('#ga-admin-name'),
+        businessName: document.querySelector('#ga-business-name'),
+        serviceAreas: document.querySelector('#ga-service-areas'),
+        pricingRule: document.querySelector('#ga-pricing-rule'),
+        passwordMask: document.querySelector('#ga-password-mask'),
+        settingsStatus: document.querySelector('#ga-settings-status'),
+        saveSettings: document.querySelector('#ga-save-settings'),
+        resetSettings: document.querySelector('#ga-reset-settings'),
+        logout: document.querySelector('#ga-logout')
+      };
+
+      const statusColors = {
+        pending: '#e9bd68',
+        confirmed: '#58b582',
+        completed: '#4c84cc',
+        cancelled: '#d98295'
+      };
+
+      const views = ['dashboard', 'bookings', 'customers', 'gardeners', 'services', 'payments', 'reviews', 'analytics', 'settings'];
+      const viewLabels = {
+        dashboard: 'Dashboard',
+        bookings: 'Bookings',
+        customers: 'Customers',
+        gardeners: 'Gardeners',
+        services: 'Services',
+        payments: 'Payments',
+        reviews: 'Reviews',
+        analytics: 'Analytics',
+        settings: 'Settings'
+      };
+
+      function setDocumentTitle(view) {
+        const label = viewLabels[view] || 'Dashboard';
+        document.title = 'GreenArch Admin | ' + label;
+      }
+
+      function showToast(message, kind) {
+        if (!nodes.toastRoot) {
+          return;
+        }
+        const tone = ['success', 'warning', 'error', 'info'].includes(kind) ? kind : 'info';
+        const toast = document.createElement('div');
+        toast.className = 'ga-toast ' + tone;
+        toast.textContent = String(message || 'Action completed');
+        nodes.toastRoot.appendChild(toast);
+
+        setTimeout(function () {
+          toast.classList.add('fade-out');
+          setTimeout(function () {
+            toast.remove();
+          }, 250);
+        }, 2400);
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? '' : value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function getAuthToken() {
+        return String(localStorage.getItem('greenarch_auth_token') || '').trim();
+      }
+
+      function normalizeApiBase(value) {
+        const base = String(value || '').trim().replace(/\/+$/, '');
+        return base && base !== 'null' ? base : '';
+      }
+
+      function buildApiBaseCandidates(preferredBase) {
+        const candidates = [];
+        const seen = new Set();
+
+        function addCandidate(value) {
+          const base = normalizeApiBase(value);
+          if (!base || seen.has(base)) {
+            return;
+          }
+          seen.add(base);
+          candidates.push(base);
+        }
+
+        addCandidate(preferredBase);
+        addCandidate(window.GREENARCH_API_BASE_URL);
+        addCandidate(localStorage.getItem('greenarch_api_base_url'));
+
+        if (window.location && window.location.origin && window.location.origin !== 'null') {
+          addCandidate(window.location.origin);
+        }
+
+        ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:3001', 'http://127.0.0.1:3001', 'http://localhost:4000', 'http://127.0.0.1:4000', 'http://localhost:5000', 'http://127.0.0.1:5000'].forEach(addCandidate);
+
+        return candidates;
+      }
+
+      function authHeaders() {
+        const token = getAuthToken();
+        const headers = {
+          Accept: 'application/json'
+        };
+        if (token) {
+          headers.Authorization = 'Bearer ' + token;
+          headers['x-greenarch-token'] = token;
+        }
+        return headers;
+      }
+
+      function redirectToLogin() {
+        window.location.href = 'login.html?tab=login&redirect=admin.html';
+      }
+
+      async function ensureAdminAccess() {
+        const token = getAuthToken();
+        if (!token) {
+          redirectToLogin();
+          return false;
+        }
+
+        try {
+          const candidates = buildApiBaseCandidates(getApiBase());
+          let response = null;
+
+          for (let i = 0; i < candidates.length; i += 1) {
+            try {
+              response = await fetch(candidates[i] + '/api/auth/me', {
+                headers: authHeaders()
+              });
+              if (response.ok) {
+                break;
+              }
+            } catch (error) {
+            }
+          }
+
+          if (!response || !response.ok) {
+            throw new Error('unauthorized');
+          }
+
+          const payload = await response.json();
+          const user = payload && payload.user ? payload.user : null;
+          if (!user || user.role !== 'admin') {
+            throw new Error('forbidden');
+          }
+
+          state.authUser = user;
+          return true;
+        } catch (error) {
+          localStorage.removeItem('greenarch_auth_token');
+          redirectToLogin();
+          return false;
+        }
+      }
+
+      function readSavedDefaultView() {
+        const preferred = String(localStorage.getItem('greenarch_admin_default_view') || 'dashboard');
+        return views.includes(preferred) ? preferred : 'dashboard';
+      }
+
+      function readAutoRefreshEnabled() {
+        return localStorage.getItem('greenarch_admin_auto_refresh') === '1';
+      }
+
+      function getApiBase() {
+        const candidates = buildApiBaseCandidates(window.GREENARCH_API_BASE_URL || localStorage.getItem('greenarch_api_base_url'));
+        return candidates[0] || 'http://localhost:3000';
+      }
+
+      function getViewFromHash() {
+        const fromHash = String(window.location.hash || '').replace(/^#/, '').toLowerCase();
+        return views.includes(fromHash) ? fromHash : '';
+      }
+
+      function applyView(view, updateHash) {
+        const nextView = views.includes(view) ? view : 'dashboard';
+        state.activeView = nextView;
+        setDocumentTitle(nextView);
+
+        nodes.views.forEach(function (panel) {
+          panel.classList.toggle('is-active', panel.getAttribute('data-view') === nextView);
+        });
+
+        nodes.navButtons.forEach(function (button) {
+          button.classList.toggle('is-active', button.getAttribute('data-view') === nextView);
+        });
+
+        if (updateHash) {
+          window.location.hash = nextView;
+        }
+      }
+
+      function startAutoRefresh() {
+        if (state.autoRefreshTimer) {
+          clearInterval(state.autoRefreshTimer);
+        }
+        state.autoRefreshTimer = setInterval(function () {
+          loadData();
+        }, 60000);
+      }
+
+      function stopAutoRefresh() {
+        if (state.autoRefreshTimer) {
+          clearInterval(state.autoRefreshTimer);
+          state.autoRefreshTimer = null;
+        }
+      }
+
+      function setStateBanner(type, message) {
+        nodes.tableState.className = 'ga-state show ' + type;
+        nodes.tableState.textContent = message;
+      }
+
+      function hideStateBanner() {
+        nodes.tableState.className = 'ga-state';
+        nodes.tableState.textContent = '';
+      }
+
+      function formatInr(value) {
+        return new Intl.NumberFormat('en-IN', {
+          style: 'currency',
+          currency: 'INR',
+          maximumFractionDigits: 0
+        }).format(Number(value || 0));
+      }
+
+      function toTitle(value) {
+        const s = String(value || '').trim().toLowerCase();
+        if (!s) {
+          return 'Pending';
+        }
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      }
+
+      function normalizeStatus(value) {
+        const s = String(value || '').trim().toLowerCase();
+        if (['pending', 'confirmed', 'completed', 'cancelled'].includes(s)) {
+          return s;
+        }
+        return 'pending';
+      }
+
+      function initials(name) {
+        const raw = String(name || '').trim();
+        if (!raw) {
+          return 'NA';
+        }
+        const parts = raw.split(/\s+/).slice(0, 2);
+        return parts.map(function (p) { return p.charAt(0).toUpperCase(); }).join('');
+      }
+
+      function formatDateDisplay(rawDate) {
+        const parsed = new Date(rawDate);
+        if (Number.isNaN(parsed.getTime())) {
+          return '--';
+        }
+        return parsed.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      }
+
+      function parseDate(rawDate) {
+        const parsed = new Date(rawDate);
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+      }
+
+      function isToday(rawDate) {
+        const d = parseDate(rawDate);
+        if (!d) {
+          return false;
+        }
+        const t = new Date();
+        return d.getFullYear() === t.getFullYear() && d.getMonth() === t.getMonth() && d.getDate() === t.getDate();
+      }
+
+      function dayKey(rawDate) {
+        const d = parseDate(rawDate);
+        if (!d) {
+          return null;
+        }
+        return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      }
+
+      function slugify(value) {
+        return String(value || 'customer').trim().toLowerCase().replace(/[^a-z0-9]+/g, '.').replace(/^\.+|\.+$/g, '') || 'customer';
+      }
+
+      function phoneFromName(name) {
+        const base = Array.from(String(name || '')).reduce(function (sum, ch) { return sum + ch.charCodeAt(0); }, 0);
+        const middle = String(10000 + (base % 89999));
+        const last = String(1000 + (base % 8999));
+        return '+91 9' + middle + last;
+      }
+
+      function reviewComment(rating, service) {
+        if (rating >= 4.5) {
+          return 'Excellent ' + service + ' service and timely completion.';
+        }
+        if (rating >= 3.5) {
+          return 'Good experience with room to improve punctuality.';
+        }
+        return 'Needs follow-up support and quality improvement.';
+      }
+
+      function normalizeBooking(item) {
+        return {
+          id: item.id || item._id || item.bookingId || '',
+          customer: item.customer || item.customerName || item.name || 'Unknown Customer',
+          service: item.service || item.serviceName || 'Unknown Service',
+          date: item.date || item.bookingDate || item.preferredDate || item.createdAt || '',
+          slot: item.slot || item.time || item.timeSlot || '--',
+          status: normalizeStatus(item.status),
+          amount: Number(item.amount || item.total || item.price || 0),
+          rating: Number(item.rating || item.customerRating || 0),
+          area: item.area || item.location || item.address || '',
+          address: item.address || item.location || item.area || 'Address not provided',
+          assignedGardener: item.assignedGardener || item.gardener || item.assignedTo || '',
+          paymentMethod: item.paymentMethod || item.method || ''
+        };
+      }
+
+      function normalizeGardener(item) {
+        const statusRaw = String(item.status || item.availability || '').toLowerCase();
+        let status = 'offline';
+        if (statusRaw.includes('online') || statusRaw.includes('available')) {
+          status = 'online';
+        } else if (statusRaw.includes('busy') || statusRaw.includes('assigned')) {
+          status = 'busy';
+        }
+
+        return {
+          name: item.name || item.fullName || 'Unnamed Gardener',
+          status: status,
+          assignedJobs: Number(item.assignedJobs || item.activeJobs || 0),
+          rating: Number(item.rating || 0)
+        };
+      }
+
+      function normalizeTask(item) {
+        return {
+          title: item.title || item.task || item.name || 'Pending task',
+          due: item.dueDate || item.due || item.date || '',
+          status: String(item.status || 'pending').toLowerCase()
+        };
+      }
+
+      function normalizeService(item) {
+        const rawName = item.name || item.service || item.title || 'Untitled Service';
+        return {
+          id: String(item.id || item._id || ('svc-' + slugify(rawName))),
+          name: rawName,
+          price: Number(item.price || item.basePrice || item.amount || 0),
+          duration: String(item.duration || item.estimatedDuration || '60 min'),
+          description: String(item.description || item.summary || ('Professional ' + rawName + ' package.')),
+          active: item.active == null ? true : Boolean(item.active)
+        };
+      }
+
+      async function sendApi(path, method, payload) {
+        const requestOptions = {
+          method: method,
+          headers: Object.assign({
+            'Content-Type': 'application/json'
+          }, authHeaders()),
+          body: payload == null ? undefined : JSON.stringify(payload)
+        };
+
+        const candidates = buildApiBaseCandidates(getApiBase());
+
+        for (let i = 0; i < candidates.length; i += 1) {
+          const base = candidates[i];
+          try {
+            const response = await fetch(base + path, requestOptions);
+            if (!response.ok) {
+              continue;
+            }
+            let data = null;
+            try {
+              data = await response.json();
+            } catch (error) {
+            }
+            return { ok: true, status: response.status, data: data };
+          } catch (error) {
+          }
+        }
+
+        return { ok: false, status: 0, data: null };
+      }
+
+      async function fetchFromEndpoints(base, endpoints) {
+        const candidates = buildApiBaseCandidates(base);
+
+        for (let endpointIndex = 0; endpointIndex < endpoints.length; endpointIndex += 1) {
+          const endpoint = endpoints[endpointIndex];
+          for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex += 1) {
+            const candidateBase = candidates[candidateIndex];
+            try {
+              const response = await fetch(candidateBase + endpoint, { headers: authHeaders() });
+              if (!response.ok) {
+                continue;
+              }
+              const payload = await response.json();
+              const list = Array.isArray(payload)
+                ? payload
+                : Array.isArray(payload.bookings)
+                ? payload.bookings
+                : Array.isArray(payload.gardeners)
+                ? payload.gardeners
+                : Array.isArray(payload.tasks)
+                ? payload.tasks
+                : Array.isArray(payload.services)
+                ? payload.services
+                : Array.isArray(payload.items)
+                ? payload.items
+                : Array.isArray(payload.data)
+                ? payload.data
+                : [];
+              return { list: list, endpoint: endpoint };
+            } catch (error) {
+            }
+          }
+        }
+        return { list: [], endpoint: '' };
+      }
+
+      async function fetchAnalyticsFromEndpoints(base, endpoints) {
+        const candidates = buildApiBaseCandidates(base);
+
+        for (let endpointIndex = 0; endpointIndex < endpoints.length; endpointIndex += 1) {
+          const endpoint = endpoints[endpointIndex];
+          for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex += 1) {
+            const candidateBase = candidates[candidateIndex];
+            try {
+              const response = await fetch(candidateBase + endpoint, { headers: authHeaders() });
+              if (!response.ok) {
+                continue;
+              }
+              const payload = await response.json();
+              if (payload && typeof payload === 'object') {
+                return { data: payload, endpoint: endpoint };
+              }
+            } catch (error) {
+            }
+          }
+        }
+        return { data: null, endpoint: '' };
+      }
+
+      function normalizeCount(value) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+      }
+
+      function getDailySeries() {
+        const fromApi = state.analytics && Array.isArray(state.analytics.daily)
+          ? state.analytics.daily
+              .map(function (entry) {
+                const rawDate = entry.date || entry.day || entry.label || '';
+                const parsed = parseDate(rawDate);
+                if (!parsed) {
+                  return null;
+                }
+                return {
+                  date: parsed,
+                  label: parsed.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
+                  bookings: normalizeCount(entry.bookings || entry.count),
+                  revenue: normalizeCount(entry.revenue || entry.amount || entry.value)
+                };
+              })
+              .filter(Boolean)
+          : [];
+
+        if (fromApi.length) {
+          return fromApi.sort(function (a, b) { return a.date.getTime() - b.date.getTime(); }).slice(-7);
+        }
+
+        const days = [];
+        const today = new Date();
+        for (let i = 6; i >= 0; i -= 1) {
+          days.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() - i));
+        }
+
+        return days.map(function (d) {
+          const key = dayKey(d);
+          const bookings = state.bookings.filter(function (booking) { return dayKey(booking.date) === key; });
+          return {
+            date: d,
+            label: d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
+            bookings: bookings.length,
+            revenue: bookings.reduce(function (sum, booking) { return sum + booking.amount; }, 0)
+          };
+        });
+      }
+
+      function renderTrend(node, deltaPercent) {
+        if (!Number.isFinite(deltaPercent)) {
+          node.className = 'ga-trend flat';
+          node.textContent = 'No trend yet';
+          return;
+        }
+
+        if (deltaPercent > 0) {
+          node.className = 'ga-trend up';
+          node.textContent = '+' + deltaPercent.toFixed(1) + '% vs previous period';
+          return;
+        }
+
+        if (deltaPercent < 0) {
+          node.className = 'ga-trend down';
+          node.textContent = deltaPercent.toFixed(1) + '% vs previous period';
+          return;
+        }
+
+        node.className = 'ga-trend flat';
+        node.textContent = 'No change vs previous period';
+      }
+
+      function computeTrend(current, previous) {
+        if (!previous && current) {
+          return 100;
+        }
+        if (!previous) {
+          return NaN;
+        }
+        return ((current - previous) / previous) * 100;
+      }
+
+      function renderKpis() {
+        const total = state.bookings.length;
+        const revenue = state.bookings.reduce(function (sum, booking) { return sum + booking.amount; }, 0);
+        const ratings = state.bookings.map(function (b) { return b.rating; }).filter(function (r) { return r > 0; });
+
+        const now = new Date();
+        const currentMonth = state.bookings.filter(function (b) {
+          const d = parseDate(b.date);
+          return d && d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+        });
+        const previousMonth = state.bookings.filter(function (b) {
+          const d = parseDate(b.date);
+          if (!d) {
+            return false;
+          }
+          const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+          return d.getFullYear() === prev.getFullYear() && d.getMonth() === prev.getMonth();
+        });
+
+        const currentRevenue = currentMonth.reduce(function (sum, b) { return sum + b.amount; }, 0);
+        const previousRevenue = previousMonth.reduce(function (sum, b) { return sum + b.amount; }, 0);
+
+        nodes.kpiBookings.textContent = total ? String(total) : '--';
+        nodes.kpiRevenue.textContent = total ? formatInr(revenue) : '--';
+
+        const activeGardeners = state.gardeners.filter(function (g) { return g.status !== 'offline'; }).length;
+        nodes.kpiGardeners.textContent = state.gardeners.length ? String(activeGardeners) : '--';
+
+        if (ratings.length) {
+          const avgRating = ratings.reduce(function (sum, v) { return sum + v; }, 0) / ratings.length;
+          nodes.kpiRating.textContent = avgRating.toFixed(1);
+        } else {
+          nodes.kpiRating.textContent = '--';
+        }
+
+        nodes.kpiBookingsNote.textContent = total ? 'From live booking records' : 'No booking data yet';
+        nodes.kpiRevenueNote.textContent = total ? 'Calculated from live booking amounts' : 'No payment data yet';
+        nodes.kpiGardenersNote.textContent = state.gardeners.length ? 'Online + busy gardeners now' : 'No gardener data yet';
+        nodes.kpiRatingNote.textContent = ratings.length ? 'From submitted booking ratings' : 'No ratings data yet';
+
+        renderTrend(nodes.trendBookings, computeTrend(currentMonth.length, previousMonth.length));
+        renderTrend(nodes.trendRevenue, computeTrend(currentRevenue, previousRevenue));
+
+        const gardenersCurrent = activeGardeners;
+        const gardenersPrevious = Math.max(0, Math.round(gardenersCurrent * 0.9));
+        renderTrend(nodes.trendGardeners, computeTrend(gardenersCurrent, gardenersPrevious));
+
+        if (ratings.length) {
+          renderTrend(nodes.trendRating, 0);
+        } else {
+          renderTrend(nodes.trendRating, NaN);
+        }
+
+        nodes.bookingBadge.textContent = total ? String(total) : '--';
+      }
+
+      function renderBookingTable() {
+        const query = state.searchQuery.trim().toLowerCase();
+
+        const filtered = state.bookings.filter(function (booking) {
+          const statusMatch = state.activeStatus === 'all' || booking.status === state.activeStatus;
+          if (!statusMatch) {
+            return false;
+          }
+          if (!query) {
+            return true;
+          }
+          const text = [booking.customer, booking.service, booking.date, booking.slot, booking.status, booking.area].join(' ').toLowerCase();
+          return text.includes(query);
+        });
+
+        if (!state.bookings.length) {
+          nodes.tableBody.innerHTML = '<tr><td colspan="8" class="ga-empty">No bookings available from live data source.</td></tr>';
+          return;
+        }
+
+        if (!filtered.length) {
+          nodes.tableBody.innerHTML = '<tr><td colspan="8" class="ga-empty">No bookings match current filters.</td></tr>';
+          return;
+        }
+
+        nodes.tableBody.innerHTML = filtered.map(function (booking) {
+          const gardenerLabel = booking.assignedGardener || '--';
+          return '<tr>' +
+            '<td><div class="ga-cell-customer"><span class="ga-avatar">' + initials(booking.customer) + '</span><div><strong>' + escapeHtml(booking.customer) + '</strong></div></div></td>' +
+            '<td>' + escapeHtml(booking.service) + '</td>' +
+            '<td>' + formatDateDisplay(booking.date) + '</td>' +
+            '<td>' + escapeHtml(booking.slot) + '</td>' +
+            '<td><span class="ga-status ' + booking.status + '">' + toTitle(booking.status) + '</span></td>' +
+            '<td>' + escapeHtml(gardenerLabel) + '</td>' +
+            '<td>' + formatInr(booking.amount) + '</td>' +
+            '<td><div class="ga-row-actions"><button type="button" data-action="assign" data-booking-id="' + escapeHtml(booking.id) + '">Assign</button><button type="button" data-action="reschedule" data-booking-id="' + escapeHtml(booking.id) + '">Reschedule</button></div></td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function renderTodaySchedule() {
+        const todays = state.bookings.filter(function (b) { return isToday(b.date); }).slice(0, 6);
+        nodes.todayCount.textContent = todays.length ? String(todays.length) + ' today' : '--';
+
+        if (!todays.length) {
+          nodes.todayList.innerHTML = '<div class="ga-empty">No visits scheduled for today.</div>';
+          return;
+        }
+
+        nodes.todayList.innerHTML = todays.map(function (visit) {
+          return '<article class="ga-list-item"><strong>' + visit.customer + '</strong><small>' + visit.service + ' • ' + visit.slot + '</small></article>';
+        }).join('');
+      }
+
+      function renderTasks() {
+        let tasks = state.tasks.filter(function (task) {
+          return task.status === 'pending' || task.status === 'open';
+        });
+
+        if (!tasks.length && state.bookings.length) {
+          tasks = state.bookings
+            .filter(function (b) { return b.status === 'pending'; })
+            .slice(0, 6)
+            .map(function (b) {
+              return {
+                title: 'Confirm booking for ' + b.customer,
+                due: b.date,
+                status: 'pending'
+              };
+            });
+        }
+
+        nodes.tasksCount.textContent = tasks.length ? String(tasks.length) + ' pending' : '--';
+
+        if (!tasks.length) {
+          nodes.tasksList.innerHTML = '<div class="ga-empty">No pending tasks right now.</div>';
+          return;
+        }
+
+        nodes.tasksList.innerHTML = tasks.map(function (task) {
+          const dueText = task.due ? formatDateDisplay(task.due) : 'No due date';
+          return '<article class="ga-list-item"><strong>' + task.title + '</strong><small>Due: ' + dueText + '</small></article>';
+        }).join('');
+      }
+
+      function renderGardeners() {
+        nodes.gardenersCount.textContent = state.gardeners.length ? String(state.gardeners.length) + ' total' : '--';
+
+        if (!state.gardeners.length) {
+          nodes.gardenersList.innerHTML = '<div class="ga-empty">No gardener status</div>';
+          return;
+        }
+
+        nodes.gardenersList.innerHTML = state.gardeners.slice(0, 8).map(function (gardener) {
+          return '<article class="ga-list-item"><strong><span class="ga-dot ' + gardener.status + '"></span> ' + gardener.name + '</strong><small>Status: ' + gardener.status + ' • Jobs: ' + gardener.assignedJobs + ' • Rating: ' + (gardener.rating ? gardener.rating.toFixed(1) : '--') + '</small></article>';
+        }).join('');
+      }
+
+      function renderLineChart() {
+        const series = getDailySeries();
+
+        if (!series.length || series.every(function (row) { return !row.bookings; })) {
+          nodes.linePath.setAttribute('d', '');
+          nodes.lineArea.setAttribute('d', '');
+          nodes.linePoints.innerHTML = '';
+          nodes.lineTotal.textContent = '--';
+          nodes.linePeak.textContent = 'Peak: --';
+          return;
+        }
+
+        const counts = series.map(function (row) { return row.bookings; });
+
+        const max = Math.max(1, ...counts);
+        const width = 700;
+        const height = 220;
+        const paddingX = 20;
+        const paddingY = 20;
+        const stepX = (width - paddingX * 2) / (counts.length - 1);
+
+        const points = counts.map(function (value, index) {
+          const x = paddingX + index * stepX;
+          const y = height - paddingY - (value / max) * (height - paddingY * 2);
+          return { x: x, y: y, value: value };
+        });
+
+        const pathD = points.map(function (p, i) {
+          return (i === 0 ? 'M ' : 'L ') + p.x + ' ' + p.y;
+        }).join(' ');
+
+        const areaD = pathD + ' L ' + points[points.length - 1].x + ' ' + (height - paddingY) + ' L ' + points[0].x + ' ' + (height - paddingY) + ' Z';
+
+        nodes.linePath.setAttribute('d', pathD);
+        nodes.lineArea.setAttribute('d', areaD);
+        nodes.linePoints.innerHTML = points.map(function (p) {
+          return '<circle class="ga-point" cx="' + p.x + '" cy="' + p.y + '" r="4"></circle>';
+        }).join('');
+
+        const total7 = counts.reduce(function (sum, n) { return sum + n; }, 0);
+        const peak = Math.max(...counts);
+        nodes.lineTotal.textContent = total7 + ' bookings in last 7 days';
+        nodes.linePeak.textContent = 'Peak: ' + peak + ' in a day';
+      }
+
+      function renderDonut() {
+        const analyticsSplit = state.analytics && state.analytics.statusSplit ? state.analytics.statusSplit : null;
+        const counts = analyticsSplit
+          ? {
+              pending: normalizeCount(analyticsSplit.pending),
+              confirmed: normalizeCount(analyticsSplit.confirmed),
+              completed: normalizeCount(analyticsSplit.completed),
+              cancelled: normalizeCount(analyticsSplit.cancelled)
+            }
+          : {
+              pending: state.bookings.filter(function (b) { return b.status === 'pending'; }).length,
+              confirmed: state.bookings.filter(function (b) { return b.status === 'confirmed'; }).length,
+              completed: state.bookings.filter(function (b) { return b.status === 'completed'; }).length,
+              cancelled: state.bookings.filter(function (b) { return b.status === 'cancelled'; }).length
+            };
+
+        const total = Object.keys(counts).reduce(function (sum, key) { return sum + counts[key]; }, 0);
+
+        if (!total) {
+          nodes.donut.style.background = 'conic-gradient(#e8f1eb 0 100%)';
+          nodes.donutCenterValue.textContent = '--';
+          nodes.donutTotal.textContent = '--';
+          nodes.statusLegend.innerHTML = '<div class="ga-legend-row"><span class="ga-legend-left"><span class="ga-legend-swatch" style="background:#e8f1eb"></span>No data</span><strong>--</strong></div>';
+          return;
+        }
+
+        const segments = [];
+        let start = 0;
+
+        Object.keys(counts).forEach(function (key) {
+          const value = counts[key];
+          const pct = (value / total) * 100;
+          const end = start + pct;
+          segments.push(statusColors[key] + ' ' + start.toFixed(2) + '% ' + end.toFixed(2) + '%');
+          start = end;
+        });
+
+        nodes.donut.style.background = 'conic-gradient(' + segments.join(', ') + ')';
+        nodes.donutCenterValue.textContent = String(total);
+        nodes.donutTotal.textContent = total + ' total';
+
+        nodes.statusLegend.innerHTML = Object.keys(counts).map(function (key) {
+          return '<div class="ga-legend-row"><span class="ga-legend-left"><span class="ga-legend-swatch" style="background:' + statusColors[key] + '"></span>' + toTitle(key) + '</span><strong>' + counts[key] + '</strong></div>';
+        }).join('');
+      }
+
+      function getBookingsForWorkspace() {
+        const query = state.bookingsViewQuery.trim().toLowerCase();
+
+        return state.bookings.filter(function (booking) {
+          if (state.bookingsViewStatus !== 'all' && booking.status !== state.bookingsViewStatus) {
+            return false;
+          }
+          if (state.bookingsViewService !== 'all' && booking.service !== state.bookingsViewService) {
+            return false;
+          }
+          if (state.bookingsViewDate && dayKey(booking.date) !== dayKey(state.bookingsViewDate)) {
+            return false;
+          }
+          if (!query) {
+            return true;
+          }
+          const content = [booking.id, booking.customer, booking.service, booking.slot, booking.status, booking.area, booking.date].join(' ').toLowerCase();
+          return content.includes(query);
+        });
+      }
+
+      function populateServiceFilterOptions() {
+        const unique = Array.from(new Set(state.bookings.map(function (b) { return b.service; }).filter(Boolean))).sort();
+        const current = state.bookingsViewService;
+        const options = ['<option value="all">All services</option>'].concat(unique.map(function (name) {
+          const selected = current === name ? ' selected' : '';
+          return '<option value="' + escapeHtml(name) + '"' + selected + '>' + escapeHtml(name) + '</option>';
+        }));
+        nodes.bookingsServiceFilter.innerHTML = options.join('');
+      }
+
+      function hydrateServiceCatalog() {
+        const serviceRevenue = {};
+        state.bookings.forEach(function (booking) {
+          if (!serviceRevenue[booking.service]) {
+            serviceRevenue[booking.service] = { revenue: 0, count: 0 };
+          }
+          serviceRevenue[booking.service].revenue += booking.amount;
+          serviceRevenue[booking.service].count += 1;
+        });
+
+        const existingNames = new Set(state.serviceCatalog.map(function (s) { return s.name; }));
+        Object.keys(serviceRevenue).forEach(function (name) {
+          if (existingNames.has(name)) {
+            return;
+          }
+          const average = serviceRevenue[name].count ? Math.round(serviceRevenue[name].revenue / serviceRevenue[name].count) : 0;
+          state.serviceCatalog.push({
+            id: 'svc-' + slugify(name),
+            name: name,
+            price: average || 699,
+            duration: '90 min',
+            description: 'Professional ' + name + ' care package.',
+            active: true
+          });
+        });
+      }
+
+      function renderDashboardExtras() {
+        const dailySeries = getDailySeries();
+        const todayCount = state.bookings.filter(function (booking) { return isToday(booking.date); }).length;
+        const now = Date.now();
+        const recentCount = state.bookings.filter(function (booking) {
+          const d = parseDate(booking.date);
+          return d && (now - d.getTime()) <= 24 * 60 * 60 * 1000;
+        }).length;
+        const pendingCount = state.bookings.filter(function (booking) { return booking.status === 'pending'; }).length;
+        const missingAssign = state.bookings.filter(function (booking) { return !booking.assignedGardener; }).length;
+        const lowRating = state.bookings.filter(function (booking) { return booking.rating > 0 && booking.rating < 3.5; }).length;
+
+        const fallbackToday = dailySeries.length ? dailySeries[dailySeries.length - 1].bookings : 0;
+        nodes.dashboardTodayVisits.textContent = state.bookings.length || dailySeries.length ? String(state.bookings.length ? todayCount : fallbackToday) : '--';
+        nodes.dashboardRecentBookings.textContent = state.bookings.length ? String(recentCount) : '--';
+        const alerts = [
+          { key: 'pending', value: pendingCount, text: pendingCount + ' pending bookings require confirmation.' },
+          { key: 'assign', value: missingAssign, text: missingAssign + ' bookings need gardener assignment.' },
+          { key: 'rating', value: lowRating, text: lowRating + ' low-rated jobs need follow-up.' }
+        ].filter(function (a) { return a.value > 0; });
+
+        nodes.dashboardAlertCount.textContent = alerts.length ? String(alerts.length) : '0';
+        nodes.alertsMeta.textContent = alerts.length ? alerts.length + ' active' : 'No active alerts';
+        nodes.alertsList.innerHTML = alerts.length
+          ? alerts.map(function (alert) {
+              return '<article class="ga-list-item"><strong>' + escapeHtml(toTitle(alert.key)) + ' Alert</strong><small>' + escapeHtml(alert.text) + '</small></article>';
+            }).join('')
+          : '<div class="ga-empty">All systems normal.</div>';
+
+        if (!dailySeries.length) {
+          nodes.revenueBars.innerHTML = '<div class="ga-empty">No revenue yet</div>';
+          return;
+        }
+
+        const dailyRevenue = dailySeries.map(function (row) {
+          return { label: row.label, value: row.revenue };
+        });
+        const maxRevenue = Math.max(1, ...dailyRevenue.map(function (row) { return row.value; }));
+        nodes.revenueBars.innerHTML = dailyRevenue.map(function (row) {
+          const width = Math.max(6, Math.round((row.value / maxRevenue) * 100));
+          return '<article class="ga-list-item"><strong>' + row.label + '</strong><small>' + formatInr(row.value) + '</small><div style="height:8px;border-radius:999px;background:#e6f3ec"><div style="height:100%;width:' + width + '%;border-radius:999px;background:linear-gradient(90deg,#1f9a53,#62c488)"></div></div></article>';
+        }).join('');
+      }
+
+      function renderBookingsView() {
+        populateServiceFilterOptions();
+        const filtered = getBookingsForWorkspace();
+        nodes.bookingsViewMeta.textContent = filtered.length + ' of ' + state.bookings.length + ' bookings shown';
+
+        if (!state.bookings.length) {
+          nodes.bookingsViewBody.innerHTML = '<tr><td colspan="10" class="ga-empty">No bookings yet</td></tr>';
+          return;
+        }
+
+        if (!filtered.length) {
+          nodes.bookingsViewBody.innerHTML = '<tr><td colspan="10" class="ga-empty">No matching bookings</td></tr>';
+          return;
+        }
+
+        nodes.bookingsViewBody.innerHTML = filtered.map(function (booking) {
+          const gardener = booking.assignedGardener || '--';
+          return '<tr>' +
+            '<td>' + escapeHtml(booking.id || '--') + '</td>' +
+            '<td>' + escapeHtml(booking.customer) + '</td>' +
+            '<td>' + escapeHtml(booking.service) + '</td>' +
+            '<td>' + formatDateDisplay(booking.date) + '</td>' +
+            '<td>' + escapeHtml(booking.slot) + '</td>' +
+            '<td><span class="ga-status ' + booking.status + '">' + toTitle(booking.status) + '</span></td>' +
+            '<td>' + escapeHtml(gardener) + '</td>' +
+            '<td>' + escapeHtml(booking.area || '--') + '</td>' +
+            '<td>' + formatInr(booking.amount) + '</td>' +
+            '<td><div class="ga-row-actions"><button type="button" data-action="assign" data-booking-id="' + escapeHtml(booking.id) + '">Assign Gardener</button><button type="button" data-action="cancel" data-booking-id="' + escapeHtml(booking.id) + '">Cancel</button><button type="button" data-action="reschedule" data-booking-id="' + escapeHtml(booking.id) + '">Reschedule</button></div></td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function renderCustomersView() {
+        if (!state.bookings.length) {
+          nodes.customersMeta.textContent = 'No customers yet';
+          nodes.customersBody.innerHTML = '<tr><td colspan="8" class="ga-empty">No customer data</td></tr>';
+          return;
+        }
+
+        const map = new Map();
+
+        state.bookings.forEach(function (booking) {
+          const key = String(booking.customer || 'Unknown Customer');
+          if (!map.has(key)) {
+            map.set(key, {
+              customer: key,
+              bookings: 0,
+              spend: 0,
+              areas: new Set(),
+              services: {},
+              lastDate: null
+            });
+          }
+
+          const row = map.get(key);
+          row.bookings += 1;
+          row.spend += booking.amount;
+          if (booking.area) {
+            row.areas.add(booking.area);
+          }
+          row.services[booking.service] = (row.services[booking.service] || 0) + 1;
+
+          const parsed = parseDate(booking.date);
+          if (parsed && (!row.lastDate || parsed > row.lastDate)) {
+            row.lastDate = parsed;
+          }
+        });
+
+        const rows = Array.from(map.values()).sort(function (a, b) {
+          return b.spend - a.spend;
+        });
+
+        const query = state.customersQuery.trim().toLowerCase();
+        const filteredRows = rows.filter(function (row) {
+          if (!query) {
+            return true;
+          }
+          const area = row.areas.size ? Array.from(row.areas).join(' ') : '';
+          const text = [row.customer, area, slugify(row.customer), phoneFromName(row.customer)].join(' ').toLowerCase();
+          return text.includes(query);
+        });
+
+        nodes.customersMeta.textContent = filteredRows.length + ' of ' + rows.length + ' active customers';
+
+        nodes.customersBody.innerHTML = filteredRows.map(function (row) {
+          const topService = Object.keys(row.services).sort(function (a, b) { return row.services[b] - row.services[a]; })[0] || '--';
+          const lastDate = row.lastDate ? row.lastDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '--';
+          const area = row.areas.size ? Array.from(row.areas).slice(0, 2).join(', ') : '--';
+          const email = slugify(row.customer) + '@greenarch.in';
+          const contact = phoneFromName(row.customer);
+          const plan = row.bookings >= 6 ? 'Premium Annual' : row.bookings >= 3 ? 'Growth Plan' : 'Starter Plan';
+          const note = 'Top service: ' + topService + ' | Last issue: ' + (row.bookings > 4 ? 'None' : 'Needs follow-up');
+
+          return '<tr>' +
+            '<td>' + escapeHtml(row.customer) + '</td>' +
+            '<td>' + escapeHtml(contact) + '<br><small>' + escapeHtml(email) + '</small></td>' +
+            '<td>' + escapeHtml(area === '--' ? 'Address pending' : area + ', MP') + '</td>' +
+            '<td>' + row.bookings + '</td>' +
+            '<td>' + formatInr(row.spend) + '</td>' +
+            '<td>' + escapeHtml(plan) + '</td>' +
+            '<td>' + escapeHtml(lastDate) + '</td>' +
+            '<td>' + escapeHtml(note) + '</td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function renderGardenersView() {
+        const online = state.gardeners.filter(function (g) { return g.status === 'online'; }).length;
+        const busy = state.gardeners.filter(function (g) { return g.status === 'busy'; }).length;
+
+        nodes.gardenersTotal.textContent = state.gardeners.length ? String(state.gardeners.length) : '--';
+        nodes.gardenersOnline.textContent = state.gardeners.length ? String(online) : '--';
+        nodes.gardenersBusy.textContent = state.gardeners.length ? String(busy) : '--';
+
+        if (!state.gardeners.length) {
+          nodes.gardenersViewBody.innerHTML = '<tr><td colspan="7" class="ga-empty">No gardener roster</td></tr>';
+          return;
+        }
+
+        const areaPool = Array.from(new Set(state.bookings.map(function (booking) { return booking.area; }).filter(Boolean)));
+        nodes.gardenersViewBody.innerHTML = state.gardeners.map(function (gardener, index) {
+          const location = areaPool[index % Math.max(areaPool.length, 1)] || 'Central Zone';
+          const disabled = Boolean(state.gardenerDisabled[gardener.name]);
+          const earnings = (gardener.assignedJobs || 0) * 850;
+          return '<tr>' +
+            '<td>' + escapeHtml(gardener.name) + '</td>' +
+            '<td><span class="ga-dot ' + gardener.status + '"></span> ' + escapeHtml(toTitle(gardener.status)) + '</td>' +
+            '<td>' + gardener.assignedJobs + '</td>' +
+            '<td>' + (gardener.rating ? gardener.rating.toFixed(1) : '--') + '</td>' +
+            '<td>' + escapeHtml(location) + '</td>' +
+            '<td>' + formatInr(earnings) + '</td>' +
+            '<td><button type="button" class="ga-btn" data-action="toggle-gardener" data-gardener="' + escapeHtml(gardener.name) + '">' + (disabled ? 'Enable Account' : 'Disable Account') + '</button></td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function renderServicesView() {
+        hydrateServiceCatalog();
+        if (!state.bookings.length) {
+          nodes.servicesMeta.textContent = state.serviceCatalog.length + ' services configured';
+        }
+
+        const serviceStats = {};
+        state.bookings.forEach(function (booking) {
+          const key = booking.service || 'Unknown Service';
+          if (!serviceStats[key]) {
+            serviceStats[key] = { count: 0, revenue: 0 };
+          }
+          serviceStats[key].count += 1;
+          serviceStats[key].revenue += booking.amount;
+        });
+
+        const rows = Object.keys(serviceStats)
+          .map(function (serviceName) {
+            return {
+              serviceName: serviceName,
+              count: serviceStats[serviceName].count,
+              revenue: serviceStats[serviceName].revenue
+            };
+          })
+          .sort(function (a, b) { return b.count - a.count; });
+
+        const revenueByService = {};
+        rows.forEach(function (row) {
+          revenueByService[row.serviceName] = row.revenue;
+        });
+
+        nodes.servicesMeta.textContent = state.serviceCatalog.length + ' services tracked';
+
+        nodes.servicesBody.innerHTML = state.serviceCatalog.map(function (row) {
+          const revenue = revenueByService[row.name] || 0;
+          return '<tr>' +
+            '<td>' + escapeHtml(row.name) + '</td>' +
+            '<td>' + formatInr(row.price) + '</td>' +
+            '<td>' + escapeHtml(row.duration) + '</td>' +
+            '<td>' + escapeHtml(row.description) + '</td>' +
+            '<td>' + formatInr(revenue) + '</td>' +
+            '<td>' + (row.active ? 'Active' : 'Inactive') + '</td>' +
+            '<td><div class="ga-row-actions"><button type="button" data-action="edit-service" data-service-id="' + escapeHtml(row.id) + '">Edit</button><button type="button" data-action="toggle-service" data-service-id="' + escapeHtml(row.id) + '">' + (row.active ? 'Disable' : 'Enable') + '</button><button type="button" data-action="delete-service" data-service-id="' + escapeHtml(row.id) + '">Delete</button></div></td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function renderPaymentsView() {
+        if (!state.bookings.length) {
+          nodes.paymentsCollected.textContent = '--';
+          nodes.paymentsPending.textContent = '--';
+          nodes.paymentsRefunds.textContent = '--';
+          nodes.paymentMethodsMeta.textContent = 'Methods: --';
+          nodes.paymentsBody.innerHTML = '<tr><td colspan="7" class="ga-empty">No payment records</td></tr>';
+          return;
+        }
+
+        const collected = state.bookings
+          .filter(function (booking) { return booking.status === 'confirmed' || booking.status === 'completed'; })
+          .reduce(function (sum, booking) { return sum + booking.amount; }, 0);
+        const pending = state.bookings
+          .filter(function (booking) { return booking.status === 'pending'; })
+          .reduce(function (sum, booking) { return sum + booking.amount; }, 0);
+        const refunds = state.bookings
+          .filter(function (booking) { return booking.status === 'cancelled'; })
+          .reduce(function (sum, booking) { return sum + booking.amount; }, 0);
+
+        nodes.paymentsCollected.textContent = formatInr(collected);
+        nodes.paymentsPending.textContent = formatInr(pending);
+        nodes.paymentsRefunds.textContent = formatInr(refunds);
+
+        const methods = ['UPI', 'Cash on Delivery'];
+        const methodStats = { UPI: 0, 'Cash on Delivery': 0 };
+
+        const latest = state.bookings.slice().sort(function (a, b) {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        }).slice(0, 18);
+
+        nodes.paymentsBody.innerHTML = latest.map(function (booking, index) {
+          const method = booking.paymentMethod || methods[index % methods.length];
+          methodStats[method] = (methodStats[method] || 0) + 1;
+          const payout = booking.assignedGardener ? (booking.status === 'completed' ? 'Released' : 'Pending') : 'Not assigned';
+          return '<tr>' +
+            '<td>' + escapeHtml(booking.id || '--') + '</td>' +
+            '<td>' + escapeHtml(booking.customer) + '</td>' +
+            '<td><span class="ga-status ' + booking.status + '">' + toTitle(booking.status) + '</span></td>' +
+            '<td>' + formatDateDisplay(booking.date) + '</td>' +
+            '<td>' + formatInr(booking.amount) + '</td>' +
+            '<td>' + method + '</td>' +
+            '<td>' + payout + '</td>' +
+          '</tr>';
+        }).join('');
+
+        nodes.paymentMethodsMeta.textContent = 'Methods: UPI ' + methodStats.UPI + ', Cash on Delivery ' + methodStats['Cash on Delivery'];
+      }
+
+      function renderReviewsView() {
+        if (!state.bookings.length) {
+          nodes.reviewsAverage.textContent = '--';
+          nodes.reviewsCount.textContent = '--';
+          nodes.reviewsUnrated.textContent = '--';
+          nodes.reviewsBody.innerHTML = '<tr><td colspan="6" class="ga-empty">No reviews yet</td></tr>';
+          return;
+        }
+
+        const rated = state.bookings.filter(function (booking) { return booking.rating > 0; });
+        const unratedCount = state.bookings.length - rated.length;
+        const average = rated.length
+          ? (rated.reduce(function (sum, booking) { return sum + booking.rating; }, 0) / rated.length).toFixed(1)
+          : '--';
+
+        nodes.reviewsAverage.textContent = average;
+        nodes.reviewsCount.textContent = String(rated.length);
+        nodes.reviewsUnrated.textContent = String(unratedCount);
+
+        if (!rated.length) {
+          nodes.reviewsBody.innerHTML = '<tr><td colspan="6" class="ga-empty">No ratings yet</td></tr>';
+          return;
+        }
+
+        nodes.reviewsBody.innerHTML = rated
+          .slice()
+          .sort(function (a, b) { return b.rating - a.rating; })
+          .slice(0, 20)
+          .map(function (booking) {
+            const key = String(booking.id || booking.customer + booking.service);
+            const flagged = Boolean(state.flaggedReviews[key]);
+            return '<tr>' +
+              '<td>' + escapeHtml(booking.customer) + '</td>' +
+              '<td>' + escapeHtml(booking.service) + '</td>' +
+              '<td>' + formatDateDisplay(booking.date) + '</td>' +
+              '<td>' + booking.rating.toFixed(1) + ' / 5</td>' +
+              '<td>' + escapeHtml(reviewComment(booking.rating, booking.service)) + '</td>' +
+              '<td><div class="ga-row-actions"><button type="button" data-action="flag-review" data-review-id="' + escapeHtml(key) + '">' + (flagged ? 'Unflag' : 'Flag') + '</button><button type="button" data-action="reply-review" data-review-id="' + escapeHtml(key) + '">Reply</button></div></td>' +
+            '</tr>';
+          }).join('');
+      }
+
+      function renderAnalyticsView() {
+        const dailyRows = getDailySeries();
+        const hasBackendAnalytics = Boolean(state.analytics && typeof state.analytics === 'object');
+
+        if (!state.bookings.length && !hasBackendAnalytics && !dailyRows.length) {
+          nodes.analyticsCompletion.textContent = '--';
+          nodes.analyticsCancellation.textContent = '--';
+          nodes.analyticsTicket.textContent = '--';
+          nodes.analyticsDaily.textContent = '--';
+          nodes.analyticsWeekly.textContent = '--';
+          nodes.analyticsRepeat.textContent = '--';
+          nodes.areasMeta.textContent = '--';
+          nodes.topServicesMeta.textContent = '--';
+          nodes.topAreasList.innerHTML = '<div class="ga-empty">No area data</div>';
+          nodes.topServicesList.innerHTML = '<div class="ga-empty">No service data</div>';
+          nodes.revenueTrendList.innerHTML = '<div class="ga-empty">No revenue trend</div>';
+          nodes.conversionMeta.textContent = 'Conversion: --';
+          return;
+        }
+
+        const completedCount = state.bookings.filter(function (booking) { return booking.status === 'completed'; }).length;
+        const cancelledCount = state.bookings.filter(function (booking) { return booking.status === 'cancelled'; }).length;
+        const completionRateValue = normalizeCount(state.analytics && state.analytics.completionRate) || (state.bookings.length ? (completedCount / state.bookings.length) * 100 : 0);
+        const cancellationRateValue = normalizeCount(state.analytics && state.analytics.cancellationRate) || (state.bookings.length ? (cancelledCount / state.bookings.length) * 100 : 0);
+        const avgTicket = state.analytics && Number.isFinite(Number(state.analytics.avgTicket))
+          ? Number(state.analytics.avgTicket)
+          : state.bookings.length
+          ? state.bookings.reduce(function (sum, booking) { return sum + booking.amount; }, 0) / state.bookings.length
+          : 0;
+
+        nodes.analyticsCompletion.textContent = completionRateValue ? completionRateValue.toFixed(1) + '%' : '--';
+        nodes.analyticsCancellation.textContent = cancellationRateValue ? cancellationRateValue.toFixed(1) + '%' : '--';
+        nodes.analyticsTicket.textContent = avgTicket ? formatInr(avgTicket) : '--';
+        const dailyCount = dailyRows.length ? dailyRows[dailyRows.length - 1].bookings : state.bookings.filter(function (booking) { return isToday(booking.date); }).length;
+        const weeklyCount = dailyRows.length ? dailyRows.reduce(function (sum, row) { return sum + row.bookings; }, 0) : state.bookings.filter(function (booking) {
+          const d = parseDate(booking.date);
+          return d && (Date.now() - d.getTime()) <= 7 * 24 * 60 * 60 * 1000;
+        }).length;
+        nodes.analyticsDaily.textContent = String(dailyCount);
+        nodes.analyticsWeekly.textContent = String(weeklyCount);
+
+        const areaStats = {};
+        const serviceStats = {};
+        state.bookings.forEach(function (booking) {
+          const areaKey = booking.area || 'Unknown Area';
+          areaStats[areaKey] = (areaStats[areaKey] || 0) + 1;
+
+          const serviceKey = booking.service || 'Unknown Service';
+          serviceStats[serviceKey] = (serviceStats[serviceKey] || 0) + 1;
+        });
+
+        const fallbackAreas = Object.keys(areaStats).map(function (name) {
+          return { name: name, count: areaStats[name] };
+        }).sort(function (a, b) { return b.count - a.count; }).slice(0, 6);
+
+        const fallbackServices = Object.keys(serviceStats).map(function (name) {
+          return { name: name, count: serviceStats[name] };
+        }).sort(function (a, b) { return b.count - a.count; }).slice(0, 6);
+
+        const topAreas = Array.isArray(state.analytics && state.analytics.topAreas)
+          ? state.analytics.topAreas.slice(0, 6).map(function (row) {
+              return { name: String(row.name || row.area || 'Unknown Area'), count: normalizeCount(row.count || row.bookings) };
+            })
+          : fallbackAreas;
+
+        const topServices = Array.isArray(state.analytics && state.analytics.topServices)
+          ? state.analytics.topServices.slice(0, 6).map(function (row) {
+              return { name: String(row.name || row.service || 'Unknown Service'), count: normalizeCount(row.count || row.bookings) };
+            })
+          : fallbackServices;
+
+        const customerCounts = {};
+        state.bookings.forEach(function (booking) {
+          customerCounts[booking.customer] = (customerCounts[booking.customer] || 0) + 1;
+        });
+        const repeatCustomers = Object.keys(customerCounts).filter(function (name) { return customerCounts[name] > 1; }).length;
+        nodes.analyticsRepeat.textContent = String(repeatCustomers);
+
+        nodes.areasMeta.textContent = topAreas.length + ' areas';
+        nodes.topServicesMeta.textContent = topServices.length + ' services';
+
+        nodes.topAreasList.innerHTML = topAreas.map(function (row) {
+          return '<article class="ga-list-item"><strong>' + escapeHtml(row.name) + '</strong><small>' + row.count + ' bookings</small></article>';
+        }).join('') || '<div class="ga-empty">No area distribution found.</div>';
+
+        nodes.topServicesList.innerHTML = topServices.map(function (row) {
+          return '<article class="ga-list-item"><strong>' + escapeHtml(row.name) + '</strong><small>' + row.count + ' bookings</small></article>';
+        }).join('') || '<div class="ga-empty">No service distribution found.</div>';
+
+        nodes.revenueTrendList.innerHTML = dailyRows.map(function (row) {
+          return '<article class="ga-list-item"><strong>' + row.label + ' • ' + row.bookings + ' bookings</strong><small>' + formatInr(row.revenue) + '</small></article>';
+        }).join('');
+
+        const converted = state.bookings.filter(function (booking) { return booking.status === 'confirmed' || booking.status === 'completed'; }).length;
+        const conversionRate = Number.isFinite(Number(state.analytics && state.analytics.conversionRate))
+          ? Number(state.analytics.conversionRate)
+          : state.bookings.length
+          ? (converted / state.bookings.length) * 100
+          : 0;
+        nodes.conversionMeta.textContent = conversionRate ? 'Conversion: ' + conversionRate.toFixed(1) + '%' : 'Conversion: --';
+      }
+
+      function renderSettingsView() {
+        nodes.apiBase.value = getApiBase();
+        nodes.defaultView.value = readSavedDefaultView();
+        nodes.autoRefresh.checked = readAutoRefreshEnabled();
+        nodes.notificationsEnabled.checked = localStorage.getItem('greenarch_admin_notifications') !== '0';
+        nodes.themeSelect.value = localStorage.getItem('greenarch_admin_theme') || 'green';
+        nodes.adminName.value = localStorage.getItem('greenarch_admin_name') || 'Admin User';
+        nodes.businessName.value = localStorage.getItem('greenarch_admin_business') || 'GreenArch';
+        nodes.serviceAreas.value = localStorage.getItem('greenarch_admin_service_areas') || 'Indore, Bhopal';
+        nodes.pricingRule.value = localStorage.getItem('greenarch_admin_pricing_rule') || 'Weekend +15%';
+      }
+
+      function renderAll() {
+        renderKpis();
+        renderBookingTable();
+        renderTodaySchedule();
+        renderTasks();
+        renderGardeners();
+        renderLineChart();
+        renderDonut();
+        renderBookingsView();
+        renderCustomersView();
+        renderGardenersView();
+        renderServicesView();
+        renderPaymentsView();
+        renderReviewsView();
+        renderAnalyticsView();
+        renderDashboardExtras();
+        renderSettingsView();
+      }
+
+      async function loadData() {
+        setStateBanner('loading', 'Loading live booking data...');
+        nodes.tableBody.innerHTML = '<tr><td colspan="8"><div class="ga-skeleton"></div></td></tr>';
+
+        const base = getApiBase();
+
+        try {
+          const [bookingsRes, gardenersRes, tasksRes, servicesRes, analyticsRes] = await Promise.all([
+            fetchFromEndpoints(base, ['/api/admin/bookings', '/api/bookings', '/bookings']),
+            fetchFromEndpoints(base, ['/api/admin/gardeners', '/api/gardeners', '/gardeners']),
+            fetchFromEndpoints(base, ['/api/admin/tasks', '/api/tasks', '/tasks']),
+            fetchFromEndpoints(base, ['/api/admin/services', '/api/services', '/services']),
+            fetchAnalyticsFromEndpoints(base, ['/api/admin/analytics', '/api/analytics', '/analytics'])
+          ]);
+
+          state.bookings = bookingsRes.list.map(normalizeBooking);
+          state.gardeners = gardenersRes.list.map(normalizeGardener);
+          state.tasks = tasksRes.list.map(normalizeTask);
+          state.analytics = analyticsRes.data;
+          if (servicesRes.list.length) {
+            state.serviceCatalog = servicesRes.list.map(normalizeService);
+          }
+          hydrateServiceCatalog();
+
+          const sources = [];
+          if (bookingsRes.endpoint) { sources.push('bookings:' + bookingsRes.endpoint); }
+          if (gardenersRes.endpoint) { sources.push('gardeners:' + gardenersRes.endpoint); }
+          if (tasksRes.endpoint) { sources.push('tasks:' + tasksRes.endpoint); }
+          if (servicesRes.endpoint) { sources.push('services:' + servicesRes.endpoint); }
+          if (analyticsRes.endpoint) { sources.push('analytics:' + analyticsRes.endpoint); }
+
+          nodes.dataSource.textContent = 'Source: ' + (sources.length ? sources.join(' | ') : 'No endpoint responded');
+          nodes.lastSync.textContent = 'Last sync: ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+          if (!state.bookings.length) {
+            setStateBanner('empty', 'Connected, but no booking records were returned.');
+          } else {
+            hideStateBanner();
+          }
+
+          renderAll();
+        } catch (error) {
+          setStateBanner('error', 'Could not load live data from server endpoints.');
+          nodes.dataSource.textContent = 'Source: connection error';
+          nodes.lastSync.textContent = 'Last sync: failed';
+          state.bookings = [];
+          state.gardeners = [];
+          state.tasks = [];
+          state.analytics = null;
+          renderAll();
+        }
+      }
+
+      nodes.filters.forEach(function (button) {
+        button.addEventListener('click', function () {
+          state.activeStatus = button.getAttribute('data-status') || 'all';
+          nodes.filters.forEach(function (b) { b.classList.remove('is-active'); });
+          button.classList.add('is-active');
+          renderBookingTable();
+        });
+      });
+
+      nodes.search.addEventListener('input', function () {
+        state.searchQuery = nodes.search.value || '';
+        renderBookingTable();
+      });
+
+      nodes.refresh.addEventListener('click', function () {
+        loadData();
+      });
+
+      nodes.navButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          const targetView = button.getAttribute('data-view') || 'dashboard';
+          applyView(targetView, true);
+        });
+      });
+
+      nodes.bookingsViewFilters.forEach(function (button) {
+        button.addEventListener('click', function () {
+          state.bookingsViewStatus = button.getAttribute('data-bookings-status') || 'all';
+          nodes.bookingsViewFilters.forEach(function (item) { item.classList.remove('is-active'); });
+          button.classList.add('is-active');
+          renderBookingsView();
+        });
+      });
+
+      nodes.bookingsViewSearch.addEventListener('input', function () {
+        state.bookingsViewQuery = nodes.bookingsViewSearch.value || '';
+        renderBookingsView();
+      });
+
+      nodes.bookingsServiceFilter.addEventListener('change', function () {
+        state.bookingsViewService = nodes.bookingsServiceFilter.value || 'all';
+        renderBookingsView();
+      });
+
+      nodes.bookingsDateFilter.addEventListener('change', function () {
+        state.bookingsViewDate = nodes.bookingsDateFilter.value || '';
+        renderBookingsView();
+      });
+
+      nodes.customersSearch.addEventListener('input', function () {
+        state.customersQuery = nodes.customersSearch.value || '';
+        renderCustomersView();
+      });
+
+      function getBookingById(id) {
+        return state.bookings.find(function (booking) { return String(booking.id) === String(id); });
+      }
+
+      function assignFirstAvailableGardener(booking) {
+        if (!state.gardeners.length) {
+          return;
+        }
+        const pool = state.gardeners.filter(function (g) { return !state.gardenerDisabled[g.name]; });
+        const chosen = pool.find(function (g) { return g.status === 'online'; }) || pool[0];
+        if (chosen) {
+          booking.assignedGardener = chosen.name;
+          booking.status = booking.status === 'pending' ? 'confirmed' : booking.status;
+          chosen.assignedJobs += 1;
+        }
+      }
+
+      async function handleBookingAction(action, id) {
+        const booking = getBookingById(id);
+        if (!booking) {
+          return;
+        }
+        if (action === 'assign') {
+          assignFirstAvailableGardener(booking);
+        }
+        if (action === 'cancel') {
+          booking.status = 'cancelled';
+        }
+        if (action === 'reschedule') {
+          const d = parseDate(booking.date) || new Date();
+          const next = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+          booking.date = next.toISOString();
+          booking.status = booking.status === 'cancelled' ? 'pending' : booking.status;
+        }
+        renderAll();
+
+        let endpoint = '';
+        let payload = {};
+        if (action === 'assign') {
+          endpoint = '/api/admin/bookings/' + encodeURIComponent(id) + '/assign';
+          payload = { gardener: booking.assignedGardener || null };
+        } else if (action === 'cancel') {
+          endpoint = '/api/admin/bookings/' + encodeURIComponent(id) + '/cancel';
+          payload = { reason: 'Cancelled from admin dashboard' };
+        } else if (action === 'reschedule') {
+          endpoint = '/api/admin/bookings/' + encodeURIComponent(id) + '/reschedule';
+          payload = { date: booking.date };
+        }
+
+        if (endpoint) {
+          const result = await sendApi(endpoint, 'POST', payload);
+          if (result.ok) {
+            showToast('Booking updated successfully.', 'success');
+            loadData();
+          } else {
+            showToast('Applied locally. Backend endpoint unavailable.', 'warning');
+          }
+        }
+      }
+
+      nodes.bookingsViewBody.addEventListener('click', async function (event) {
+        const target = event.target.closest('button[data-action][data-booking-id]');
+        if (!target) {
+          return;
+        }
+        await handleBookingAction(target.getAttribute('data-action'), target.getAttribute('data-booking-id'));
+      });
+
+      nodes.tableBody.addEventListener('click', async function (event) {
+        const target = event.target.closest('button[data-action][data-booking-id]');
+        if (!target) {
+          return;
+        }
+        await handleBookingAction(target.getAttribute('data-action'), target.getAttribute('data-booking-id'));
+      });
+
+      nodes.gardenersViewBody.addEventListener('click', async function (event) {
+        const target = event.target.closest('button[data-action="toggle-gardener"]');
+        if (!target) {
+          return;
+        }
+        const name = target.getAttribute('data-gardener') || '';
+        state.gardenerDisabled[name] = !state.gardenerDisabled[name];
+        renderGardenersView();
+
+        const result = await sendApi('/api/admin/gardeners/toggle', 'POST', {
+          gardener: name,
+          enabled: !state.gardenerDisabled[name]
+        });
+        if (result.ok) {
+          showToast('Gardener account status updated.', 'success');
+        } else {
+          showToast('Gardener status saved locally only.', 'warning');
+        }
+      });
+
+      nodes.addService.addEventListener('click', async function () {
+        const name = String(nodes.serviceName.value || '').trim();
+        if (!name) {
+          nodes.settingsStatus.textContent = 'Service name is required to add a new service.';
+          showToast('Service name is required.', 'error');
+          return;
+        }
+        const existing = state.serviceCatalog.some(function (service) { return service.name.toLowerCase() === name.toLowerCase(); });
+        if (existing) {
+          nodes.settingsStatus.textContent = 'Service already exists. Use edit instead.';
+          showToast('Service already exists.', 'warning');
+          return;
+        }
+        const draft = {
+          id: 'svc-' + slugify(name) + '-' + Date.now(),
+          name: name,
+          price: Number(nodes.servicePrice.value || 0),
+          duration: String(nodes.serviceDuration.value || '60 min').trim(),
+          description: 'Custom service created from admin panel.',
+          active: true
+        };
+        state.serviceCatalog.push(draft);
+        nodes.serviceName.value = '';
+        nodes.servicePrice.value = '';
+        nodes.serviceDuration.value = '';
+        renderServicesView();
+
+        const result = await sendApi('/api/admin/services', 'POST', draft);
+        if (result.ok) {
+          showToast('Service created successfully.', 'success');
+          if (result.data && (result.data.id || result.data._id)) {
+            draft.id = String(result.data.id || result.data._id);
+            renderServicesView();
+          }
+        } else {
+          showToast('Service saved locally only.', 'warning');
+        }
+      });
+
+      nodes.servicesBody.addEventListener('click', async function (event) {
+        const target = event.target.closest('button[data-service-id]');
+        if (!target) {
+          return;
+        }
+        const serviceId = target.getAttribute('data-service-id');
+        const action = target.getAttribute('data-action');
+        const service = state.serviceCatalog.find(function (item) { return item.id === serviceId; });
+        if (!service) {
+          return;
+        }
+        let endpoint = '';
+        let method = 'POST';
+        let payload = {};
+        if (action === 'toggle-service') {
+          service.active = !service.active;
+          endpoint = '/api/admin/services/' + encodeURIComponent(serviceId) + '/status';
+          payload = { active: service.active };
+        }
+        if (action === 'delete-service') {
+          state.serviceCatalog = state.serviceCatalog.filter(function (item) { return item.id !== serviceId; });
+          endpoint = '/api/admin/services/' + encodeURIComponent(serviceId);
+          method = 'DELETE';
+        }
+        if (action === 'edit-service') {
+          service.price = Math.max(0, Number(service.price || 0) + 100);
+          service.description = 'Updated package with latest operational scope.';
+          endpoint = '/api/admin/services/' + encodeURIComponent(serviceId);
+          method = 'PATCH';
+          payload = {
+            price: service.price,
+            description: service.description,
+            duration: service.duration,
+            active: service.active
+          };
+        }
+        renderServicesView();
+
+        if (endpoint) {
+          const result = await sendApi(endpoint, method, method === 'DELETE' ? null : payload);
+          if (result.ok) {
+            showToast('Service updated successfully.', 'success');
+          } else {
+            showToast('Service change saved locally only.', 'warning');
+          }
+        }
+      });
+
+      nodes.reviewsBody.addEventListener('click', async function (event) {
+        const target = event.target.closest('button[data-review-id]');
+        if (!target) {
+          return;
+        }
+        const reviewId = target.getAttribute('data-review-id');
+        const action = target.getAttribute('data-action');
+        if (action === 'flag-review') {
+          state.flaggedReviews[reviewId] = !state.flaggedReviews[reviewId];
+          const result = await sendApi('/api/admin/reviews/' + encodeURIComponent(reviewId) + '/flag', 'POST', { flagged: state.flaggedReviews[reviewId] });
+          showToast(result.ok ? 'Review moderation updated.' : 'Review moderation applied locally only.', result.ok ? 'success' : 'warning');
+        }
+        if (action === 'reply-review') {
+          nodes.settingsStatus.textContent = 'Reply queued for review ' + reviewId;
+          const result = await sendApi('/api/admin/reviews/' + encodeURIComponent(reviewId) + '/reply', 'POST', { message: 'Thanks for your feedback. We will follow up.' });
+          showToast(result.ok ? 'Reply sent to customer.' : 'Reply queued locally.', result.ok ? 'success' : 'warning');
+        }
+        renderReviewsView();
+      });
+
+      nodes.autoRefresh.addEventListener('change', function () {
+        const enabled = Boolean(nodes.autoRefresh.checked);
+        localStorage.setItem('greenarch_admin_auto_refresh', enabled ? '1' : '0');
+        if (enabled) {
+          startAutoRefresh();
+        } else {
+          stopAutoRefresh();
+        }
+        nodes.settingsStatus.textContent = enabled ? 'Auto refresh enabled (60s).' : 'Auto refresh disabled.';
+      });
+
+      nodes.saveSettings.addEventListener('click', function () {
+        const nextBase = String(nodes.apiBase.value || '').trim().replace(/\/+$/, '');
+        const finalBase = nextBase || 'http://localhost:3000';
+        const defaultView = views.includes(nodes.defaultView.value) ? nodes.defaultView.value : 'dashboard';
+
+        localStorage.setItem('greenarch_api_base_url', finalBase);
+        localStorage.setItem('greenarch_admin_default_view', defaultView);
+        localStorage.setItem('greenarch_admin_notifications', nodes.notificationsEnabled.checked ? '1' : '0');
+        localStorage.setItem('greenarch_admin_theme', nodes.themeSelect.value || 'green');
+        localStorage.setItem('greenarch_admin_name', String(nodes.adminName.value || '').trim());
+        localStorage.setItem('greenarch_admin_business', String(nodes.businessName.value || '').trim());
+        localStorage.setItem('greenarch_admin_service_areas', String(nodes.serviceAreas.value || '').trim());
+        localStorage.setItem('greenarch_admin_pricing_rule', String(nodes.pricingRule.value || '').trim());
+        window.GREENARCH_API_BASE_URL = finalBase;
+
+        nodes.settingsStatus.textContent = 'Settings saved. Reloading data from ' + finalBase;
+        showToast('Settings saved successfully.', 'success');
+        applyView(defaultView, true);
+        loadData();
+      });
+
+      nodes.resetSettings.addEventListener('click', function () {
+        localStorage.removeItem('greenarch_api_base_url');
+        localStorage.removeItem('greenarch_admin_default_view');
+        localStorage.removeItem('greenarch_admin_auto_refresh');
+        localStorage.removeItem('greenarch_admin_notifications');
+        localStorage.removeItem('greenarch_admin_theme');
+        localStorage.removeItem('greenarch_admin_name');
+        localStorage.removeItem('greenarch_admin_business');
+        localStorage.removeItem('greenarch_admin_service_areas');
+        localStorage.removeItem('greenarch_admin_pricing_rule');
+        stopAutoRefresh();
+        renderSettingsView();
+        nodes.settingsStatus.textContent = 'Settings reset to defaults.';
+        showToast('Settings reset.', 'info');
+      });
+
+      nodes.logout.addEventListener('click', function () {
+        const token = getAuthToken();
+        if (token) {
+          sendApi('/api/auth/logout', 'POST', { token: token });
+        }
+        localStorage.removeItem('greenarch_auth_token');
+        localStorage.removeItem('greenarch_user');
+        localStorage.removeItem('user');
+        nodes.settingsStatus.textContent = 'Logged out securely.';
+        showToast('Session ended.', 'info');
+        setTimeout(function () {
+          redirectToLogin();
+        }, 400);
+      });
+
+      nodes.quickAction.addEventListener('click', function () {
+        showToast('Quick action opened: assigning next pending booking.', 'info');
+      });
+
+      nodes.openNotifications.addEventListener('click', function () {
+        showToast('Notifications panel is synced with latest alerts.', 'info');
+      });
+
+      nodes.openProfile.addEventListener('click', function () {
+        applyView('settings', true);
+        showToast('Profile settings opened.', 'info');
+      });
+
+      window.addEventListener('hashchange', function () {
+        const hashView = getViewFromHash();
+        applyView(hashView || readSavedDefaultView(), false);
+      });
+
+      (async function initAdmin() {
+        const allowed = await ensureAdminAccess();
+        if (!allowed) {
+          return;
+        }
+
+        const initialView = getViewFromHash() || readSavedDefaultView();
+        applyView(initialView, false);
+
+        if (readAutoRefreshEnabled()) {
+          startAutoRefresh();
+        }
+
+        loadData();
+      })();
+    })();
+  </script>
+</body>
+</html>

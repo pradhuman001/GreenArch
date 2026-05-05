@@ -1,9 +1,8 @@
-/**
- * Format price with Indian Rupee symbol
- */
-export function formatPrice(price: number): string {
+export function formatPrice(amount: number): string {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR',
-  }).format(price);
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
 }

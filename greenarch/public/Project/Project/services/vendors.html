@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Vendors | GreenArch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="../greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../services.html">Services</a></li>
+          <li><a href="../plant-store.html">Store</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="../nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="../pricing.html" role="menuitem">Pricing</a></li>
+              <li><a href="../how-it-works.html" role="menuitem">How It Works</a></li>
+              <li><a href="../nursery-login.html" role="menuitem">Sell on GreenArch</a></li>
+            </ul>
+          </div>
+
+          <a href="../login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="../login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="service-hero">
+      <div class="container">
+        <a href="../index.html" class="back-link">← Back to Services</a>
+        <h1>♻️ Green Vendors</h1>
+        <p>Explore eco-friendly products from verified sellers</p>
+      </div>
+    </section>
+
+    <section class="service-details">
+      <div class="container">
+        <div class="details-grid">
+          <div class="details-text">
+            <h2>What We Offer</h2>
+            <ul class="service-list">
+              <li>Verified eco-friendly product vendors</li>
+              <li>Sustainable home and garden products</li>
+              <li>Organic seeds, soil, and plant care supplies</li>
+              <li>Exclusive deals and bulk purchase options</li>
+            </ul>
+          </div>
+
+          <div class="details-form">
+            <h3>Connect with Vendors</h3>
+            <form action="https://formspree.io/f/mdavwekl" method="POST" class="service-form">
+              <input type="hidden" name="service" value="Green Vendors" />
+              
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                required
+              />
+              
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                required
+              />
+              
+              <input
+                type="text"
+                name="location"
+                placeholder="Location / City"
+                required
+              />
+              
+              <textarea
+                name="message"
+                placeholder="What products are you interested in? (optional)"
+                rows="4"
+              ></textarea>
+              
+              <button type="submit" class="btn btn-solid btn-block">Submit Inquiry</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <h4>GreenArch</h4>
+        <p>Professional home gardening services with verified experts, simple plans, and reliable maintenance.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../services.html">Services</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>support@greenarch.com<br />+1 (555) 123-4567<br />Mon-Sat 9 AM - 7 PM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GreenArch. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

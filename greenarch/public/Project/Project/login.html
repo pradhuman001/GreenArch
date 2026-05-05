@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | Login</title>
+  <meta name="description" content="Secure login for GreenArch partner and operations teams." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .auth-api-status {
+      margin: 12px 0 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #d7e7de;
+      background: #f5faf7;
+      color: #2c6045;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .auth-api-status.is-connected {
+      border-color: rgba(29, 139, 78, 0.28);
+      background: rgba(29, 139, 78, 0.1);
+      color: #176e3d;
+    }
+
+    .auth-api-status.is-offline {
+      border-color: rgba(184, 88, 54, 0.28);
+      background: rgba(184, 88, 54, 0.1);
+      color: #8c3f25;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <section class="auth-shell">
+      <aside class="auth-brand-pane reveal slide-up">
+        <div class="auth-brand-content">
+          <p class="auth-brand-kicker">GreenArch Access</p>
+          <h1>Welcome to GreenArch</h1>
+          <p>
+            Build a healthier home with smart, sustainable solutions.
+            Manage your consultations, projects, and support in one secure workspace.
+          </p>
+        </div>
+        <img
+          class="auth-brand-image"
+          src="https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80"
+          alt="Lush indoor plants on a modern desk"
+          loading="lazy"
+        />
+      </aside>
+
+      <section class="auth-form-pane reveal slide-up">
+        <article class="auth-card" aria-live="polite">
+          <div class="auth-social-btn auth-social-top" id="googleLoginBtn" data-google-rendered="true" role="group" aria-label="Continue with Google"></div>
+
+          <p class="auth-social-note">Use Google for instant secure access</p>
+          <div class="auth-divider"><span>or use email</span></div>
+
+          <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+            <button class="auth-tab is-active" id="loginTab" type="button" role="tab" aria-selected="true" aria-controls="loginPanel" data-auth-target="loginPanel">
+              Login
+            </button>
+            <button class="auth-tab" id="signupTab" type="button" role="tab" aria-selected="false" aria-controls="signupPanel" data-auth-target="signupPanel">
+              Sign Up
+            </button>
+          </div>
+
+          <p class="auth-api-status" id="authApiStatus" aria-live="polite">Checking API connection...</p>
+
+          <div class="auth-panels">
+            <form class="auth-panel is-active" id="loginPanel" novalidate>
+              <label class="auth-label" for="authLoginEmail">Email</label>
+              <input class="auth-input" id="authLoginEmail" type="email" placeholder="you@example.com" required />
+
+              <label class="auth-label" for="authLoginPassword">Password</label>
+              <div class="auth-password-wrap">
+                <input class="auth-input" id="authLoginPassword" type="password" placeholder="Enter password" required />
+                <button class="auth-password-toggle" type="button" data-password-toggle="authLoginPassword" aria-label="Show password">Show</button>
+              </div>
+
+              <a class="auth-forgot" href="#">Forgot Password?</a>
+
+              <button class="btn btn-solid auth-submit" type="submit">Login</button>
+            </form>
+
+            <form class="auth-panel" id="signupPanel" novalidate>
+              <label class="auth-label" for="authSignupName">Name</label>
+              <input class="auth-input" id="authSignupName" type="text" placeholder="Your full name" required />
+
+              <label class="auth-label" for="authSignupEmail">Email</label>
+              <input class="auth-input" id="authSignupEmail" type="email" placeholder="you@example.com" required />
+
+              <label class="auth-label" for="authSignupPhone">Phone</label>
+              <input class="auth-input" id="authSignupPhone" type="tel" placeholder="+91 9876543210" required />
+
+              <label class="auth-label" for="authSignupPassword">Password</label>
+              <div class="auth-password-wrap">
+                <input class="auth-input" id="authSignupPassword" type="password" placeholder="Create password" required />
+                <button class="auth-password-toggle" type="button" data-password-toggle="authSignupPassword" aria-label="Show password">Show</button>
+              </div>
+
+              <label class="auth-label" for="authSignupConfirmPassword">Confirm Password</label>
+              <div class="auth-password-wrap">
+                <input class="auth-input" id="authSignupConfirmPassword" type="password" placeholder="Confirm password" required />
+                <button class="auth-password-toggle" type="button" data-password-toggle="authSignupConfirmPassword" aria-label="Show password">Show</button>
+              </div>
+
+              <p class="auth-error" id="authSignupError" aria-live="polite"></p>
+
+              <button class="btn btn-solid auth-submit" type="submit">Create Account</button>
+            </form>
+          </div>
+
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    (function () {
+      const GOOGLE_CLIENT_ID = "581586313233-re1i40i5aqijroqvns2iohtu1miuqqmh.apps.googleusercontent.com";
+
+      function normalizeApiBase(value) {
+        const base = String(value || "").trim().replace(/\/+$/, "");
+        return base && base !== "null" ? base : "";
+      }
+
+      function buildApiBaseCandidates() {
+        const candidates = [];
+        const seen = new Set();
+
+        function addCandidate(value) {
+          const base = normalizeApiBase(value);
+          if (!base || seen.has(base)) {
+            return;
+          }
+          seen.add(base);
+          candidates.push(base);
+        }
+
+        addCandidate(window.GREENARCH_API_BASE_URL);
+        addCandidate(localStorage.getItem("greenarch_api_base_url"));
+
+        if (window.location && window.location.origin && window.location.origin !== "null") {
+          addCandidate(window.location.origin);
+        }
+
+        ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3001", "http://127.0.0.1:3001", "http://localhost:4000", "http://127.0.0.1:4000", "http://localhost:5000", "http://127.0.0.1:5000"].forEach(addCandidate);
+
+        return candidates;
+      }
+
+      const API_BASE_CANDIDATES = buildApiBaseCandidates();
+      const authApiStatus = document.getElementById("authApiStatus");
+      let googleInitialized = false;
+
+      function setApiStatus(state, message) {
+        if (!authApiStatus) {
+          return;
+        }
+
+        authApiStatus.classList.remove("is-connected", "is-offline");
+        if (state === "connected") {
+          authApiStatus.classList.add("is-connected");
+        } else if (state === "offline") {
+          authApiStatus.classList.add("is-offline");
+        }
+        authApiStatus.textContent = message;
+      }
+
+      async function refreshApiStatus() {
+        setApiStatus("checking", "Checking API connection...");
+
+        for (let i = 0; i < API_BASE_CANDIDATES.length; i += 1) {
+          const base = API_BASE_CANDIDATES[i];
+          try {
+            const response = await fetch(`${base}/api/health`, {
+              method: "GET",
+              headers: {
+                Accept: "application/json"
+              }
+            });
+
+            const contentType = response.headers.get("content-type") || "";
+            if (!response.ok || !contentType.includes("application/json")) {
+              continue;
+            }
+
+            const payload = await response.json();
+            if (payload && payload.ok) {
+              localStorage.setItem("greenarch_api_base_url", base);
+              setApiStatus("connected", `API Connected (${base})`);
+              return;
+            }
+          } catch (_error) {
+            // Continue trying next candidate base URL.
+          }
+        }
+
+        setApiStatus("offline", "API Offline. Start backend: cd backend && npm start");
+      }
+
+      function setAuthSession(user, token) {
+        localStorage.setItem("greenarch_user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
+        if (token) {
+          localStorage.setItem("greenarch_auth_token", token);
+        }
+      }
+
+      async function requestJson(path, options = {}) {
+        const headers = new Headers(options.headers || {});
+        headers.set("Accept", "application/json");
+        if (!headers.has("Content-Type") && options.body) {
+          headers.set("Content-Type", "application/json");
+        }
+
+        const requestOptions = {
+          ...options,
+          headers,
+          body: options.body ? JSON.stringify(options.body) : undefined
+        };
+
+        const cleanedPath = path.startsWith("/") ? path : `/${path}`;
+        let lastError = null;
+
+        for (let i = 0; i < API_BASE_CANDIDATES.length; i += 1) {
+          const base = API_BASE_CANDIDATES[i];
+          try {
+            const response = await fetch(`${base}${cleanedPath}`, requestOptions);
+            const rawBody = await response.text();
+            let payload = {};
+            try {
+              payload = rawBody ? JSON.parse(rawBody) : {};
+            } catch {
+              payload = {};
+            }
+
+            if (!response.ok) {
+              lastError = new Error(payload.error || rawBody || `Request failed (${response.status})`);
+              continue;
+            }
+
+            return payload;
+          } catch (error) {
+            lastError = error;
+          }
+        }
+
+        throw lastError || new Error("Unable to reach GreenArch API. Start backend with: cd backend && npm start");
+      }
+
+      function redirectAfterAuth(user) {
+        const authParams = new URLSearchParams(window.location.search);
+        const redirectTarget = authParams.get("redirect");
+        const roleBasedTarget = user && user.role === "admin" ? "admin.html" : user && user.role === "partner" ? "nursery-dashboard.html" : "index.html";
+        window.location.href = redirectTarget || roleBasedTarget;
+      }
+
+      function setGoogleButtonsLoading(isLoading) {
+        const getStarted = document.getElementById("getStartedBtn");
+        if (getStarted) {
+          getStarted.disabled = isLoading;
+          getStarted.classList.toggle("is-loading", isLoading);
+        }
+      }
+
+      async function handleGoogleCredential(credential) {
+        if (!credential) {
+          throw new Error("Google credential was not returned");
+        }
+
+        const auth = await requestJson("/api/auth/google", {
+          method: "POST",
+          body: { credential }
+        });
+
+        setAuthSession(auth.user, auth.token);
+          redirectAfterAuth(auth.user);
+      }
+
+      function ensureGoogleInitialized() {
+        if (googleInitialized) {
+          return true;
+        }
+
+        if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+          return false;
+        }
+
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: async (response) => {
+            try {
+              await handleGoogleCredential(response && response.credential);
+            } catch (error) {
+              console.error(error);
+              alert(error.message || "Google sign-in failed. Please try again.");
+              setGoogleButtonsLoading(false);
+            }
+          }
+        });
+
+        const googleButtonContainer = document.getElementById("googleLoginBtn");
+        if (googleButtonContainer) {
+          googleButtonContainer.innerHTML = "";
+          window.google.accounts.id.renderButton(googleButtonContainer, {
+            theme: "outline",
+            size: "large",
+            shape: "pill",
+            text: "continue_with",
+            width: 360
+          });
+        }
+
+        googleInitialized = true;
+        return true;
+      }
+
+      window.googleLogin = function () {
+        setGoogleButtonsLoading(true);
+
+        if (!ensureGoogleInitialized()) {
+          setGoogleButtonsLoading(false);
+          alert("Google Sign-In is not loaded yet. Please wait a moment and try again.");
+          return;
+        }
+
+        const googleButtonContainer = document.getElementById("googleLoginBtn");
+        if (googleButtonContainer) {
+          googleButtonContainer.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        setGoogleButtonsLoading(false);
+      };
+
+      window.addEventListener("load", () => {
+        ensureGoogleInitialized();
+      });
+
+      refreshApiStatus();
+      setInterval(refreshApiStatus, 30000);
+
+      window.resetUI = function () {
+        const loginTab = document.getElementById("loginTab");
+        const signupTab = document.getElementById("signupTab");
+        const loginPanel = document.getElementById("loginPanel");
+        const signupPanel = document.getElementById("signupPanel");
+        const signupError = document.getElementById("authSignupError");
+
+        if (loginTab) {
+          loginTab.setAttribute("aria-selected", "true");
+        }
+        if (signupTab) {
+          signupTab.setAttribute("aria-selected", "false");
+        }
+        if (loginPanel) {
+          loginPanel.classList.add("is-active");
+        }
+        if (signupPanel) {
+          signupPanel.classList.remove("is-active");
+        }
+        if (signupError) {
+          signupError.textContent = "";
+        }
+      };
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
+

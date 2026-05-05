@@ -1,36 +1,33 @@
-/**
- * useAuth Hook - Get current user and auth status
- * This hook provides the current Firebase user and authentication state
- */
 'use client';
 
 import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+
 import { auth } from '@/lib/firebase';
-import { User as FirebaseUser, onAuthStateChanged } from 'firebase/auth';
+import { getUser } from '@/lib/db/users';
+import { User } from '@/types';
 
 export function useAuth() {
-  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (firebaseUser) => {
-        setUser(firebaseUser);
-        setLoading(false);
-        setError(null);
-      },
-      (err) => {
-        setError(err.message);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      try {
+        if (!firebaseUser) {
+          setUser(null);
+          return;
+        }
+
+        const firestoreUser = await getUser(firebaseUser.uid);
+        setUser(firestoreUser);
+      } finally {
         setLoading(false);
       }
-    );
+    });
 
     return () => unsubscribe();
   }, []);
 
-  return { user, loading, error };
+  return { user, loading };
 }

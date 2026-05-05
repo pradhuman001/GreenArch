@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenArch | My Bookings</title>
+  <meta name="description" content="Track your GreenArch bookings and service status." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-accent" aria-hidden="true"></div>
+
+  <header class="navbar-main">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo" aria-label="GreenArch Home">
+        <img class="logo-image" src="greenarch-logo.png" alt="GreenArch logo" />
+        <span class="logo-text">GreenArch</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="plant-store.html">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-dropdown-item">
+            <button class="nav-dropdown-toggle" aria-label="Resources" aria-expanded="false" type="button">Resources</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              <li><a href="nursery-login.html" role="menuitem">Partner Login</a></li>
+              <li><a href="login.html?tab=login" role="menuitem">Gardener Login</a></li>
+              <li><a href="how-it-works.html" role="menuitem">How It Works</a></li>
+            </ul>
+          </div>
+
+          <a href="login.html?tab=login" class="nav-login-link">Login</a>
+          <a class="btn btn-solid btn-start" href="login.html?tab=signup">
+            <span>Get Started</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <section class="account-shell">
+      <aside class="account-sidebar reveal slide-up">
+        <h1>My Bookings</h1>
+        <p>Track inspections, confirmations, and completed services.</p>
+        <nav class="account-nav-links">
+          <a href="profile.html">Profile</a>
+          <a class="is-active" href="my-bookings.html">My Bookings</a>
+          <a href="saved-services.html">Saved Services</a>
+          <a href="support.html">Support</a>
+          <a href="settings.html">Settings</a>
+        </nav>
+      </aside>
+
+      <section class="account-content reveal slide-up">
+        <article class="account-card">
+          <h2>Booking History</h2>
+          <p class="account-subtitle">Each request is tracked with clear status badges.</p>
+          <div id="bookingsList" class="account-list"></div>
+        </article>
+
+        <article class="account-card pricing-plans-section reveal slide-up" data-parallax data-speed="0.06">
+          <div class="pricing-header">
+            <p class="hero-kicker section-kicker-dark pricing-kicker">Transparent pricing</p>
+            <h2>Simple Monthly Plans 🌿</h2>
+            <p class="pricing-intro">Scroll through the section to compare each plan as it lifts into view.</p>
+          </div>
+          <div class="pricing-plan-grid stagger-group">
+            <article class="plan-card reveal slide-up plan-card-basic">
+              <span class="plan-card-tag">For smaller spaces</span>
+              <h3>Basic</h3>
+              <p class="plan-price">₹499/month</p>
+              <ul class="plan-features">
+                <li>1 visit per week</li>
+                <li>Watering &amp; cleaning</li>
+                <li>Basic trimming</li>
+              </ul>
+              <button type="button" class="btn btn-solid plan-cta">Book Now</button>
+            </article>
+
+            <article class="plan-card reveal slide-up plan-card-popular">
+              <span class="plan-badge">Most Popular</span>
+              <span class="plan-card-tag">Best value</span>
+              <h3>Standard</h3>
+              <p class="plan-price">₹799/month</p>
+              <ul class="plan-features">
+                <li>1 visit per week</li>
+                <li>Watering, trimming, plant check</li>
+                <li>Basic pest control</li>
+              </ul>
+              <button type="button" class="btn btn-solid plan-cta">Book Now</button>
+            </article>
+
+            <article class="plan-card reveal slide-up plan-card-premium">
+              <span class="plan-card-tag">Full support</span>
+              <h3>Premium</h3>
+              <p class="plan-price">₹999/month</p>
+              <ul class="plan-features">
+                <li>1 visit per week</li>
+                <li>Full maintenance</li>
+                <li>Plant health check</li>
+                <li>Priority support</li>
+              </ul>
+              <button type="button" class="btn btn-solid plan-cta">Book Now</button>
+            </article>
+          </div>
+          <p class="pricing-note">One-time visits also available</p>
+        </article>
+      </section>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
