@@ -2,12 +2,13 @@
  * useNotifications Hook - Fetch and manage notifications
  */
 import { useState, useEffect } from 'react';
+import { DocumentData } from 'firebase/firestore';
 import { getNotifications, markAsRead } from '../db/notifications';
 import { useAuth } from './useAuth';
 
 export function useNotifications() {
   const { user } = useAuth();
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
