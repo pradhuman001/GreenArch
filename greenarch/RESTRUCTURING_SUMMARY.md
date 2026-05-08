@@ -321,7 +321,7 @@ greenarch/
 6. **Deploy to Production**
    - Deploy Firestore rules
    - Deploy Cloud Functions
-   - Deploy Next.js app to Vercel/Netlify
+   - Deploy Next.js app to Vercel
    - Set up monitoring and logging
 
 7. **Performance Optimization**

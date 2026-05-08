@@ -342,7 +342,7 @@ firebase deploy --only functions
 ```
 
 ### Next.js App
-Deploy to Vercel, Netlify, or your preferred platform:
+Deploy to Vercel:
 ```bash
 npm run build
 ```

@@ -1,7 +1,7 @@
 {
-  "name": "greenarch-netlify",
+  "name": "greenarch",
   "private": true,
-  "description": "Netlify deployment scaffold for GreenArch",
+  "description": "GreenArch project workspace",
   "dependencies": {
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
@@ -11,7 +11,6 @@
     "helmet": "^8.0.0",
     "morgan": "^1.10.0",
     "razorpay": "^2.9.6",
-    "serverless-http": "^4.0.0",
     "zod": "^4.4.2",
     "zustand": "^5.0.12"
   }
